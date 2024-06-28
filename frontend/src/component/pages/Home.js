@@ -1,40 +1,103 @@
+import { useState, useEffect } from "react";
+import { DateRangePicker } from "react-date-range";
+import { format } from "date-fns";
+import "react-date-range/dist/styles.css"; // main style file
+import "react-date-range/dist/theme/default.css"; // theme css file
 function Home() {
+  const [date, setDate] = useState({
+    startDate: new Date(),
+    endDate: new Date(),
+    key: "selection",
+  });
+  const setEndDateToTomorrow = () => {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+
+    setDate({
+      ...date,
+      endDate: tomorrow,
+    });
+  };
+  useEffect(() => {
+
+    setEndDateToTomorrow();
+  }, []);
+  // Gọi hàm này để cập nhật endDate thành ngày mai
+
   return (
     <>
       <div>
         <section className="section mt-5 pb-0">
           <div className="container">
             <div className="row check-availabilty" id="next">
-              <div className="block-32 mt-3">
+              <div className="block-32 mt-3 ">
                 <form action="#">
                   <div className="row">
                     <div className="col-md-6  col-lg-3 p-0 pl-3">
-                      <div className="uk-inline w-100">
+                      <div className="uk-inline w-100 search-input">
                         <i className="fa-solid fa-location-dot uk-form-icon" />
                         <input
-                          className="uk-input "
+                          className="uk-input fw500"
                           type="text"
                           aria-label="Not clickable icon"
+                          placeholder="location"
                         />
                       </div>
                     </div>
                     <div className="col-md-6 col-lg-3 p-0 pl-2">
                       <div className="uk-inline w-100">
-                        <input
-                          className="uk-input "
-                          type="Date"
-                          aria-label="Not clickable icon"
-                        />
+                        <button
+                          className="uk-button uk-button-default w-100 fw500 text-muted"
+                          type="button"
+                        >
+                          {`${format(date.startDate, "MMM,dd")} - ${format(
+                            date.endDate,
+                            "MMM,dd"
+                          )}`}
+                          <i className="fa-regular fa-calendar ml-2"></i>
+                        </button>
+                        <div className="shadow1 border border-warning" uk-dropdown="mode: click;pos: bottom-center;shift: false; flip: false">
+                          <DateRangePicker
+                            ranges={[date]}
+                            onChange={(event) => {
+                              setDate(event.selection);
+                            }}
+                            minDate={new Date()}
+                          />
+                        </div>
                       </div>
+
+                      {/* <div className="uk-inline w-100">
+                        <button
+                          className="uk-button uk-button-default w-100 text-capitalize text-right fw500 text-muted"
+                          type="button"
+                        >
+                          {`${format(date.startDate,'MMM,dd')} - ${format(date.endDate,'MMM,dd')}`}<i className="fa-regular fa-calendar ml-2"></i>
+                        </button>
+                        <div
+                          className="uk-card uk-card-body uk-card-default"
+                          uk-drop="pos: bottom-center"
+                        >
+                            <DateRangePicker
+                            ranges={[date]}
+                            onChange={(event) => {setDate(event.selection)}}
+                            minDate={new Date()}
+                          />
+                        </div>
+                      </div> */}
                     </div>
                     <div className="col-md-6 col-lg-3 p-0 pl-2">
-                      <select className="uk-select w-100" aria-label="Select">
+                      <select
+                        className="uk-select w-100 search-input"
+                        aria-label="Select"
+                      >
                         <option>Option 01</option>
                         <option>Option 02</option>
                       </select>
                     </div>
-                    <div className="col-md-6 col-lg-3 align-self-end">
-                      <button className="btn btn-primary btn-block text-white">
+                    <div className="col-md-6 col-lg-3 align-self-end ">
+                      <button className="btn btn-primary btn-block text-white search-input">
                         Check Availabilty
                       </button>
                     </div>

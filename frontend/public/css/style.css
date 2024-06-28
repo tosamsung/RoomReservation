@@ -21,7 +21,12 @@ body {
   color: #fff;
   background: #ffba5a;
 }
-
+.z-index2{
+  z-index: 2;
+}
+.z-index1{
+  z-index: 1;
+}
 a {
   -webkit-transition: .3s all ease;
   -o-transition: .3s all ease;
@@ -59,15 +64,20 @@ h5 {
 .container-fluid {
   max-width: 1600px;
 }
-
+.border-box{
+  box-sizing: border-box;
+}
 .btn {
   padding-left: 30px;
   padding-right: 30px;
   padding-top: 10px;
   padding-bottom: 10px;
-  border-radius: 50px;
+  border-radius: 10px;
 }
-
+.search-input{
+  min-height: 40px;
+  max-height: 40px;
+}
 .btn.btn-outline-white {
   border: 2px solid #fff;
 }
@@ -122,7 +132,9 @@ h5 {
 .form-control:focus {
   border-color: #ffba5a;
 }
-
+.shadow1 {
+  box-shadow: 10px 14px 3px #c3c3c31a; /* Horizontal offset, vertical offset, blur radius, color */
+}
 textarea.form-control {
   height: inherit;
 }
