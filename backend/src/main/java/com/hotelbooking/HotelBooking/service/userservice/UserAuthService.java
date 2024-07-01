@@ -54,18 +54,23 @@ public class UserAuthService {
 		user.setImage("https://cellphones.com.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg");
 		try {
 			// Save the user
-			userRepository.save(user);
-		} catch (DataIntegrityViolationException e) {
-			// Inspect the exception message to determine which constraint was violated
-			String message = e.getMostSpecificCause().getMessage();
-			if (message.contains("username")) {
-				return "Username already exists!";
-			} else if (message.contains("email")) {
-				return "Email already exists!";
-			} else {
-				return "A user with this username or email already exists!";
-			}
+			System.out.println("singup suuccs");
+			userRepository.save(user); 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+//		catch (DataIntegrityViolationException e) {
+//			// Inspect the exception message to determine which constraint was violated
+//			String message = e.getMostSpecificCause().getMessage();
+//			if (message.contains("username")) {
+//				return "Username already exists!";
+//			} else if (message.contains("email")) {
+//				return "Email already exists!";
+//			} else {
+//				return "A user with this username or email already exists!";
+//			}
+//		}
 
 		return "User registered successfully!";
 	}

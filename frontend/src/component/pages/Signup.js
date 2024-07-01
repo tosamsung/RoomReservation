@@ -3,11 +3,31 @@ import { Calendar } from "react-date-range";
 import { format } from "date-fns";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
+import UserAuth from "../../service/UserAuth"
 function Signup() {
   const [date, setDate] = useState(null);
+  const [user, setUser] = useState({
+    firstname: "",
+    lastname: "",
+    username: "",
+    phone: "",
+    email: "",
+    password: "",
+    birthDate: "",
+  });
+  const handleSubmit = async (e) => {
+    e.preventDefault(); 
+    console.log(user);
+    await UserAuth.signup(user)
+    
+  };
   const handleBirthDateChange = (event) => {
+    
     setDate(event);
-    console.log(event);
+    setUser((prevUser) => ({
+      ...prevUser,
+      birthDate: event,
+    }));
   };
   return (
     <>
@@ -33,9 +53,14 @@ function Signup() {
                         <div data-mdb-input-init className="form-outline">
                           <input
                             type="text"
-                            id="form3Example1"
                             className="form-control"
                             placeholder="First name"
+                            onChange={(e) => {
+                              setUser((prevUser) => ({
+                                ...prevUser,
+                                firstname: e.target.value,
+                              }));
+                            }}
                           />
                         </div>
                       </div>
@@ -43,18 +68,29 @@ function Signup() {
                         <div data-mdb-input-init className="form-outline">
                           <input
                             type="text"
-                            id="form3Example2"
                             className="form-control"
                             placeholder="Last name"
+                            onChange={(e) => {
+                              setUser((prevUser) => ({
+                                ...prevUser,
+                                lastname: e.target.value,
+                              }));
+                            }}
                           />
                         </div>
                       </div>
                     </div>
                     <div data-mdb-input-init className="form-outline mb-4">
                       <input
-                        type="email"
+                        type="text"
                         className="form-control"
                         placeholder="Username"
+                        onChange={(e) => {
+                          setUser((prevUser) => ({
+                            ...prevUser,
+                            username: e.target.value,
+                          }));
+                        }}
                       />
                     </div>
 
@@ -63,6 +99,25 @@ function Signup() {
                         type="email"
                         className="form-control"
                         placeholder="Email"
+                        onChange={(e) => {
+                          setUser((prevUser) => ({
+                            ...prevUser,
+                            email: e.target.value,
+                          }));
+                        }}
+                      />
+                    </div>
+                    <div data-mdb-input-init className="form-outline mb-4">
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Phone number"
+                        onChange={(e) => {
+                          setUser((prevUser) => ({
+                            ...prevUser,
+                            phone: e.target.value,
+                          }));
+                        }}
                       />
                     </div>
                     <div
@@ -74,7 +129,6 @@ function Signup() {
                           className="uk-button w-100 h-100 form-control text-left px-2"
                           type="button"
                         >
-                          {" "}
                           <i className="fa-regular fa-calendar mr-2"></i>
                           {date && `${format(date, "dd-MMM-yyyy")}`}
                           {!date && "Birth date"}
@@ -102,10 +156,14 @@ function Signup() {
                         type="password"
                         className="form-control"
                         placeholder="Confirm password"
+                        onChange={(e) => {
+                          setUser((prevUser) => ({
+                            ...prevUser,
+                            password: e.target.value,
+                          }));
+                        }}
                       />
-                      <p
-                        className="fw500 text-danger m-0 text-left mt-1"
-                      >
+                      <p className="fw500 text-danger m-0 text-left mt-1">
                         <i className="fas fa-exclamation-triangle"></i> error
                       </p>
                     </div>
@@ -114,13 +172,10 @@ function Signup() {
                         className="form-check-input me-2"
                         type="checkbox"
                         defaultValue
-                        id="form2Example33"
                         defaultChecked
+                        
                       />
-                      <label
-                        className="form-check-label fw500"
-                        htmlFor="form2Example33"
-                      >
+                      <label className="form-check-label fw500">
                         Đồng ý với các{" "}
                         <a className="text-primary fw500">điều khoản</a>
                       </label>
@@ -130,6 +185,7 @@ function Signup() {
                       data-mdb-button-init
                       data-mdb-ripple-init
                       className="btn btn-primary btn-block mb-4"
+                      onClick={handleSubmit}
                     >
                       Sign up
                     </button>
