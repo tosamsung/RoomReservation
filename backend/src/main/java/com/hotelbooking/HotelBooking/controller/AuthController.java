@@ -19,13 +19,14 @@ public class AuthController {
 	
 	@PostMapping("/signup")
 	public ResponseEntity<String>signup(@RequestBody User user){
-		System.out.println("signup");
-		System.out.println(user.toString());
+		
 		String message= userAuthService.signup(user);
 		return ResponseEntity.ok(message);
 	}
 	@PostMapping("/signin")
 	public ResponseEntity<AuthUser> signin(@RequestBody User user){
+		System.out.println("signin");
+		System.out.println(user.toString());
 		AuthUser authUser = userAuthService.signin(user);
 		return ResponseEntity.ok(authUser);
 	}
