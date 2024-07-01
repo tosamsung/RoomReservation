@@ -38,8 +38,12 @@ public class UserDetailImpl implements UserDetails{
 	public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("USER"));
-		if(businessAccountService.isBusinessAccountExistForUserId(user.getId())) {
-            authorities.add(new SimpleGrantedAuthority("BUSINESS"));
+        boolean isAccountExist=false;
+        try {
+			isAccountExist=businessAccountService.isBusinessAccountExistForUserId(user.getId());
+			 authorities.add(new SimpleGrantedAuthority("BUSINESS"));
+		} catch (Exception e) {
+			isAccountExist=false;
 		}
 		return authorities;
 	}

@@ -21,23 +21,21 @@ function Signin() {
 
                     <div data-mdb-input-init className="form-outline mb-4">
                       <input
-                        type="email"
+                        type="text"
                         id="form3Example3"
                         className="form-control"
+                        placeholder="Username"
                       />
-                      <label className="form-label" htmlFor="form3Example3">
-                        Email address
-                      </label>
+
                     </div>
                     <div data-mdb-input-init className="form-outline mb-4">
                       <input
                         type="password"
                         id="form3Example4"
                         className="form-control"
+                        placeholder="Password"
                       />
-                      <label className="form-label" htmlFor="form3Example4">
-                        Password
-                      </label>
+    
                     </div>
                     <div className="form-check mb-4">
                       <input
