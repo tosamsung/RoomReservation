@@ -33,7 +33,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		String requestURI = request.getRequestURI();
 		if (requestURI.equals("/auth/refreshToken") || requestURI.equals("/auth/logout")
-				|| requestURI.equals("/auth/login") || requestURI.equals("/auth/register")) {
+				|| requestURI.equals("/auth/login") || requestURI.equals("/auth/signup")) {
 			filterChain.doFilter(request, response);
 			return;
 		}
