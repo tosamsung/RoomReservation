@@ -1,4 +1,36 @@
+import React, { useState } from "react";
+import UserAuthService from "../../service/UserAuth";
+import { useNavigate } from "react-router-dom";
+
 function Signin() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [validationErrors, setValidationErrors] = useState({});
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (!username.trim() || !password.trim()) {
+      if (!username.trim()) {
+        setError("Invalid username or password");
+      }
+
+      if (!password.trim()) {
+        setError("Invalid username or password");
+      }
+      return;
+    }
+
+    try {
+      const userData = { username, password };
+      const response = await UserAuthService.signin(userData);
+      console.log(response);
+      navigate("/");
+    } catch (error) {
+      setError("Invalid username or password");
+    }
+  };
   return (
     <>
       <section className="text-center text-lg-start vh-100 bg-blue">
@@ -17,16 +49,16 @@ function Signin() {
               >
                 <div className="card-body p-5 shadow-5 text-center">
                   <h2 className="fw-bold mb-5">Sign in</h2>
-                  <form>
-
+                  <form onSubmit={handleSubmit}>
                     <div data-mdb-input-init className="form-outline mb-4">
                       <input
                         type="text"
                         id="form3Example3"
                         className="form-control"
                         placeholder="Username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                       />
-
                     </div>
                     <div data-mdb-input-init className="form-outline mb-4">
                       <input
@@ -34,8 +66,9 @@ function Signin() {
                         id="form3Example4"
                         className="form-control"
                         placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                       />
-    
                     </div>
                     <div className="form-check mb-4">
                       <input
@@ -52,6 +85,7 @@ function Signin() {
                         Subscribe to our newsletter
                       </label>
                     </div>
+                    {error && <div className="alert alert-danger">{error}</div>}
                     <button
                       type="submit"
                       data-mdb-button-init

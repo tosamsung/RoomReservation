@@ -1,7 +1,8 @@
-package com.hotelbooking.HotelBooking.entity;
+package com.hotelbooking.HotelBooking.dto;
 
 import java.util.Date;
 
+import com.hotelbooking.HotelBooking.entity.User;
 import com.hotelbooking.HotelBooking.enums.CustomerStatus;
 
 import jakarta.persistence.Column;
@@ -20,46 +21,49 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@Entity
+
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Users")
+
 @ToString
-public class User {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UserDTO {
+
 	private Long id;
-	
-    @Column(nullable = false)
+
 	private String firstname;
-    
-    @Column(nullable = false)
+
 	private String lastname;
-	
-    @NotBlank(message = "Username is required")
-	@Column(nullable = false, unique = true)
+
 	private String username;
-	
-	@Column(nullable = false, unique = true)
+
 	private String email;
-	
-    @Column(nullable = false)
+
 	private String image;
-    
-    @NotBlank(message = "Password is required")
-    @Column(nullable = false)
-	private String password;
-	
-    @Column(nullable = false)
+
 	private String phone;
-	
-    @Column(nullable = false)
+
 	private Date birthDate;
-	
+
 	private Date createDate;
+
+	private CustomerStatus customerStatus = CustomerStatus.ACTIVE;
 	
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-	private CustomerStatus customerStatus=CustomerStatus.ACTIVE;
+	private boolean haveBusinessAccount;
+
+	public UserDTO(User user) {
+		super();
+		this.id = user.getId();
+		this.firstname = user.getFirstname();
+		this.lastname = user.getLastname();
+		this.username = user.getUsername();
+		this.email = user.getEmail();
+		this.image = user.getImage();
+		this.phone = user.getPhone();
+		this.birthDate = user.getBirthDate();
+		this.createDate = user.getCreateDate();
+		this.customerStatus = user.getCustomerStatus();
+	}
+	
+	
 
 }

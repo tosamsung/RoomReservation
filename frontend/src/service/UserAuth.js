@@ -8,6 +8,15 @@ class UserAuthService {
       throw error;
     }
   }
+
+  static async signin(userData) {
+    try {
+      const response = await api.post(`/auth/signin`, userData);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
   static async refreshToken() {
     try {
       const response = await api.post(`/auth/refreshToken`);

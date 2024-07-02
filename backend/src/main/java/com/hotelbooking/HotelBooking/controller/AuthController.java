@@ -2,6 +2,7 @@ package com.hotelbooking.HotelBooking.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hotelbooking.HotelBooking.dto.AuthUser;
+import com.hotelbooking.HotelBooking.dto.UserDTO;
 import com.hotelbooking.HotelBooking.entity.User;
 import com.hotelbooking.HotelBooking.security.JWTUtils;
 import com.hotelbooking.HotelBooking.service.userservice.UserAuthService;
@@ -40,16 +42,13 @@ public class AuthController {
 	}
 
 	@PostMapping("/signin")
-	public ResponseEntity<String> signin(@RequestBody User user, HttpServletResponse response,
+	public ResponseEntity<UserDTO> signin(@RequestBody User user, HttpServletResponse response,
 			HttpServletRequest request) {
-		AuthUser result = userAuthService.signin(user);
-		ResponseCookie cookie1 = ResponseCookie.from("accessToken", result.getAccessToken()).httpOnly(true).secure(true)
-				.path("/").maxAge(604800).sameSite("None").build();
-		ResponseCookie cookie2 = ResponseCookie.from("refreshToken", result.getRefreshToken()).httpOnly(true).path("/")
-				.maxAge(604888).sameSite("None").build();
-		response.addHeader(HttpHeaders.SET_COOKIE, cookie1.toString());
-		response.addHeader(HttpHeaders.SET_COOKIE, cookie2.toString());
-		return ResponseEntity.ok("Signin success");
+
+		UserDTO result = userAuthService.signin(user, response);
+
+		return ResponseEntity.ok(result);
+
 	}
 
 	@PostMapping("/refreshToken")
@@ -69,7 +68,7 @@ public class AuthController {
 				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 				return new AuthUser(401, "Refresh token expired");
 			}
-		}else {
+		} else {
 			System.out.println("refresh token trống");
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			return new AuthUser(401, "Refresh token is empty");
