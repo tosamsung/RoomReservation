@@ -40,10 +40,8 @@ public class AuthController {
 	}
 
 	@PostMapping("/signin")
-	public ResponseEntity<AuthUser> signin(@RequestBody User user, HttpServletResponse response,
+	public ResponseEntity<String> signin(@RequestBody User user, HttpServletResponse response,
 			HttpServletRequest request) {
-		System.out.println("signin"); 
-		System.out.println(user.toString());
 		AuthUser result = userAuthService.signin(user);
 		ResponseCookie cookie1 = ResponseCookie.from("accessToken", result.getAccessToken()).httpOnly(true).secure(true)
 				.path("/").maxAge(604800).sameSite("None").build();
@@ -51,7 +49,7 @@ public class AuthController {
 				.maxAge(604888).sameSite("None").build();
 		response.addHeader(HttpHeaders.SET_COOKIE, cookie1.toString());
 		response.addHeader(HttpHeaders.SET_COOKIE, cookie2.toString());
-		return ResponseEntity.ok(result);
+		return ResponseEntity.ok("Signin success");
 	}
 
 	@PostMapping("/refreshToken")

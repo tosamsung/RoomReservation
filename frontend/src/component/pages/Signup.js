@@ -3,7 +3,7 @@ import { Calendar } from "react-date-range";
 import { format } from "date-fns";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
-import UserAuth from "../../service/UserAuth"
+import UserAuth from "../../service/UserAuth";
 function Signup() {
   const [date, setDate] = useState(null);
   const [user, setUser] = useState({
@@ -15,14 +15,48 @@ function Signup() {
     password: "",
     birthDate: "",
   });
+  const validForm = () => {
+    if (
+      !user.firstname.trim() ||
+      !user.lastname.trim() ||
+      !user.username.trim() ||
+      !user.phone.trim() ||
+      !user.email.trim() ||
+      !user.password.trim() ||
+      !user.birthDate.trim()
+    ) {
+      console.log("trong");
+      const otherError = document.getElementById("other-error");
+
+      otherError.innerHTML = `
+    <div>
+      <i class="fas fa-exclamation-triangle"></i> 
+      Please fill in all the required fields.
+    </div>`;
+      return false;
+    }
+    // Ví dụ: kiểm tra định dạng email
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(user.email)) {
+      console.log("Email không hợp lệ");
+      return false;
+    }
+
+    // Ví dụ: kiểm tra độ dài mật khẩu
+    if (user.password.length < 8) {
+      console.log("Mật khẩu phải có ít nhất 6 ký tự");
+      return false;
+    }
+    return true;
+  };
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
-    console.log(user);
-    await UserAuth.signup(user)
-    
+    e.preventDefault();
+    // console.log(user);
+    if (validForm()) {
+      await UserAuth.signup(user);
+    }
   };
   const handleBirthDateChange = (event) => {
-    
     setDate(event);
     setUser((prevUser) => ({
       ...prevUser,
@@ -31,7 +65,7 @@ function Signup() {
   };
   return (
     <>
-      <section className="text-center text-lg-start vh-100 bg-blue">
+      <section className="text-center text-lg-start bg-blue">
         <style
           dangerouslySetInnerHTML={{
             __html:
@@ -173,13 +207,16 @@ function Signup() {
                         type="checkbox"
                         defaultValue
                         defaultChecked
-                        
                       />
                       <label className="form-check-label fw500">
                         Đồng ý với các{" "}
                         <a className="text-primary fw500">điều khoản</a>
                       </label>
                     </div>
+                    <p
+                      className="fw500 text-danger m-0 text-center mt-1"
+                      id="other-error"
+                    ></p>
                     <button
                       type="submit"
                       data-mdb-button-init
