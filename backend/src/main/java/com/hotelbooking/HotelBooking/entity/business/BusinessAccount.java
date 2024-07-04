@@ -31,7 +31,7 @@ public class BusinessAccount {
 	private Long id;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "customer_id", referencedColumnName = "id")
+	@JoinColumn(name = "customer_id", referencedColumnName = "id",unique = true)
 	private User user;
 
 	@Column(nullable = false)
@@ -53,7 +53,4 @@ public class BusinessAccount {
 	@Enumerated(EnumType.STRING)
 	private BusinessStatus businessStatus = BusinessStatus.PENDING;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "representative_id", referencedColumnName = "id")
-    private Representative representative;
 }

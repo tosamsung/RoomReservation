@@ -18,7 +18,7 @@ import com.hotelbooking.HotelBooking.dto.UserDTO;
 import com.hotelbooking.HotelBooking.entity.User;
 import com.hotelbooking.HotelBooking.enums.CustomerStatus;
 import com.hotelbooking.HotelBooking.repository.UserRepository;
-import com.hotelbooking.HotelBooking.security.JWTUtils;
+import com.hotelbooking.HotelBooking.utils.JWTUtils;
 
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -36,26 +36,26 @@ public class UserAuthService {
 	private AuthenticationManager authenticationManager;
 
 	public UserDTO signin(User user, HttpServletResponse response) {
-		
+
 		try {
 			authenticationManager
 					.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 			User userRepo = userRepository.findByUsername(user.getUsername()).orElseThrow();
 			String accessToken = jwtUtils.generateAccessToken(userRepo);
 			String refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), userRepo);
-			ResponseCookie cookie1 = ResponseCookie.from("accessToken", accessToken).httpOnly(true)
-					.secure(true).path("/").maxAge(604800).sameSite("None").build();
-			ResponseCookie cookie2 = ResponseCookie.from("refreshToken", refreshToken).httpOnly(true)
+			ResponseCookie cookie1 = ResponseCookie.from("accessToken", accessToken).httpOnly(true).secure(true)
+					.path("/").maxAge(604800).sameSite("None").build();
+			ResponseCookie cookie2 = ResponseCookie.from("refreshToken", refreshToken).httpOnly(true).secure(true)
 					.path("/").maxAge(604888).sameSite("None").build();
 			response.addHeader(HttpHeaders.SET_COOKIE, cookie1.toString());
 			response.addHeader(HttpHeaders.SET_COOKIE, cookie2.toString());
 			return new UserDTO(userRepo);
-			
-		}catch (AuthenticationException e) {
-            throw new RuntimeException("Invalid username or password!", e);
-        } catch (Exception e) {
-            throw new RuntimeException("An error occurred during sign in!", e);
-        }
+
+		} catch (AuthenticationException e) {
+			throw new RuntimeException("Invalid username or password!", e);
+		} catch (Exception e) {
+			throw new RuntimeException("An error occurred during sign in!", e);
+		}
 	}
 
 	public String signup(User user) {
@@ -66,8 +66,8 @@ public class UserAuthService {
 		try {
 			// Save the user
 			System.out.println("singup suuccs");
-			userRepository.save(user); 
-			
+			userRepository.save(user);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -7,6 +7,7 @@ import com.hotelbooking.HotelBooking.entity.location.City;
 import com.hotelbooking.HotelBooking.enums.PropertyStatus;
 import com.hotelbooking.HotelBooking.enums.PropertyType;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -15,6 +16,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -46,4 +48,8 @@ public class Property {
 	@ManyToOne
 	@JoinColumn(name = "business_account_id", referencedColumnName = "id", nullable = false)
 	private BusinessAccount businessAccount;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "representative_id", referencedColumnName = "id")
+    private Representative representative;
 }

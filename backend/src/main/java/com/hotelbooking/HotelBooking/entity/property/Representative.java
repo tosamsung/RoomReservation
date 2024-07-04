@@ -1,4 +1,4 @@
-package com.hotelbooking.HotelBooking.entity.business;
+package com.hotelbooking.HotelBooking.entity.property;
 
 import java.util.Date;
 

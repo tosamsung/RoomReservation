@@ -1,4 +1,4 @@
-package com.hotelbooking.HotelBooking.security;
+package com.hotelbooking.HotelBooking.utils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -20,7 +20,7 @@ import com.hotelbooking.HotelBooking.entity.User;
 @Component
 public class JWTUtils {
 	private SecretKey secretKey;
-	private static final long EXPIRATION_TIME_ACCESS_TOKEN = 40 * 1000;
+	private static final long EXPIRATION_TIME_ACCESS_TOKEN = 15*60 * 1000;
 	private static final long EXPIRATION_TIME_REFRESH_TOKEN = 5 * 24 * 60 * 60 * 1000;
 	
 	public JWTUtils() {
@@ -74,13 +74,13 @@ public class JWTUtils {
 	}
 	
 	public boolean isTokenValid(String token, UserDetails userDetails) {
-		final String username = extractUsername(token);
-		return (userDetails.equals(userDetails.getUsername()) && !isTokenExpired(token));
+		 String username = extractUsername(token);
+		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
 	}
 	
 	public boolean isTokenUsernameValid(String token, UserDetails userDetails) {
-		final String username = extractUsername(token);
-		return (userDetails.equals(userDetails.getUsername()));
+		 String username = extractUsername(token);
+		return (username.equals(userDetails.getUsername()));
 	}
 	
 	public boolean isTokenExpired(String token) {

@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import UserAuthService from "../../service/UserAuth";
 import { useNavigate } from "react-router-dom";
+import { AppContext } from "../../context/AppContext";
 
 function Signin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [validationErrors, setValidationErrors] = useState({});
+  const {setUser}=useContext(AppContext)
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -26,6 +28,7 @@ function Signin() {
       const userData = { username, password };
       const response = await UserAuthService.signin(userData);
       console.log(response);
+      setUser(response)
       navigate("/");
     } catch (error) {
       setError("Invalid username or password");

@@ -1,0 +1,419 @@
+body {
+  background: #fff;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 200;
+  font-size: 16px;
+  line-height: 1.8;
+  color: #6c757d;
+  position: relative;
+  width: 100%;
+}
+.hover-effect {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.hover-effect:hover {
+  background-color: #f0f0f023; /* Màu nền khi hover */
+}
+.hover-effect-dark {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.hover-effect-dark:hover {
+  background-color: #888888b5; /* Màu nền khi hover */
+}
+/*--------------------------------------- account */
+.my-account{
+  transition: background-color 0.3s ease, color 0.3s ease;
+  display: flex;
+  max-height: 40px;
+  box-sizing: border-box;
+}
+.my-account p{
+  font-size: 11px;
+}
+.my-account img{
+  max-width: 40px;
+  max-height: 40px;
+  border: 2px solid orange;
+}
+.my-account:hover {
+  background-color: #f0f0f023; /* Change this to your desired hover background color */
+}
+/* -----------------------------------------font robo */
+.f-robo{
+  font-family: 'Roboto', sans-serif;
+
+}
+::-moz-selection {
+  color: #fff;
+  background: #ffba5a;
+}
+
+::selection {
+  color: #fff;
+  background: #ffba5a;
+}
+.z-index2{
+  z-index: 2;
+}
+.z-index1{
+  z-index: 1;
+}
+a {
+  -webkit-transition: .3s all ease;
+  -o-transition: .3s all ease;
+  transition: .3s all ease;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  color: #000;
+  font-family: "Playfair Display", times, serif;
+}
+
+.font-family-serif {
+  font-family: "Playfair Display", times, serif;
+}
+
+.font-family-sans-serif {
+  font-family: "Roboto", arial, sans-serif;
+}
+
+.bg-light {
+  background: #f2f4fb !important;
+}
+.bg-gray{
+  background-color: #f5f5f5;
+}
+.container-fluid {
+  max-width: 1600px;
+}
+.border-box{
+  box-sizing: border-box;
+}
+.btn {
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 10px;
+}
+.search-input{
+  min-height: 40px;
+  max-height: 40px;
+}
+.btn.btn-outline-white {
+  border: 2px solid #fff;
+}
+
+.btn.btn-outline-white:hover {
+  border: 2px solid transparent;
+  background: #000;
+  color: #fff;
+}
+
+.btn.btn-outline-white-primary {
+  border: 2px solid #fff;
+}
+.nav-link{
+  font-weight: bold;
+  font-size: 20px;
+}
+.btn.btn-outline-white-primary:hover {
+  border: 2px solid transparent;
+  background: #ffba5a;
+  color: #fff;
+}
+
+.btn.uppercase {
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: .2em;
+}
+
+.btn,
+.form-control {
+  outline: none;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+.btn:focus,
+.btn:active,
+.form-control:focus,
+.form-control:active {
+  outline: none;
+}
+
+
+
+.shadow1 {
+  box-shadow: 10px 14px 3px #c3c3c31a; /* Horizontal offset, vertical offset, blur radius, color */
+}
+
+.site-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 60px 0;
+  z-index: 2;
+  -webkit-transition: .3s all ease-in-out;
+  -o-transition: .3s all ease-in-out;
+  transition: .3s all ease-in-out;
+}
+
+.site-header.scrolled {
+  padding: 20px 0;
+  background: #fff;
+  -webkit-box-shadow: 0 5px 20px -5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 20px -5px rgba(0, 0, 0, 0.1);
+}
+
+.site-header.scrolled .site-menu-toggle {
+  top: 10px;
+  position: relative;
+}
+
+.site-header.scrolled .site-menu-toggle span {
+  background: #000;
+}
+
+.site-header.scrolled .site-logo {
+  position: relative;
+  z-index: 100;
+}
+
+.site-header.scrolled .site-logo a {
+  color: #000;
+}
+
+.menu-open {
+  position: relative;
+}
+
+.menu-open .site-header {
+  position: fixed;
+}
+
+.menu-open .site-logo {
+  position: relative;
+  z-index: 100;
+}
+
+.menu-open .site-logo a {
+  color: #000;
+}
+
+.menu-open .site-navbar {
+  border: 10px solid #f8f9fa;
+}
+
+.site-logo {
+  padding-left: 40px;
+}
+
+.site-logo a {
+  font-size: 35px;
+  color: #fff;
+  font-weight: bold;
+  line-height: 1;
+  font-family: 'Roboto', sans-serif;
+}
+
+
+.bg-blue{
+  background-color: #003b95;
+}
+
+.bg-black{
+  background-color: black;
+}
+
+.full-height {
+  height: 100vh;
+  min-height: 700px;
+}
+
+.banner {
+  min-height: 400px;
+}
+
+
+
+.section {
+  padding: 4em 0;
+}
+
+
+.cs-rounded{
+  border-radius: 10px;
+}
+
+.cursor-pointer{
+  cursor: pointer;
+}
+
+.img1{
+  width: 100%;
+  height: 170px;
+}
+.heading1{
+  font-weight: 700;
+}
+.title{
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Bóng đổ */
+
+}
+.fw700{
+  font-weight: 700;
+}
+.fw500{
+  font-weight: 500;
+}
+.fs-small{
+  font-size: 13px;
+}
+
+.rv-badge{
+  background-color: #003b95;
+  color: white;
+  font-weight: 600;
+  border-radius: 2px;
+  padding: 0.2rem;
+}
+
+
+
+.block-32 {
+  background: #fff;
+  padding: 10px;
+  -webkit-box-shadow: 0 2px 80px -10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 80px -10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  border: 2px solid orange; /* Thêm viền màu cam */
+
+}
+
+.block-32 .field-icon-wrap {
+  position: relative;
+}
+
+.block-32 .field-icon-wrap .form-control {
+  position: relative;
+  padding-right: 40px;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  color: #a6a6a6;
+}
+
+.block-32 .field-icon-wrap .icon {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  right: 15px;
+  z-index: 2;
+}
+
+.block-32 .field-icon-wrap select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+}
+
+
+.text-black {
+  color: #000 !important;
+}
+
+.check-availabilty {
+  margin-top: -170px;
+  position: relative;
+}
+
+.check-availabilty .block-32 {
+  background: #fff;
+  border-radius: 10px;
+}
+
+
+.o-hidden{
+  overflow: hidden;
+}
+
+.letter-spacing-1 {
+  letter-spacing: .1em;
+}
+
+.text-opacity-8 {
+  opacity: .8;
+}
+
+.text-opacity-7 {
+  opacity: .7;
+}
+
+.text-opacity-6 {
+  opacity: .6;
+}
+
+.text-opacity-5 {
+  opacity: .5;
+}
+
+.letter-spacing-2 {
+  letter-spacing: .2em;
+}
+
+.bg-image {
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.bg-image-2 {
+  background-size: cover;
+  background-position: center center;
+}
+
+
+.bg-image.overlay {
+  position: relative;
+}
+
+.bg-image.overlay>.container {
+  position: relative;
+  z-index: 3;
+}
+
+.bg-image.overlay:before {
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  content: "";
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.img-absolute {
+  position: absolute;
+  bottom: -100px;
+  right: -100px;
+}
+
+.img-absolute img {
+  max-width: 250px;
+  border-radius: 50%;
+  border: 10px solid #f2f4fb;
+}
