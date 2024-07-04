@@ -5,6 +5,7 @@ import Signin from "../components/user_pages/Signin.js";
 import Signup from "../components/user_pages/Signup.js";
 import BusinessLayout from "../layout/Business/BusinessLayout.js";
 import RegisterBusiness from "../components/business_pages/RegisterBusiness.js";
+import PageListProperty from "../components/business_pages/PageListProperty.js";
 
 function MyRouter() {
   return (
@@ -17,12 +18,11 @@ function MyRouter() {
           element={<RegisterBusiness></RegisterBusiness>}
         ></Route>
         <Route path="/" element={<Layout></Layout>}>
-          <Route path="/" element={<Home></Home>}></Route>
+          <Route path="" element={<Home></Home>}></Route>
         </Route>
-        <Route
-          path="/business"
-          element={<BusinessLayout></BusinessLayout>}
-        ></Route>
+        <Route path="/business" element={<BusinessLayout></BusinessLayout>}>
+          <Route path="" element={<PageListProperty></PageListProperty>}></Route>
+        </Route>
       </Routes>
     </>
   );

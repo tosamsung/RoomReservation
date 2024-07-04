@@ -8,6 +8,9 @@ body {
   position: relative;
   width: 100%;
 }
+.progress-bar{
+  
+}
 .hover-effect {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
