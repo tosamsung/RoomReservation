@@ -1,14 +1,10 @@
 import { useContext } from "react";
-import { AppContext } from "../context/AppContext";
+import { AppContext } from "../../context/AppContext";
 import { Link } from "react-router-dom";
 
-function Header() {
+function BusinessHeader() {
   const { user } = useContext(AppContext);
-  const handleClickListProperty = () => {
-    
-
-
-  };
+  const handleClickListProperty = () => {};
 
   return (
     <>
@@ -17,7 +13,7 @@ function Header() {
           <div className="row py-2 px-1">
             <div className="col-10 col-lg-4 site-logo " data-aos="fade">
               <a href="index.html" className="text-white">
-                Booking.com
+                Booking.com BUSINESS
               </a>
             </div>
             <div className="ml-auto d-flex" data-aos="fade">
@@ -25,13 +21,13 @@ function Header() {
                 <i className="fa-regular  fa-bell text-white"></i>
               </div>
               <div className="p-1 hover-effect cs-rounded mr-2">
-                <Link to="business" className="text-white fw500 fs-small">
+                <a href="index.html" className="text-white fw500 fs-small">
                   List your property
-                </Link>
+                </a>
               </div>
             </div>
 
-            {user ? (
+            {user && (
               <>
                 <div className="p-0 ">
                   <div className=" my-account px-2 cs-rounded cursor-pointer ">
@@ -82,18 +78,6 @@ function Header() {
                   </ul>
                 </div>
               </>
-            ) : (
-              <div className=" ml-auto p-0 ">
-                <div>
-                  <Link to="signup" className="text-warning p-1 title">
-                    Register
-                  </Link>
-                  <span className="fw700 text-white">|</span>
-                  <Link to="signin" className="text-white p-1 title">
-                    Sign in
-                  </Link>
-                </div>
-              </div>
             )}
           </div>
         </div>
@@ -102,4 +86,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default BusinessHeader;

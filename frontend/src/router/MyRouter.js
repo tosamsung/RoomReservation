@@ -1,9 +1,10 @@
 import { Route, Routes } from "react-router-dom";
-import Layout from "./layout/Layout";
-import Home from "./component/pages/Home";
-import Signin from "./component/pages/Signin.js";
-import Signup from "./component/pages/Signup.js";
-import BusinessLayout from "./layout/Buseniss/BusinessLayout.js";
+import Layout from "../layout/Layout.js";
+import Home from "../components/user_pages/Home.js";
+import Signin from "../components/user_pages/Signin.js";
+import Signup from "../components/user_pages/Signup.js";
+import BusinessLayout from "../layout/Business/BusinessLayout.js";
+import RegisterBusiness from "../components/business_pages/RegisterBusiness.js";
 
 function MyRouter() {
   return (
@@ -11,6 +12,10 @@ function MyRouter() {
       <Routes>
         <Route path="/signup" element={<Signup></Signup>}></Route>
         <Route path="/signin" element={<Signin></Signin>}></Route>
+        <Route
+          path="/registerbusiness"
+          element={<RegisterBusiness></RegisterBusiness>}
+        ></Route>
         <Route path="/" element={<Layout></Layout>}>
           <Route path="/" element={<Home></Home>}></Route>
         </Route>

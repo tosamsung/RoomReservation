@@ -28,6 +28,24 @@ function Home() {
   return (
     <>
       <div>
+      <section className=" bg-black ">
+          <div
+            className="h-100  banner row d-flex justify-content-center"
+            style={{
+              backgroundImage: "url(images/hero_2.jpg)",
+              backgroundPosition: "center center",
+            }}
+          >
+            <div className="col-4 mt-5">
+              <h1 className=" mb-3 text-white d-inline-block f-robo heading1 title">
+                The perfect home base for your special trip
+              </h1>
+              <p className="text-white heading2 ">
+                Discover dreamy holiday homes all over the world
+              </p>
+            </div>
+          </div>
+        </section>
         <section className="section mt-5 pb-0">
           <div className="container">
             <div className="row check-availabilty" id="next">

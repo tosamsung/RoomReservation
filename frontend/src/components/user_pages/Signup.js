@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import { Calendar } from "react-date-range";
 import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
+
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import UserAuth from "../../service/UserAuth";
 function Signup() {
   const [date, setDate] = useState(null);
+  const[firstPassword,setFirstPassword]=useState(null);
   const [user, setUser] = useState({
     firstname: "",
     lastname: "",
@@ -13,9 +16,25 @@ function Signup() {
     phone: "",
     email: "",
     password: "",
-    birthDate: "",
+    birthDate: null,
   });
+  const navigate = useNavigate();
+
   const validForm = () => {
+    const otherError = document.getElementById("other-error");
+    const fullnameError = document.getElementById("fullname-error");
+    const emailError = document.getElementById("email-error");
+    const phoneError = document.getElementById("phone-error");
+    const passwordError = document.getElementById("password-error");
+    const confirmPasswordError = document.getElementById("confirmpassword-error");
+    confirmPasswordError.innerHTML="";
+    otherError.innerHTML = "";
+    fullnameError.innerHTML = "";
+    emailError.innerHTML = "";
+    passwordError.innerHTML="";
+    phoneError.innerHTML="";
+
+    let check = true;
     if (
       !user.firstname.trim() ||
       !user.lastname.trim() ||
@@ -23,11 +42,8 @@ function Signup() {
       !user.phone.trim() ||
       !user.email.trim() ||
       !user.password.trim() ||
-      !user.birthDate.trim()
+      !user.birthDate
     ) {
-      console.log("trong");
-      const otherError = document.getElementById("other-error");
-
       otherError.innerHTML = `
     <div>
       <i class="fas fa-exclamation-triangle"></i> 
@@ -35,25 +51,70 @@ function Signup() {
     </div>`;
       return false;
     }
-    // Ví dụ: kiểm tra định dạng email
+    const namePattern = /^[A-Za-zÀ-ỹà-ỹ\s]+$/;
+    if (!namePattern.test(user.firstname) || !namePattern.test(user.lastname)) {
+      fullnameError.innerHTML += `
+        <div>
+          <i class="fas fa-exclamation-triangle"></i> 
+          First name and last name must contain only letters.
+        </div>`;
+      check = false;
+    }
+    // kiểm tra định dạng email
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(user.email)) {
-      console.log("Email không hợp lệ");
-      return false;
+      emailError.innerHTML = `
+    <div>
+      <i class="fas fa-exclamation-triangle"></i> 
+      Invalid email.
+    </div>`;
+      // console.log("Email không hợp lệ");
+      check = false;
     }
-
-    // Ví dụ: kiểm tra độ dài mật khẩu
+    const phonePattern = /^[0-9]{10,15}$/; // Số điện thoại có từ 10 đến 15 chữ số
+    if (!phonePattern.test(user.phone)) {
+      phoneError.innerHTML = `
+        <div>
+          <i class="fas fa-exclamation-triangle"></i> 
+          Invalid phone number.
+        </div>`;
+      check = false;
+    }
+    //kiểm tra độ dài mật khẩu
     if (user.password.length < 8) {
-      console.log("Mật khẩu phải có ít nhất 6 ký tự");
+      passwordError.innerHTML = `
+       <div>
+      <i class="fas fa-exclamation-triangle"></i> 
+      Password must be at least 6 characters long.
+    </div>
+      `;
       return false;
     }
-    return true;
+    if(user.password !== firstPassword){
+      confirmPasswordError.innerHTML=
+      `
+      <div>
+     <i class="fas fa-exclamation-triangle"></i> 
+     Confirm password incorrect.
+   </div>
+     `;
+     check=false;
+    }
+    return check;
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     // console.log(user);
     if (validForm()) {
-      await UserAuth.signup(user);
+      try {
+        await UserAuth.signup(user);
+        await UserAuth.signin(user);
+        navigate("/");
+      } catch (error) {
+        console.log("dang ky that bai");
+      }
+      
     }
   };
   const handleBirthDateChange = (event) => {
@@ -65,6 +126,7 @@ function Signup() {
   };
   return (
     <>
+
       <section className="text-center text-lg-start bg-blue">
         <style
           dangerouslySetInnerHTML={{
@@ -83,7 +145,7 @@ function Signup() {
                   <h2 className="fw-bold mb-5">Sign up now</h2>
                   <form>
                     <div className="row">
-                      <div className="col-md-6 mb-4">
+                      <div className="col-md-6 ">
                         <div data-mdb-input-init className="form-outline">
                           <input
                             type="text"
@@ -98,7 +160,7 @@ function Signup() {
                           />
                         </div>
                       </div>
-                      <div className="col-md-6 mb-4">
+                      <div className="col-md-6 ">
                         <div data-mdb-input-init className="form-outline">
                           <input
                             type="text"
@@ -114,6 +176,10 @@ function Signup() {
                         </div>
                       </div>
                     </div>
+                    <p
+                      className="fw500 text-danger m-0 text-center my-1 mb-4 "
+                      id="fullname-error"
+                    ></p>
                     <div data-mdb-input-init className="form-outline mb-4">
                       <input
                         type="text"
@@ -128,7 +194,7 @@ function Signup() {
                       />
                     </div>
 
-                    <div data-mdb-input-init className="form-outline mb-4">
+                    <div data-mdb-input-init className="form-outline">
                       <input
                         type="email"
                         className="form-control"
@@ -141,7 +207,11 @@ function Signup() {
                         }}
                       />
                     </div>
-                    <div data-mdb-input-init className="form-outline mb-4">
+                    <p
+                      className="fw500 text-danger m-0 text-center my-1 mb-4 "
+                      id="email-error"
+                    ></p>
+                    <div data-mdb-input-init className="form-outline">
                       <input
                         type="text"
                         className="form-control"
@@ -154,6 +224,10 @@ function Signup() {
                         }}
                       />
                     </div>
+                    <p
+                      className="fw500 text-danger m-0 text-center my-1 mb-4 "
+                      id="phone-error"
+                    ></p>
                     <div
                       data-mdb-input-init
                       className="form-outline mb-4 form-control p-0"
@@ -178,13 +252,20 @@ function Signup() {
                         </div>
                       </div>
                     </div>
-                    <div data-mdb-input-init className="form-outline mb-4">
+                    <div data-mdb-input-init className="form-outline">
                       <input
                         type="password"
                         className="form-control"
                         placeholder="password"
+                        onChange={(e) => {
+                          setFirstPassword(e.target.value)
+                        }}
                       />
                     </div>
+                    <p
+                      className="fw500 text-danger m-0 text-center my-1 mb-4 "
+                      id="password-error"
+                    ></p>
                     <div className="form-outline mb-4">
                       <input
                         type="password"
@@ -197,10 +278,11 @@ function Signup() {
                           }));
                         }}
                       />
-                      <p className="fw500 text-danger m-0 text-left mt-1">
-                        <i className="fas fa-exclamation-triangle"></i> error
-                      </p>
                     </div>
+                    <p
+                      className="fw500 text-danger m-0 text-center my-1 mb-4 "
+                      id="confirmpassword-error"
+                    ></p>
                     <div className="form-check mb-4">
                       <input
                         className="form-check-input me-2"
@@ -214,7 +296,7 @@ function Signup() {
                       </label>
                     </div>
                     <p
-                      className="fw500 text-danger m-0 text-center mt-1"
+                      className="fw500 text-danger m-0 text-center my-1 "
                       id="other-error"
                     ></p>
                     <button

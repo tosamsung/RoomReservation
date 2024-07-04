@@ -4,7 +4,7 @@ package com.hotelbooking.HotelBooking.entity.employee;
 import java.util.Date;
 
 import com.hotelbooking.HotelBooking.entity.User;
-import com.hotelbooking.HotelBooking.entity.business.Representative;
+import com.hotelbooking.HotelBooking.entity.property.Representative;
 import com.hotelbooking.HotelBooking.enums.BusinessStatus;
 
 import jakarta.persistence.Entity;
