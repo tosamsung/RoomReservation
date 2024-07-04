@@ -13,7 +13,7 @@ function BusinessHeader() {
           <div className="row py-2 px-1">
             <div className="col-10 col-lg-4 site-logo " data-aos="fade">
               <a href="index.html" className="text-white">
-                Booking.com BUSINESS
+                BUSINESS
               </a>
             </div>
             <div className="ml-auto d-flex" data-aos="fade">

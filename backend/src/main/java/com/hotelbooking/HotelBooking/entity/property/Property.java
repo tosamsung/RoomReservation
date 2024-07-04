@@ -3,7 +3,6 @@ package com.hotelbooking.HotelBooking.entity.property;
 import java.util.Date;
 
 import com.hotelbooking.HotelBooking.entity.business.BusinessAccount;
-import com.hotelbooking.HotelBooking.entity.location.City;
 import com.hotelbooking.HotelBooking.enums.PropertyStatus;
 import com.hotelbooking.HotelBooking.enums.PropertyType;
 
@@ -42,9 +41,8 @@ public class Property {
 	private PropertyStatus propertyStatus;
 	private Date createDate;
 	private String address;
-	@ManyToOne
-	@JoinColumn(name = "city_id", referencedColumnName = "cityName", nullable = false)
-	private City city;
+	private String city;
+	private String country;
 	@ManyToOne
 	@JoinColumn(name = "business_account_id", referencedColumnName = "id", nullable = false)
 	private BusinessAccount businessAccount;
