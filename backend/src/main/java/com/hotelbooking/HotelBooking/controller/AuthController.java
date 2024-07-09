@@ -2,9 +2,9 @@ package com.hotelbooking.HotelBooking.controller;
 
 import java.io.IOException;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.hotelbooking.HotelBooking.dto.AuthUser;
 import com.hotelbooking.HotelBooking.dto.UserDTO;
 import com.hotelbooking.HotelBooking.entity.User;
 import com.hotelbooking.HotelBooking.service.serviceinterface.BusinessAccountService;
@@ -23,7 +22,6 @@ import com.hotelbooking.HotelBooking.service.userservice.UserServiceImpl;
 import com.hotelbooking.HotelBooking.utils.CookieUtils;
 import com.hotelbooking.HotelBooking.utils.JWTUtils;
 
-import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 

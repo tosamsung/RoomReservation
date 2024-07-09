@@ -31,7 +31,9 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(request -> request
 				.requestMatchers("/auth/signin", "/auth/signup", "/auth/refreshToken", "/auth/validate", "/public/**")
-				.permitAll().anyRequest().authenticated())
+				.permitAll()
+				.requestMatchers("/business/**").hasRole("BUSINESS")
+				.anyRequest().authenticated())
 				.sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authenticationProvider(authenticationProvider())
 				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
