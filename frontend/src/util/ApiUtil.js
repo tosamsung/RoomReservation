@@ -6,10 +6,21 @@ const api = axios.create({
 });
 api.interceptors.response.use(
   async (response) => {
-
     if (response.data.statusCode === 401 && response.data.error == "Refresh") {
-      await UserAuth.refreshToken();
-      return api(response.config);
+      // Check if the retry count exists in the config, if not, initialize it
+      response.config.retryCount = response.config.retryCount || 0;
+
+      // Set the retry limit
+      const RETRY_LIMIT = 3;
+
+      if (response.config.retryCount < RETRY_LIMIT) {
+        response.config.retryCount += 1;
+        await UserAuth.refreshToken();
+        return api(response.config);
+      } else {
+        // If retry limit exceeded, handle it appropriately
+        return null;
+      }
     }
 
     // console.log(response);

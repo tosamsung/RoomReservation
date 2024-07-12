@@ -1,5 +1,21 @@
 import "../../css/register-business.css";
+import { useState, useEffect } from "react";
+import BusinessService from "../../service/BusinessService";
 function RegisterBusiness() {
+  const [business, setBusiness] = useState({
+    name: "",
+    email: "",
+    taxIdentificationNumber: "",
+    address: "",
+  });
+  const handlieSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await BusinessService.createBusiness(business);
+    } catch (error) {
+      console.log("User has registered a business");
+    }
+  };
   return (
     <>
       <div className="form-v4">
@@ -40,45 +56,63 @@ function RegisterBusiness() {
             <form className="form-detail" action="#" method="post" id="myform">
               <h2 className="f-robo">REGISTER FORM</h2>
               <div className="form-row">
-                <label htmlFor="your_email">Business name</label>
+                {/* <label htmlFor="your_email">Business name</label> */}
                 <input
                   type="text"
-                  name="your_email"
-                  id="your_email"
                   className="input-text inputf4"
                   required
-                  pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}"
+                  placeholder="Business name"
+                  onChange={(e) => {
+                    setBusiness((prevUser) => ({
+                      ...prevUser,
+                      name: e.target.value,
+                    }));
+                  }}
                 />
               </div>
               <div className="form-row">
-                <label htmlFor="your_email">Business email</label>
+                {/* <label htmlFor="your_email">Business email</label> */}
                 <input
                   type="text"
-                  name="your_email"
-                  id="your_email"
                   className="input-text inputf4"
                   required
-                  pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}"
+                  placeholder="Business email"
+                  onChange={(e) => {
+                    setBusiness((prevUser) => ({
+                      ...prevUser,
+                      email: e.target.value,
+                    }));
+                  }}
                 />
               </div>
               <div className="form-row">
-                <label htmlFor="password">Tax number</label>
+                {/* <label htmlFor="password">Tax number</label> */}
                 <input
                   type="text"
-                  name="password"
-                  id="password"
                   className="input-text inputf4"
                   required
+                  placeholder="Tax number"
+                  onChange={(e) => {
+                    setBusiness((prevUser) => ({
+                      ...prevUser,
+                      taxIdentificationNumber: e.target.value,
+                    }));
+                  }}
                 />
               </div>
               <div className="form-row">
-                <label htmlFor="comfirm-password">Address</label>
+                {/* <label htmlFor="comfirm-password">Address</label> */}
                 <input
                   type="text"
-                  name="comfirm_password"
-                  id="comfirm_password"
                   className="input-text inputf4"
                   required
+                  placeholder="Address"
+                  onChange={(e) => {
+                    setBusiness((prevUser) => ({
+                      ...prevUser,
+                      address: e.target.value,
+                    }));
+                  }}
                 />
               </div>
               <div className="form-check">
@@ -87,7 +121,7 @@ function RegisterBusiness() {
                   className="form-check-input"
                   id="termsCheck"
                 />
-                <label className="form-check-label" >
+                <label className="form-check-label">
                   I agree to the <a href="#">terms and conditions</a>
                 </label>
               </div>
@@ -98,6 +132,7 @@ function RegisterBusiness() {
                   name="register"
                   className="register"
                   defaultValue="Register"
+                  onClick={handlieSubmit}
                 />
               </div>
             </form>

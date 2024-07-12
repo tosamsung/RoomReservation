@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.hotelbooking.HotelBooking.dto.UserDTO;
 import com.hotelbooking.HotelBooking.entity.User;
 import com.hotelbooking.HotelBooking.service.serviceinterface.BusinessAccountService;
+import com.hotelbooking.HotelBooking.service.serviceinterface.UserService;
 import com.hotelbooking.HotelBooking.service.userservice.UserAuthService;
 import com.hotelbooking.HotelBooking.service.userservice.UserServiceImpl;
 import com.hotelbooking.HotelBooking.utils.CookieUtils;
@@ -31,7 +32,7 @@ public class AuthController {
 	@Autowired
 	UserAuthService userAuthService;
 	@Autowired
-	UserServiceImpl userService;
+	UserService userService;
 	@Autowired
 	BusinessAccountService businessAccountService;
 	
@@ -50,16 +51,22 @@ public class AuthController {
 		return ResponseEntity.ok(message);
 	}
 
+	@PostMapping("/logout")
+	public ResponseEntity<String> logout(HttpServletResponse response) {
+		System.out.println("logout");
+		userAuthService.logout(response);
+		return ResponseEntity.ok("logout sucess");
+	}
 	@PostMapping("/validate")
 	public ResponseEntity<UserDTO> validate(HttpServletRequest request) {
 		String accessToken = CookieUtils.getCookieValueByName(request, "accessToken");
 		String userName = jwtUtils.extractUsername(accessToken);
-		UserDTO user=userService.findByUserName(userName);
-		
+		User user=userService.findByUserName(userName);
+		UserDTO userDTO=new UserDTO(user);
 		if(businessAccountService.isBusinessAccountExistForUserId(user.getId())) {
-			user.setHaveBusinessAccount(true);
+			userDTO.setHaveBusinessAccount(true);
 		}
-		return ResponseEntity.ok(user);
+		return ResponseEntity.ok(userDTO);
 
 	}
 
@@ -74,17 +81,20 @@ public class AuthController {
 	}
 
 	@PostMapping("/refreshToken")
-	public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException, IllegalAccessException {
 		String refreshToken = CookieUtils.getCookieValueByName(request, "refreshToken");
+		if(refreshToken==null || refreshToken.isBlank()) {
+			writeErrorResponse(response, "{\"statusCode\": 403, \"error\": \"Expired\"}");
+			return;
+		}
 		try {
 			String newAccessToken = refreshAccessToken(refreshToken);
 			ResponseCookie newAccessTokenCookie = ResponseCookie.from("accessToken", newAccessToken).httpOnly(true)
 					.secure(true).path("/").maxAge(604800).sameSite("None").build();
 			response.addHeader(HttpHeaders.SET_COOKIE, newAccessTokenCookie.toString());
 			response.setStatus(HttpServletResponse.SC_OK);
-		} catch (Exception e) {
-            writeErrorResponse(response, "{\"statusCode\": 403, \"error\": \"Expired\"}");
-
+		} catch (Exception e) {		
+			throw e;
 		}
 
 	}
