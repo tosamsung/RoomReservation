@@ -8,7 +8,7 @@ import "react-date-range/dist/theme/default.css"; // theme css file
 import UserAuth from "../../service/UserAuth";
 function Signup() {
   const [date, setDate] = useState(null);
-  const[firstPassword,setFirstPassword]=useState(null);
+  const [firstPassword, setFirstPassword] = useState(null);
   const [user, setUser] = useState({
     firstname: "",
     lastname: "",
@@ -26,13 +26,15 @@ function Signup() {
     const emailError = document.getElementById("email-error");
     const phoneError = document.getElementById("phone-error");
     const passwordError = document.getElementById("password-error");
-    const confirmPasswordError = document.getElementById("confirmpassword-error");
-    confirmPasswordError.innerHTML="";
+    const confirmPasswordError = document.getElementById(
+      "confirmpassword-error"
+    );
+    confirmPasswordError.innerHTML = "";
     otherError.innerHTML = "";
     fullnameError.innerHTML = "";
     emailError.innerHTML = "";
-    passwordError.innerHTML="";
-    phoneError.innerHTML="";
+    passwordError.innerHTML = "";
+    phoneError.innerHTML = "";
 
     let check = true;
     if (
@@ -90,31 +92,30 @@ function Signup() {
       `;
       return false;
     }
-    if(user.password !== firstPassword){
-      confirmPasswordError.innerHTML=
-      `
+    if (user.password !== firstPassword) {
+      confirmPasswordError.innerHTML = `
       <div>
      <i class="fas fa-exclamation-triangle"></i> 
      Confirm password incorrect.
    </div>
      `;
-     check=false;
+      check = false;
     }
     return check;
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // console.log(user);
     if (validForm()) {
       try {
         await UserAuth.signup(user);
         await UserAuth.signin(user);
+        await UserAuth.validate();
         navigate("/");
       } catch (error) {
         console.log("dang ky that bai");
       }
-      
     }
   };
   const handleBirthDateChange = (event) => {
@@ -126,7 +127,6 @@ function Signup() {
   };
   return (
     <>
-
       <section className="text-center text-lg-start bg-blue">
         <style
           dangerouslySetInnerHTML={{
@@ -258,7 +258,7 @@ function Signup() {
                         className="form-control"
                         placeholder="password"
                         onChange={(e) => {
-                          setFirstPassword(e.target.value)
+                          setFirstPassword(e.target.value);
                         }}
                       />
                     </div>

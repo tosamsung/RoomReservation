@@ -21,7 +21,10 @@ public class BusinessAccountServiceImpl implements BusinessAccountService {
 	@Override
 	public Boolean isBusinessAccountExistForUserId(Long id) {
 		// TODO Auto-generated method stub
-		return businessAccountRepository.existsByUserId(id);
+		if(businessAccountRepository.findByUserId(id)!=null) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override

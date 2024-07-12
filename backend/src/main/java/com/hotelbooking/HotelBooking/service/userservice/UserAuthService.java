@@ -71,18 +71,14 @@ public class UserAuthService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-//		catch (DataIntegrityViolationException e) {
-//			// Inspect the exception message to determine which constraint was violated
-//			String message = e.getMostSpecificCause().getMessage();
-//			if (message.contains("username")) {
-//				return "Username already exists!";
-//			} else if (message.contains("email")) {
-//				return "Email already exists!";
-//			} else {
-//				return "A user with this username or email already exists!";
-//			}
-//		}
-
 		return "User registered successfully!";
+	}
+	public void logout(HttpServletResponse response) {
+		ResponseCookie cookie1 = ResponseCookie.from("accessToken", null).httpOnly(true).secure(true)
+				.path("/").maxAge(0).sameSite("None").build();
+		ResponseCookie cookie2 = ResponseCookie.from("refreshToken", null).httpOnly(true).secure(true)
+				.path("/").maxAge(0).sameSite("None").build();
+		response.addHeader(HttpHeaders.SET_COOKIE, cookie1.toString());
+		response.addHeader(HttpHeaders.SET_COOKIE, cookie2.toString());
 	}
 }

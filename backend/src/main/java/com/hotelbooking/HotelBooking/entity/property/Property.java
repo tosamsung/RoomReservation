@@ -33,7 +33,8 @@ public class Property {
 	private String name;
 	private String description;
 	private String image;
-	
+	private Integer rate;
+
     @Enumerated(EnumType.STRING)
 	private PropertyType propertyType;
     

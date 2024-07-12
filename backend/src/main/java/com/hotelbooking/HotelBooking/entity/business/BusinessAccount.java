@@ -51,6 +51,6 @@ public class BusinessAccount {
 	
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
-	private BusinessStatus businessStatus = BusinessStatus.PENDING;
+	private BusinessStatus businessStatus = BusinessStatus.ACTIVE;
 	
 }

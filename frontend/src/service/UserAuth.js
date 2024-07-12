@@ -8,7 +8,14 @@ class UserAuthService {
       throw error;
     }
   }
-
+  static async logout() {
+    try {
+      const response = await api.post(`/auth/logout`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
   static async signin(userData) {
     try {
       const response = await api.post(`/auth/signin`, userData);
