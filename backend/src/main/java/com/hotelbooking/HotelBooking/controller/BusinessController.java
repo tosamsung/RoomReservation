@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.hotelbooking.HotelBooking.entity.BusinessAccount;
 import com.hotelbooking.HotelBooking.entity.User;
-import com.hotelbooking.HotelBooking.entity.business.BusinessAccount;
 import com.hotelbooking.HotelBooking.service.serviceinterface.BusinessAccountService;
 import com.hotelbooking.HotelBooking.service.serviceinterface.UserService;
 import com.hotelbooking.HotelBooking.utils.CookieUtils;

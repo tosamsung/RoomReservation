@@ -10,8 +10,8 @@ import ProtectedRouter from "./ProtectRouter.js";
 import { useContext } from "react";
 import { AppContext } from "../context/AppContext.js";
 import GroupHomepage from "../components/business_pages/GroupHomepage.js";
-import PageListProperty from "../components/business_pages/listproperty/PageListProperty.js";
 import PropertyReviews from "../components/business_pages/PropertyReviews.js";
+import ListProperty from "../components/business_pages/ListProperty.js";
 
 function MyRouter() {
   const { user } = useContext(AppContext);
@@ -39,7 +39,7 @@ function MyRouter() {
           }
         >
           <Route path="" element={<GroupHomepage></GroupHomepage>}></Route>
-          <Route path="listproperty" element={<PageListProperty></PageListProperty>}></Route>
+          <Route path="listproperty" element={<ListProperty></ListProperty>}></Route>
           <Route path="reviews" element={<PropertyReviews></PropertyReviews>}></Route>
         </Route>
         <Route path="/*" element={<Page404></Page404>}></Route>

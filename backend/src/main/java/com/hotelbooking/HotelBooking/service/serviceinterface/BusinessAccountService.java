@@ -1,6 +1,6 @@
 package com.hotelbooking.HotelBooking.service.serviceinterface;
 
-import com.hotelbooking.HotelBooking.entity.business.BusinessAccount;
+import com.hotelbooking.HotelBooking.entity.BusinessAccount;
 
 public interface BusinessAccountService {
 	Boolean isBusinessAccountExistForUserId(Long id);

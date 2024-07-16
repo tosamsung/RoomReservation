@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import com.hotelbooking.HotelBooking.entity.BusinessAccount;
 import com.hotelbooking.HotelBooking.entity.User;
-import com.hotelbooking.HotelBooking.entity.business.BusinessAccount;
 import com.hotelbooking.HotelBooking.repository.BusinessAccountRepository;
 import com.hotelbooking.HotelBooking.repository.UserRepository;
 import com.hotelbooking.HotelBooking.service.serviceinterface.BusinessAccountService;

@@ -1,4 +1,4 @@
-package com.hotelbooking.HotelBooking.entity.room;
+package com.hotelbooking.HotelBooking.entity.property;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

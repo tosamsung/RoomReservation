@@ -1,4 +1,4 @@
-package com.hotelbooking.HotelBooking.entity.post;
+package com.hotelbooking.HotelBooking.entity.property;
 
 import java.util.Date;
 
@@ -26,12 +26,17 @@ public class Review {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@ManyToOne
-	@JoinColumn(name = "post_id", referencedColumnName = "id")
-	private Post post;
+	@JoinColumn(name = "property_id", referencedColumnName = "id")
+	private Property property;
 	@ManyToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
-	private Integer rate;
+	
+	private Integer comfortRate;
+	private Integer staffRate;
+	private Integer facilitiesRate;
+	private Integer cleanlinessRate;
+
 	private String comment;
 	@Column(nullable = false)
 	private Date createDate;
