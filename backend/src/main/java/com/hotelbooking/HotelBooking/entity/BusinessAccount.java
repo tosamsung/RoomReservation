@@ -1,8 +1,7 @@
-package com.hotelbooking.HotelBooking.entity.business;
+package com.hotelbooking.HotelBooking.entity;
 
 import java.util.Date;
 
-import com.hotelbooking.HotelBooking.entity.User;
 import com.hotelbooking.HotelBooking.enums.BusinessStatus;
 
 import jakarta.persistence.CascadeType;

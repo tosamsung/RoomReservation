@@ -43,10 +43,6 @@ public class Room {
 	private BreakfastDetail breakfastDetail;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "parking_detail_id", referencedColumnName = "id")
-	private ParkingDetail parkingDetail;
-	
-	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "bed_detail_id", referencedColumnName = "id")
 	private BedDetail bedDetail;
 	

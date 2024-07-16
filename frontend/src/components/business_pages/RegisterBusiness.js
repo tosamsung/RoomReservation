@@ -1,6 +1,9 @@
 import "../../css/register-business.css";
 import { useState, useEffect } from "react";
 import BusinessService from "../../service/BusinessService";
+import UserAuth from"../../service/UserAuth"
+import { useNavigate } from "react-router-dom";
+
 function RegisterBusiness() {
   const [business, setBusiness] = useState({
     name: "",
@@ -8,10 +11,14 @@ function RegisterBusiness() {
     taxIdentificationNumber: "",
     address: "",
   });
+  const navigate = useNavigate();
+
   const handlieSubmit = async (e) => {
     e.preventDefault();
     try {
       await BusinessService.createBusiness(business);
+      navigate("/business");
+
     } catch (error) {
       console.log("User has registered a business");
     }
