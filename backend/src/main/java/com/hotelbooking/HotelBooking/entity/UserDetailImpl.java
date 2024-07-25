@@ -15,18 +15,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDetailImpl implements UserDetails{
+public class UserDetailImpl implements UserDetails {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
 	private User user;
-	
+
 	@Autowired
 	BusinessAccountService businessAccountService;
 
@@ -34,17 +35,21 @@ public class UserDetailImpl implements UserDetails{
 		super();
 		this.user = user;
 	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("USER"));
-        boolean isAccountExist=false;
-        try {
-			isAccountExist=businessAccountService.isBusinessAccountExistForUserId(user.getId());
-			 authorities.add(new SimpleGrantedAuthority("BUSINESS"));
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		authorities.add(new SimpleGrantedAuthority("USER"));
+		try {
+			businessAccountService.isBusinessAccountExistForUserId(user.getId());
+			authorities.add(new SimpleGrantedAuthority("BUSINESS"));
 		} catch (Exception e) {
-			isAccountExist=false;
 		}
+		
+		
+//		if (businessAccountService.isBusinessAccountExistForUserId(user.getId())) {
+//			authorities.add(new SimpleGrantedAuthority("BUSINESS"));
+//		}
 		return authorities;
 	}
 
@@ -59,6 +64,5 @@ public class UserDetailImpl implements UserDetails{
 		// TODO Auto-generated method stub
 		return user.getUsername();
 	}
-
 
 }

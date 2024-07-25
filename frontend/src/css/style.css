@@ -8,8 +8,11 @@ body {
   position: relative;
   width: 100%;
 }
-
-.progress-bar {}
+#map {
+  width: 100%;
+  min-height: 350px;
+  height: 40vmin;
+}
 
 .hover-effect {
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -263,7 +266,16 @@ h5 {
 .business-p-btn {
   cursor: pointer;
 }
-
+.category-icon{
+  max-width: 50px;
+  max-height: 50px;
+}
+.border-blue{
+  border: 1px solid #003b95;
+}
+.border-gray{
+  border: 2px solid #99999992;
+}
 .business-p-btn:hover {
   background-color: #91afdd30;
   /* Màu nền nhạt hơn khi hover */
@@ -325,13 +337,18 @@ h5 {
   /* Bóng đổ */
 
 }
-
+.border-orange{
+  border: 2px dotted #f86402;
+}
 .fw700 {
-  font-weight: 700;
+  font-weight: 700 !important;
+}
+.fwbolder {
+  font-weight: 900 !important;
 }
 
 .fw500 {
-  font-weight: 500;
+  font-weight: 500 !important; 
 }
 
 .fs-small {
@@ -392,7 +409,9 @@ h5 {
 .text-black {
   color: #000 !important;
 }
-
+.text-orange{
+  color:#f86402
+}
 .check-availabilty {
   margin-top: -170px;
   position: relative;

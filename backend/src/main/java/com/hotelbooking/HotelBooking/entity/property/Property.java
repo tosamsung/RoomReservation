@@ -5,6 +5,7 @@ import java.util.Date;
 import com.hotelbooking.HotelBooking.entity.BusinessAccount;
 import com.hotelbooking.HotelBooking.enums.PropertyStatus;
 import com.hotelbooking.HotelBooking.enums.PropertyType;
+import com.hotelbooking.HotelBooking.enums.ReservationType;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -33,26 +34,29 @@ public class Property {
 	private String name;
 	private String description;
 	private String image;
-	private Integer rate;
 
-    @Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.STRING)
 	private PropertyType propertyType;
-    
-    @Enumerated(EnumType.STRING)
+
+	@Enumerated(EnumType.STRING)
+	private ReservationType reservationType;
+
+	@Enumerated(EnumType.STRING)
 	private PropertyStatus propertyStatus;
 	private Date createDate;
 	private String address;
 	private String city;
 	private String country;
-	
+	private Double latitude;
+	private Double longitude;
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "parking_detail_id", referencedColumnName = "id")
 	private ParkingDetail parkingDetail;
 	@ManyToOne
 	@JoinColumn(name = "business_account_id", referencedColumnName = "id", nullable = false)
 	private BusinessAccount businessAccount;
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "representative_id", referencedColumnName = "id")
-    private Representative representative;
+	@JoinColumn(name = "representative_id", referencedColumnName = "id")
+	private Representative representative;
 }
