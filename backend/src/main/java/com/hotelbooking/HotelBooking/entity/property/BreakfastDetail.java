@@ -1,10 +1,7 @@
-package com.hotelbooking.HotelBooking.entity.room;
+package com.hotelbooking.HotelBooking.entity.property;
 
-import com.hotelbooking.HotelBooking.enums.BedType;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,13 +13,11 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "BedDetails")
-public class BedDetail {
+@Table(name = "BreakfastDetails")
+public class BreakfastDetail {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-    @Enumerated(EnumType.STRING)
-	private BedType bedType;
-	private Integer quantity;
+	private Double price;
+	private String type;
 }

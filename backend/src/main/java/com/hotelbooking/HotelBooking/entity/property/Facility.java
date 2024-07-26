@@ -1,4 +1,4 @@
-package com.hotelbooking.HotelBooking.entity.room;
+package com.hotelbooking.HotelBooking.entity.property;
 
 import java.util.Set;
 
@@ -26,6 +26,6 @@ public class Facility {
 	private FacilityType facilityType;
     
     @ManyToMany(mappedBy = "facilities")
-    private Set<Room> rooms;
+    private Set<Property> properties;
 
 }

@@ -3,7 +3,7 @@ function PropertyType({ image, value, name, active, setValue }) {
     <div className="col-4 mb-2 px-2">
       <div
         className={`border-gray cs-rounded py-1 px-2 cursor-pointer ${
-          active===name ? "border-orange" : ""
+          active===name ? "border-orange bg-gray" : ""
         }`}
         onClick={() => {
           if (name && setValue) {

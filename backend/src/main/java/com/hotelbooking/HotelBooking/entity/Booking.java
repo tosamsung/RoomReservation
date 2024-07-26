@@ -2,7 +2,8 @@ package com.hotelbooking.HotelBooking.entity;
 
 import java.util.Date;
 
-import com.hotelbooking.HotelBooking.entity.room.Room;
+import com.hotelbooking.HotelBooking.entity.property.Property;
+import com.hotelbooking.HotelBooking.enums.BookingStatus;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,14 +26,21 @@ public class Booking {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@ManyToOne
-	@JoinColumn(name = "room_id", referencedColumnName = "id", nullable = false)
-	private Room room;
+	@JoinColumn(name = "property_id", referencedColumnName = "id", nullable = false)
+	private Property property;
 	@ManyToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
 	private User user;
+	
 	private Date checkin;
 	private Date checkout;
-	private Date createDate;
-	private Integer quantity;
+	
+	private Integer numberOfGuest;
+	private Integer numberOfInfant;
+
+	private BookingStatus bookingStatus;
+	
 	private Double total;
+		private Date createDate;
+
 }

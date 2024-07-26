@@ -1,9 +1,7 @@
-package com.hotelbooking.HotelBooking.entity.room;
+package com.hotelbooking.HotelBooking.entity.property;
 
 import java.util.Date;
-import java.util.Set;
 
-import com.hotelbooking.HotelBooking.entity.property.Property;
 import com.hotelbooking.HotelBooking.enums.DiscountOfferStatus;
 
 import jakarta.persistence.Entity;
@@ -13,7 +11,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -41,6 +38,4 @@ public class DiscountOffer {
     @Enumerated(EnumType.STRING)
 	private DiscountOfferStatus discountOfferStatus;
     
-    @ManyToMany(mappedBy = "discountOffers")
-    private Set<Room> rooms;
 }

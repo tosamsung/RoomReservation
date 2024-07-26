@@ -1,24 +1,33 @@
 package com.hotelbooking.HotelBooking.entity.room;
 
 
+import com.hotelbooking.HotelBooking.entity.property.Property;
+import com.hotelbooking.HotelBooking.enums.BedType;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "BreakfastDetails")
-public class BreakfastDetail {
+@Table(name = "BedRooms")
+public class BedRoom {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Boolean breakfastAvailable;
-	private Double price;
-	private String type;
+	@ManyToOne
+	@JoinColumn(name = "property_id", referencedColumnName = "id", nullable = false)
+	private Property property;
+	
+	private Integer quantity;
+	private BedType bedType;
 }
