@@ -26,8 +26,8 @@ public class Review {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@ManyToOne
-	@JoinColumn(name = "property_id", referencedColumnName = "id")
-	private Property property;
+	@JoinColumn(name = "post_id", referencedColumnName = "id")
+	private Post post;
 	@ManyToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;

@@ -1,6 +1,7 @@
 package com.hotelbooking.HotelBooking.entity.property;
 
 import java.util.Date;
+import java.util.Set;
 
 import com.hotelbooking.HotelBooking.entity.BusinessAccount;
 import com.hotelbooking.HotelBooking.enums.PropertyStatus;
@@ -15,6 +16,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -32,7 +35,6 @@ public class Property {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
-	private String description;
 	private String image;
 
 	@Enumerated(EnumType.STRING)
@@ -52,11 +54,17 @@ public class Property {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "parking_detail_id", referencedColumnName = "id")
 	private ParkingDetail parkingDetail;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "breakfast_detail_id", referencedColumnName = "id")
+	private BreakfastDetail breakfastDetail;
 	@ManyToOne
 	@JoinColumn(name = "business_account_id", referencedColumnName = "id", nullable = false)
 	private BusinessAccount businessAccount;
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "representative_id", referencedColumnName = "id")
-	private Representative representative;
+	@ManyToMany
+    @JoinTable(
+        name = "Property_Facility",
+        joinColumns = @JoinColumn(name = "property_id"),
+        inverseJoinColumns = @JoinColumn(name = "facility_name")
+    )
+    private Set<Facility> facilities;
 }

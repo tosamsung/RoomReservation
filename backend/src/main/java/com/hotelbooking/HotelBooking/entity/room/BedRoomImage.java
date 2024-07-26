@@ -15,14 +15,13 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "PriceRates")
-public class PriceRate {
+@Table(name = "BedRoomImages")
+public class BedRoomImage {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@ManyToOne
-	@JoinColumn(name = "room_id", referencedColumnName = "id", nullable = false)
-	private Room room;
-	private Integer occupancy;
-	private Double discount;
+	@JoinColumn(name = "bedroom_id", referencedColumnName = "id", nullable = false)
+	private BedRoom bedRoom;
+	private String image;
 }

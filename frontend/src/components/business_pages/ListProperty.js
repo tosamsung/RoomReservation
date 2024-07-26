@@ -349,7 +349,7 @@ function ListProperty() {
                 <div className="row bg-white p-1 pt-2 cs-rounded">
                   <PropertyType
                     image="/images/icon/homestay.png"
-                    name="Homestay"
+                    name="House"
                     active={property.propertyType}
                     setValue={setProperty}
                   />

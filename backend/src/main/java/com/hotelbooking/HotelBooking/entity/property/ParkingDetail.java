@@ -18,6 +18,5 @@ public class ParkingDetail {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Boolean parkingAvailable;
 	private Double price;
 }
