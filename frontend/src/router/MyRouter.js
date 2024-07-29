@@ -12,12 +12,16 @@ import { AppContext } from "../context/AppContext.js";
 import GroupHomepage from "../components/business_pages/GroupHomepage.js";
 import PropertyReviews from "../components/business_pages/PropertyReviews.js";
 import ListProperty from "../components/business_pages/ListProperty.js";
+import AdminLayout from "../layout/Admin/AdminLayout.js";
 
 function MyRouter() {
   const { user } = useContext(AppContext);
   return (
     <>
       <Routes>
+        <Route path="/admin" element={<AdminLayout></AdminLayout>}>
+        </Route>
+        {/* -------------------------user ---------------------------*/}
         <Route path="/signup" element={<Signup></Signup>}></Route>
         <Route path="/signin" element={<Signin></Signin>}></Route>
         <Route
@@ -27,6 +31,7 @@ function MyRouter() {
         <Route path="/" element={<Layout></Layout>}>
           <Route path="" element={<Home></Home>}></Route>
         </Route>
+        {/* -------------------------business ---------------------------*/}
         <Route
           path="/business"
           element={
@@ -39,8 +44,14 @@ function MyRouter() {
           }
         >
           <Route path="" element={<GroupHomepage></GroupHomepage>}></Route>
-          <Route path="listproperty" element={<ListProperty></ListProperty>}></Route>
-          <Route path="reviews" element={<PropertyReviews></PropertyReviews>}></Route>
+          <Route
+            path="listproperty"
+            element={<ListProperty></ListProperty>}
+          ></Route>
+          <Route
+            path="reviews"
+            element={<PropertyReviews></PropertyReviews>}
+          ></Route>
         </Route>
         <Route path="/*" element={<Page404></Page404>}></Route>
       </Routes>
