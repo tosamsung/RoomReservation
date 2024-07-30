@@ -1,31 +1,19 @@
-package com.hotelbooking.HotelBooking.dto;
-
-import java.util.Date;
+package com.hotelbooking.HotelBooking.responses;
 
 import com.hotelbooking.HotelBooking.entity.User;
 import com.hotelbooking.HotelBooking.enums.CustomerStatus;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Data
+import java.util.Date;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class UserDTO {
+public class UserResponse {
 
 	private Long id;
 
@@ -39,19 +27,17 @@ public class UserDTO {
 
 	private String image;
 
-	private String password;
-
 	private String phone;
 
 	private Date birthDate;
 
-	private Date createDate = new Date();
+	private Date createDate;
 
 	private CustomerStatus customerStatus = CustomerStatus.ACTIVE;
-	
+
 	private boolean haveBusinessAccount;
 
-	public UserDTO(User user) {
+	public UserResponse(User user) {
 		super();
 		this.id = user.getId();
 		this.firstname = user.getFirstname();
