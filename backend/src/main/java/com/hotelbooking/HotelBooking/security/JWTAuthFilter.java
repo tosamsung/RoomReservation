@@ -28,7 +28,6 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 
     @Autowired
     private UserDetailsService detailsService;
-
     private static final String AUTH_PATH = "/auth/";
     private static final String VALIDATE_PATH = "/auth/validate";
     private static final String CONTENT_TYPE_JSON = "application/json";
@@ -42,7 +41,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
         String requestURI = request.getRequestURI();
 
         // Skip filter for specific auth paths
-        if (requestURI.startsWith(AUTH_PATH) && !requestURI.equals(VALIDATE_PATH)) {
+        if ((requestURI.startsWith(AUTH_PATH) && !requestURI.equals(VALIDATE_PATH)) || requestURI.equals("/statistics/user-register") || requestURI.equals("/statistics/user-register/chart")) {
             filterChain.doFilter(request, response);
             return;
         }
