@@ -13,6 +13,7 @@ import GroupHomepage from "../components/business_pages/GroupHomepage.js";
 import PropertyReviews from "../components/business_pages/PropertyReviews.js";
 import ListProperty from "../components/business_pages/ListProperty.js";
 import AdminLayout from "../layout/Admin/AdminLayout.js";
+import EmployeeCRUD from "../components/admin_pages/EmployeeCRUD.js";
 
 function MyRouter() {
   const { user } = useContext(AppContext);
@@ -20,6 +21,10 @@ function MyRouter() {
     <>
       <Routes>
         <Route path="/admin" element={<AdminLayout></AdminLayout>}>
+          <Route
+            path="employeeCRUD"
+            element={<EmployeeCRUD></EmployeeCRUD   >}
+          ></Route>
         </Route>
         {/* -------------------------user ---------------------------*/}
         <Route path="/signup" element={<Signup></Signup>}></Route>
