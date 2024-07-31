@@ -11,7 +11,6 @@ function AdminLayout() {
         <div className="main">
           <aside className="row">
             <AdminSideBar></AdminSideBar>
-            <div className="col">dsa</div>
             <Outlet></Outlet>
           </aside>
         </div>

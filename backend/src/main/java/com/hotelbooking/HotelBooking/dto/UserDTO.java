@@ -19,6 +19,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.validator.constraints.Length;
 
 @Data
 
@@ -26,25 +27,23 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class UserDTO {
-
 	private Long id;
-
+	@NotBlank(message = "Firstname is required")
 	private String firstname;
-
+	@NotBlank(message = "Lastname is required")
 	private String lastname;
-
+	@NotBlank(message = "Username is required")
 	private String username;
-
+	@NotBlank(message = "Email is required")
 	private String email;
-
+	@NotBlank(message = "Password is required")
 	private String image;
-
+	@NotBlank(message = "Phone number is required")
+	@Length(min = 3,message = "Password must be 3 characters")
 	private String password;
-
+	@NotBlank(message = "Phone number is required")
 	private String phone;
-
 	private Date birthDate;
-
 	private Date createDate = new Date();
 
 	private CustomerStatus customerStatus = CustomerStatus.ACTIVE;
