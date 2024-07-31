@@ -17,6 +17,7 @@
     "react-router-dom": "^6.24.0",
     "react-scripts": "5.0.1",
     "react-world-flags": "^1.6.0",
+    "recharts": "^2.12.7",
     "semantic-ui-css": "^2.5.0",
     "semantic-ui-react": "^3.0.0-beta.0",
     "uikit": "^3.21.7",

@@ -12,12 +12,16 @@ import { AppContext } from "../context/AppContext.js";
 import GroupHomepage from "../components/business_pages/GroupHomepage.js";
 import PropertyReviews from "../components/business_pages/PropertyReviews.js";
 import ListProperty from "../components/business_pages/ListProperty.js";
+import { StatisticsPage } from "../components/admin_pages/Statistics.js";
 
 function MyRouter() {
   const { user } = useContext(AppContext);
   return (
     <>
       <Routes>
+        <Route path="/admin" element={<Layout></Layout>}>
+          <Route path="statistics" element={<StatisticsPage/>}></Route>
+        </Route>
         <Route path="/signup" element={<Signup></Signup>}></Route>
         <Route path="/signin" element={<Signin></Signin>}></Route>
         <Route
