@@ -1,16 +1,14 @@
 import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import { Link } from "react-router-dom";
-import UserAuth from "../service/UserAuth"
+import UserAuth from "../service/UserAuth";
 function Header() {
-  const { user,setUser } = useContext(AppContext);
-  const handleClickListProperty = () => {
-    
+  const { user, setUser } = useContext(AppContext);
+  const handleClickListProperty = () => {};
+  const handleLogout = async () => {
+    await UserAuth.logout();
+    setUser(null);
   };
-  const handleLogout=async()=>{
-    await UserAuth.logout()
-    setUser(null)
-  }
   return (
     <>
       <header className=" bg-blue">
@@ -18,7 +16,7 @@ function Header() {
           <div className="row py-2 px-1">
             <div className="col col-lg-4 site-logo " data-aos="fade">
               <a href="index.html" className="text-white">
-                Booking.com
+                Airpnp
               </a>
             </div>
             <div className="ml-auto d-flex" data-aos="fade">
@@ -73,7 +71,10 @@ function Header() {
                         Reviews
                       </a>
                     </li>
-                    <li className="hover-effect-dark px-2" onClick={handleLogout}>
+                    <li
+                      className="hover-effect-dark px-2"
+                      onClick={handleLogout}
+                    >
                       <a href="#" className="fw500 fs-small text-black">
                         &nbsp;{" "}
                         <i className="fa-solid fa-arrow-right-from-bracket"></i>

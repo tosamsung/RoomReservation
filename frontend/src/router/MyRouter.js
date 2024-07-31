@@ -13,14 +13,20 @@ import GroupHomepage from "../components/business_pages/GroupHomepage.js";
 import PropertyReviews from "../components/business_pages/PropertyReviews.js";
 import ListProperty from "../components/business_pages/ListProperty.js";
 import { StatisticsPage } from "../components/admin_pages/Statistics.js";
+import AdminLayout from "../layout/Admin/AdminLayout.js";
+import EmployeeCRUD from "../components/admin_pages/EmployeeCRUD.js";
 
 function MyRouter() {
   const { user } = useContext(AppContext);
   return (
     <>
       <Routes>
-        <Route path="/admin" element={<Layout></Layout>}>
-          <Route path="statistics" element={<StatisticsPage/>}></Route>
+        <Route path="/admin" element={<AdminLayout></AdminLayout>}>
+          <Route
+            path="employeeCRUD"
+            element={<EmployeeCRUD></EmployeeCRUD   >}
+          ></Route>
+    <Route path="statistics" element={<StatisticsPage/>}></Route>
         </Route>
         <Route path="/signup" element={<Signup></Signup>}></Route>
         <Route path="/signin" element={<Signin></Signin>}></Route>
@@ -31,6 +37,7 @@ function MyRouter() {
         <Route path="/" element={<Layout></Layout>}>
           <Route path="" element={<Home></Home>}></Route>
         </Route>
+        {/* -------------------------business ---------------------------*/}
         <Route
           path="/business"
           element={
@@ -43,8 +50,14 @@ function MyRouter() {
           }
         >
           <Route path="" element={<GroupHomepage></GroupHomepage>}></Route>
-          <Route path="listproperty" element={<ListProperty></ListProperty>}></Route>
-          <Route path="reviews" element={<PropertyReviews></PropertyReviews>}></Route>
+          <Route
+            path="listproperty"
+            element={<ListProperty></ListProperty>}
+          ></Route>
+          <Route
+            path="reviews"
+            element={<PropertyReviews></PropertyReviews>}
+          ></Route>
         </Route>
         <Route path="/*" element={<Page404></Page404>}></Route>
       </Routes>
