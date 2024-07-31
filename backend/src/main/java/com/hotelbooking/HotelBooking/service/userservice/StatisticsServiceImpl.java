@@ -23,4 +23,9 @@ public class StatisticsServiceImpl implements StatisticsService {
     public List<UserMonthCount> findTop12MonthsWithUserCount() {
         return userRepository.findTop12MonthsWithUserCount().stream().limit(12).toList();
     }
+
+    @Override
+    public List<UserMonthCount> findUserByYear(int year) {
+        return userRepository.groupUserByYear(year);
+    }
 }

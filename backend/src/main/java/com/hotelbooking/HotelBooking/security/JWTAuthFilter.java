@@ -41,7 +41,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
         String requestURI = request.getRequestURI();
 
         // Skip filter for specific auth paths
-        if ((requestURI.startsWith(AUTH_PATH) && !requestURI.equals(VALIDATE_PATH)) || requestURI.equals("/statistics/user-register") || requestURI.equals("/statistics/user-register/chart")) {
+        if ((requestURI.startsWith(AUTH_PATH) && !requestURI.equals(VALIDATE_PATH)) || requestURI.equals("/statistics/user-register") || requestURI.startsWith("/statistics/user-register/chart")) {
             filterChain.doFilter(request, response);
             return;
         }
