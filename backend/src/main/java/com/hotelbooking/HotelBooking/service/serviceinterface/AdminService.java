@@ -9,11 +9,13 @@ import com.hotelbooking.HotelBooking.dto.AdminDTO;
 import com.hotelbooking.HotelBooking.entity.employee.Admin;
 
 public interface AdminService {
-    Page<AdminDTO> getAllAdmins(Pageable pageable);
+	Page<AdminDTO> getAllAdmins(Pageable pageable);
 
 	void create(Admin admin);
 
 	void update(Admin admin);
 
 	void delete(Long id);
+
+	AdminDTO register(AdminDTO adminDTO);
 }

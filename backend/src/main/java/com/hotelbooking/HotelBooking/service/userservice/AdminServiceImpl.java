@@ -29,13 +29,11 @@ public class AdminServiceImpl implements AdminService {
 	EmployeeRoleRepository employeeRoleRepository;
 
 	@Override
-    public Page<AdminDTO> getAllAdmins(Pageable pageable) {
-        Page<Admin> admins = adminRepository.findAll(pageable);
-        List<AdminDTO> adminDTOs = admins.stream()
-                                         .map(AdminMapper::toDTO)
-                                         .collect(Collectors.toList());
-        return new PageImpl<>(adminDTOs, pageable, admins.getTotalElements());
-    }
+	public Page<AdminDTO> getAllAdmins(Pageable pageable) {
+		Page<Admin> admins = adminRepository.findAll(pageable);
+		List<AdminDTO> adminDTOs = admins.stream().map(AdminMapper::toDTO).collect(Collectors.toList());
+		return new PageImpl<>(adminDTOs, pageable, admins.getTotalElements());
+	}
 
 	@Override
 	public void create(Admin admin) {
@@ -58,6 +56,14 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public void delete(Long id) {
 		adminRepository.deleteById(id);
+	}
+
+	@Override
+	public AdminDTO register(AdminDTO adminDTO) {
+		// TODO Auto-generated method stub
+		Admin admin = new Admin();
+		admin = adminRepository.save(admin);
+		return new AdminDTO(admin);
 	}
 
 }

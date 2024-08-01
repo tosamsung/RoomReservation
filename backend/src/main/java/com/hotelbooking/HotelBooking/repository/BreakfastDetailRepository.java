@@ -1,11 +1,9 @@
 package com.hotelbooking.HotelBooking.repository;
 
+import com.hotelbooking.HotelBooking.entity.property.BreakfastDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.hotelbooking.HotelBooking.entity.employee.Admin;
-
 @Repository
-public interface AdminRepository extends JpaRepository<Admin, Long> {
-
+public interface BreakfastDetailRepository extends JpaRepository<BreakfastDetail, Long> {
 }
