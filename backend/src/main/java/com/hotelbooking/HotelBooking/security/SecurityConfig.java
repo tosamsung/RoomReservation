@@ -3,6 +3,7 @@ package com.hotelbooking.HotelBooking.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -20,7 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
+	private final String USER = "USER", BUSINESS = "BUSINESS";
 	@Autowired
 	private UserDetailsService detailsService;
 
@@ -32,7 +33,14 @@ public class SecurityConfig {
 		httpSecurity.csrf(AbstractHttpConfigurer::disable)
 				.authorizeHttpRequests(request -> request.requestMatchers("/auth/**", "/public/**").permitAll()
 						.requestMatchers("/business/create").permitAll().requestMatchers("/business/**")
-						.hasRole("BUSINESS").anyRequest().authenticated())
+						.hasRole("BUSINESS")
+						.requestMatchers(HttpMethod.GET,"/users/**").permitAll()
+						.requestMatchers(HttpMethod.POST,"/users/**").permitAll()
+						.requestMatchers(HttpMethod.PUT,"/users/**").permitAll()
+						.requestMatchers(HttpMethod.DELETE,"/users/**").permitAll()
+
+
+						.anyRequest().authenticated())
 				.sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authenticationProvider(authenticationProvider())
 				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

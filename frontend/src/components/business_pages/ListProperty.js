@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import ProgressBar from "./business_component/ProgressBar";
 import PropertyType from "./business_component/PropertyType";
 
 import ResultMap from "./ResultMap";
@@ -77,7 +76,7 @@ function ListProperty() {
   return (
     <>
       <link rel="stylesheet" href="/css/semantic.min.css" />
-      <ProgressBar max={100} current={progress}></ProgressBar>
+      {/* <Progres max={100} current={progress}></Progres> */}
       <div className="container-fluid bg-business min-vh-100">
         <div className="container pt-2 px-5 ">
           <div className="row">
