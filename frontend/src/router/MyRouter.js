@@ -14,6 +14,7 @@ import PropertyReviews from "../components/business_pages/PropertyReviews.js";
 import ListProperty from "../components/business_pages/ListProperty.js";
 import AdminLayout from "../layout/Admin/AdminLayout.js";
 import EmployeeCRUD from "../components/admin_pages/EmployeeCRUD.js";
+import Users from "../components/admin_pages/users.js";
 
 function MyRouter() {
   const { user } = useContext(AppContext);
@@ -24,6 +25,10 @@ function MyRouter() {
           <Route
             path="employeeCRUD"
             element={<EmployeeCRUD></EmployeeCRUD   >}
+          ></Route>
+          <Route
+            path="users"
+            element={<Users/>}
           ></Route>
         </Route>
         {/* -------------------------user ---------------------------*/}
