@@ -1,8 +1,8 @@
 function AdminSideBar() {
   return (
     <>
-      <div className="sidebar left min-vh-100 pl-2 col-2">
-        <div className="user-panel">
+      <div className="sidebar left min-vh-100 col-2">
+        {/* <div className="user-panel">
           <div className="pull-left image">
             <img
               src="http://via.placeholder.com/160x160"
@@ -16,7 +16,7 @@ function AdminSideBar() {
               <i className="fa fa-circle text-success" /> Online
             </a>
           </div>
-        </div>
+        </div> */}
         <ul className="list-sidebar bg-defoult">
           <li>
             <a

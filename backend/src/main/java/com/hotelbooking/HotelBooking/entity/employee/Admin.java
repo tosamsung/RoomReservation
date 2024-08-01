@@ -70,7 +70,7 @@ public class Admin {
         joinColumns = @JoinColumn(name = "admin_id"),
         inverseJoinColumns = @JoinColumn(name = "role_name")
     )
-    private Set<EmployeeRole> roles = new HashSet<>();
+    private Set<EmployeeRole> roles ;
 }
 
 
