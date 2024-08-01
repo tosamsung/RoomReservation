@@ -31,6 +31,10 @@ public class AdminServiceImpl implements AdminService {
 	@Override
     public Page<AdminDTO> getAllAdmins(Pageable pageable) {
         Page<Admin> admins = adminRepository.findAll(pageable);
+        List<Admin> testlist=admins.getContent();
+        for (Admin admin : testlist) {
+			System.out.println(admin.toString());
+		}
         List<AdminDTO> adminDTOs = admins.stream()
                                          .map(AdminMapper::toDTO)
                                          .collect(Collectors.toList());
