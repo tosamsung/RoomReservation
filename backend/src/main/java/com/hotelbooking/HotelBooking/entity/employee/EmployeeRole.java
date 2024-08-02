@@ -20,5 +20,5 @@ public class EmployeeRole {
 	@Id
 	private String name;
 	@ManyToMany(mappedBy = "roles")
-    private Set<Admin> admins = new HashSet<>();
+    private Set<Admin> admins ;
 }
