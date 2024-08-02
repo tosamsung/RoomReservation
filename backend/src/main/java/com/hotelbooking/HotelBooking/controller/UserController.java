@@ -1,6 +1,8 @@
 package com.hotelbooking.HotelBooking.controller;
 
 import com.hotelbooking.HotelBooking.dto.UserDTO;
+import com.hotelbooking.HotelBooking.dto.UserUpdateDTO;
+import com.hotelbooking.HotelBooking.responses.PageResponse;
 import com.hotelbooking.HotelBooking.responses.UserListResponse;
 import com.hotelbooking.HotelBooking.responses.UserResponse;
 import com.hotelbooking.HotelBooking.service.serviceinterface.UserService;
@@ -22,10 +24,11 @@ public class UserController {
     @GetMapping
     public ResponseEntity<?> getAllUsers(@RequestParam(required = false,defaultValue = "10") int size,
                                          @RequestParam(required = false,defaultValue = "0") int page) {
+        if(page >0) page = page-1;
         Pageable pageable = PageRequest.of(page, size);
         Page<UserResponse> userPage = userService.find(pageable);
-        return ResponseEntity.ok(UserListResponse.builder()
-                .users(userPage.getContent())
+        return ResponseEntity.ok(PageResponse.<UserResponse>builder()
+                .content(userPage.getContent())
                 .totalPages(userPage.getTotalPages())
                 .build());
     }
@@ -41,8 +44,8 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> updateUser(@RequestBody @Valid UserDTO userDTO, @PathVariable Long id) {
-        return ResponseEntity.ok(userService.update(userDTO, id));
+    public ResponseEntity<UserResponse> updateUser(@RequestBody @Valid UserUpdateDTO userUpdateDTO, @PathVariable Long id) {
+        return ResponseEntity.ok(userService.update(userUpdateDTO, id));
     }
 
     @DeleteMapping("/{id}")
