@@ -31,16 +31,16 @@ public class Booking {
 	@ManyToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
 	private User user;
-	
+
 	private Date checkin;
 	private Date checkout;
-	
+
 	private Integer numberOfGuest;
 	private Integer numberOfInfant;
 
 	private BookingStatus bookingStatus;
-	
+
 	private Double total;
-		private Date createDate;
+	private Date createDate;
 
 }

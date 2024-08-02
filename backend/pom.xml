@@ -28,6 +28,7 @@
 		<url />
 	</scm>
 	<properties>
+		<org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
@@ -97,6 +98,11 @@
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
 			<version>3.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>${org.mapstruct.version}</version>
 		</dependency>
 	</dependencies>
 
