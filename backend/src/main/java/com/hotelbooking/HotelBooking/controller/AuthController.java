@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hotelbooking.HotelBooking.dto.UserDTO;
+import com.hotelbooking.HotelBooking.dto.UserLoginDTO;
 import com.hotelbooking.HotelBooking.entity.User;
 import com.hotelbooking.HotelBooking.service.serviceinterface.BusinessAccountService;
 import com.hotelbooking.HotelBooking.service.serviceinterface.UserService;
@@ -46,14 +47,13 @@ public class AuthController {
 	private static final String ENCODING_UTF8 = "UTF-8";
 
 	@PostMapping("/signup")
-	public ResponseEntity<String> signup(@RequestBody User user) {
-		String message = userAuthService.signup(user);
-		return ResponseEntity.ok(message);
+	public ResponseEntity<UserDTO> signup(@RequestBody User user) {
+		User result= userAuthService.signup(user);
+		return ResponseEntity.ok(new UserDTO(result));
 	}
 
 	@PostMapping("/logout")
 	public ResponseEntity<String> logout(HttpServletResponse response) {
-		System.out.println("logout");
 		userAuthService.logout(response);
 		return ResponseEntity.ok("logout sucess");
 	}
@@ -71,13 +71,14 @@ public class AuthController {
 	}
 
 	@PostMapping("/signin")
-	public ResponseEntity<UserDTO> signin(@RequestBody User user, HttpServletResponse response,
+	public ResponseEntity<UserDTO> signin(@RequestBody UserLoginDTO userLoginDTO, HttpServletResponse response,
 			HttpServletRequest request) {
-
-		UserDTO result = userAuthService.signin(user, response);
-		
-		return ResponseEntity.ok(result);
-
+		User result = userAuthService.signin(userLoginDTO, response);
+		UserDTO userDTO=new UserDTO(result);
+		if(businessAccountService.isBusinessAccountExistForUserId(userDTO.getId())) {
+			userDTO.setHaveBusinessAccount(true);
+		}
+		return ResponseEntity.ok(userDTO);
 	}
 
 	@PostMapping("/refreshToken")

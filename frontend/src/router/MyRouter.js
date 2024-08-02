@@ -22,8 +22,8 @@ function MyRouter() {
       <Routes>
         <Route path="/admin" element={<AdminLayout></AdminLayout>}>
           <Route
-            path="employeeCRUD"
-            element={<EmployeeCRUD></EmployeeCRUD   >}
+            path="employee"
+            element={<EmployeeCRUD></EmployeeCRUD>}
           ></Route>
         </Route>
         {/* -------------------------user ---------------------------*/}
@@ -31,7 +31,11 @@ function MyRouter() {
         <Route path="/signin" element={<Signin></Signin>}></Route>
         <Route
           path="/registerbusiness"
-          element={<RegisterBusiness></RegisterBusiness>}
+          element={
+            <ProtectedRouter redirectPath="/signin" isAllowed={user}>
+              <RegisterBusiness></RegisterBusiness>
+            </ProtectedRouter>
+          }
         ></Route>
         <Route path="/" element={<Layout></Layout>}>
           <Route path="" element={<Home></Home>}></Route>
