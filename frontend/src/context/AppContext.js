@@ -11,18 +11,17 @@ export const AppProvider = ({ children }) => {
     const response = await UserAuthService.validate();
     return response;
   };
+  const fetchUser = async () => {
+    setLoading(true);
+    try {
+      const validatedUser = await validateToken();
+      setUser(validatedUser);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchUser = async () => {
-      setLoading(true);
-      try {
-        const validatedUser = await validateToken();
-        setUser(validatedUser);
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-      }
-    };
-
     fetchUser();
   }, []);
   if (loading) {
@@ -34,6 +33,7 @@ export const AppProvider = ({ children }) => {
       value={{
         user,
         setUser,
+        fetchUser
       }}
     >
       {children}

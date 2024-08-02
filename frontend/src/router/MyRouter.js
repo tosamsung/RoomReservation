@@ -12,6 +12,7 @@ import { AppContext } from "../context/AppContext.js";
 import GroupHomepage from "../components/business_pages/GroupHomepage.js";
 import PropertyReviews from "../components/business_pages/PropertyReviews.js";
 import ListProperty from "../components/business_pages/ListProperty.js";
+import { StatisticsPage } from "../components/admin_pages/Statistics.js";
 import AdminLayout from "../layout/Admin/AdminLayout.js";
 import EmployeeCRUD from "../components/admin_pages/EmployeeCRUD.js";
 import Users from "../components/admin_pages/users.js";
@@ -24,8 +25,8 @@ function MyRouter() {
       <Routes>
         <Route path="/admin" element={<AdminLayout></AdminLayout>}>
           <Route
-            path="employeeCRUD"
-            element={<EmployeeCRUD></EmployeeCRUD   >}
+            path="employee"
+            element={<EmployeeCRUD></EmployeeCRUD>}
           ></Route>
           <Route
             path="users"
@@ -33,15 +34,19 @@ function MyRouter() {
           ></Route>
           <Route
             path="posts"
-            element={<Posts />}
-          ></Route>
+            element={<Posts />}>
+              </Route>
+    <Route path="statistics" element={<StatisticsPage/>}></Route>
         </Route>
-        {/* -------------------------user ---------------------------*/}
         <Route path="/signup" element={<Signup></Signup>}></Route>
         <Route path="/signin" element={<Signin></Signin>}></Route>
         <Route
           path="/registerbusiness"
-          element={<RegisterBusiness></RegisterBusiness>}
+          element={
+            <ProtectedRouter redirectPath="/signin" isAllowed={user}>
+              <RegisterBusiness></RegisterBusiness>
+            </ProtectedRouter>
+          }
         ></Route>
         <Route path="/" element={<Layout></Layout>}>
           <Route path="" element={<Home></Home>}></Route>

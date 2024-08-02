@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.hotelbooking.HotelBooking.dto.AuthUser;
 import com.hotelbooking.HotelBooking.dto.UserDTO;
+import com.hotelbooking.HotelBooking.dto.UserLoginDTO;
 import com.hotelbooking.HotelBooking.entity.User;
 import com.hotelbooking.HotelBooking.enums.CustomerStatus;
 import com.hotelbooking.HotelBooking.repository.UserRepository;
@@ -35,49 +36,38 @@ public class UserAuthService {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-	public UserDTO signin(User user, HttpServletResponse response) {
+	public User signin(UserLoginDTO user, HttpServletResponse response) {
 
-		try {
-			authenticationManager
-					.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-			User userRepo = userRepository.findByUsername(user.getUsername()).orElseThrow();
-			String accessToken = jwtUtils.generateAccessToken(userRepo);
-			String refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), userRepo);
-			ResponseCookie cookie1 = ResponseCookie.from("accessToken", accessToken).httpOnly(true).secure(true)
-					.path("/").maxAge(604800).sameSite("None").build();
-			ResponseCookie cookie2 = ResponseCookie.from("refreshToken", refreshToken).httpOnly(true).secure(true)
-					.path("/").maxAge(604888).sameSite("None").build();
-			response.addHeader(HttpHeaders.SET_COOKIE, cookie1.toString());
-			response.addHeader(HttpHeaders.SET_COOKIE, cookie2.toString());
-			return new UserDTO(userRepo);
+		authenticationManager
+				.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+		User userRepo = userRepository.findByUsername(user.getUsername()).orElseThrow();
+		String accessToken = jwtUtils.generateAccessToken(userRepo);
+		String refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), userRepo);
+		ResponseCookie cookie1 = ResponseCookie.from("accessToken", accessToken).httpOnly(true).secure(true).path("/")
+				.maxAge(604800).sameSite("None").build();
+		ResponseCookie cookie2 = ResponseCookie.from("refreshToken", refreshToken).httpOnly(true).secure(true).path("/")
+				.maxAge(604888).sameSite("None").build();
+		response.addHeader(HttpHeaders.SET_COOKIE, cookie1.toString());
+		response.addHeader(HttpHeaders.SET_COOKIE, cookie2.toString());
+		return userRepo;
 
-		} catch (AuthenticationException e) {
-			throw new RuntimeException("Invalid username or password!", e);
-		} catch (Exception e) {
-			throw new RuntimeException("An error occurred during sign in!", e);
-		}
 	}
 
-	public String signup(User user) {
+	public User signup(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setCreateDate(new Date());
 		user.setCustomerStatus(CustomerStatus.ACTIVE);
 		user.setImage("https://cellphones.com.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg");
-		try {
-			// Save the user
-			System.out.println("singup suuccs");
-			userRepository.save(user);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "User registered successfully!";
+		return userRepository.save(user);
+
 	}
+
 	public void logout(HttpServletResponse response) {
-		ResponseCookie cookie1 = ResponseCookie.from("accessToken", null).httpOnly(true).secure(true)
-				.path("/").maxAge(0).sameSite("None").build();
-		ResponseCookie cookie2 = ResponseCookie.from("refreshToken", null).httpOnly(true).secure(true)
-				.path("/").maxAge(0).sameSite("None").build();
+		ResponseCookie cookie1 = ResponseCookie.from("accessToken", null).httpOnly(true).secure(true).path("/")
+				.maxAge(0).sameSite("None").build();
+		ResponseCookie cookie2 = ResponseCookie.from("refreshToken", null).httpOnly(true).secure(true).path("/")
+				.maxAge(0).sameSite("None").build();
 		response.addHeader(HttpHeaders.SET_COOKIE, cookie1.toString());
 		response.addHeader(HttpHeaders.SET_COOKIE, cookie2.toString());
 	}
