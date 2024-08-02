@@ -39,6 +39,10 @@ public class SecurityConfig {
 						.requestMatchers(HttpMethod.PUT,"/users/**").permitAll()
 						.requestMatchers(HttpMethod.DELETE,"/users/**").permitAll()
 
+						.requestMatchers(HttpMethod.GET,"/posts/**").permitAll()
+						.requestMatchers(HttpMethod.POST,"/posts/**").permitAll()
+						.requestMatchers(HttpMethod.PUT,"/posts/**").permitAll()
+						.requestMatchers(HttpMethod.DELETE,"/posts/**").permitAll()
 
 						.anyRequest().authenticated())
 				.sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

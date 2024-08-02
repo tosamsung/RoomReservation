@@ -15,7 +15,6 @@ function Users() {
     const [open, setOpen] = useState(false);
     const [openCreate, setOpenCreate] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
-    const [confirmLoading, setConfirmLoading] = useState(false);
     const [formUser] = Form.useForm();
     useEffect(
         () => {
@@ -29,7 +28,7 @@ function Users() {
     }, [page, setSearchParams, navigate]);
     function getAllUsers(page) {
         UserService.getAllUsers(page).then(data => {
-            setUsers(data.users)
+            setUsers(data.content)
             setTotalPages(data.totalPages)
             console.log(data.totalPages);
         })
@@ -69,13 +68,15 @@ function Users() {
         setOpenCreate(false);
         setOpenDelete(false)
     };
-    const onFinish = (id) => {
+    const onFinish = (id, i) => {
         if (formUser.validateFields())
             console.log(formUser.getFieldsValue());
         UserService.updateUser(id, formUser.getFieldsValue())
             .then(data => {
                 setOpen(false)
                 toast.success('Update success')
+                users.splice(i, 1)
+                setUsers([...users, data])
             }
             )
             .catch(error => {
@@ -88,6 +89,8 @@ function Users() {
             .then(data => {
                 setOpenCreate(false)
                 toast.success('Create success')
+                users.push(data)
+                setUsers(users)
             }
             )
             .catch(error => {
@@ -100,13 +103,11 @@ function Users() {
         console.log('Failed:', errorInfo);
     };
     const deleteUser = () => {
-        console.log("ok");
-        debugger
         UserService.deleteUser(userId)
             .then(data => {
                 toast.success('Create success')
                 setOpenDelete(false)
-
+                getAllUsers(page)
             }
             )
             .catch(error => {
@@ -114,13 +115,11 @@ function Users() {
                 console.log(error);
             })
     };
-    const confirm = () => {
-        console.log("error");
-    };
+
     return (
         <>
             <button className="btn btn-success m-3" onClick={() => showModalCreate()}>Create</button>
-            <Modal title="Update User" open={openCreate} cancelButtonProps={{ hidden: true }} okButtonProps={{ hidden: true }} confirmLoading={confirmLoading} onCancel={handleCancel}>
+            <Modal title="Update User" open={openCreate} cancelButtonProps={{ hidden: true }} okButtonProps={{ hidden: true }} onCancel={handleCancel}>
                 <Form
                     name="userCreateForm"
                     layout="vertical"
@@ -267,13 +266,13 @@ function Users() {
                                             Delete
                                         </Button>
                                     </Modal>
-                                    <Modal title="Update User" open={open} cancelButtonProps={{ hidden: true }} okButtonProps={{ hidden: true }} confirmLoading={confirmLoading} onCancel={handleCancel}>
+                                    <Modal title="Update User" open={open} cancelButtonProps={{ hidden: true }} okButtonProps={{ hidden: true }} onCancel={handleCancel}>
                                         <Form
                                             form={formUser}
                                             name="userForm"
                                             layout="vertical"
                                             initialValues={{ remember: true }}
-                                            onFinish={() => onFinish(formUser.getFieldValue('id'))}
+                                            onFinish={() => onFinish(formUser.getFieldValue('id'), i)}
                                             onFinishFailed={onFinishFailed}
                                             autoComplete="off"
 

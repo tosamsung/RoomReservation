@@ -26,7 +26,7 @@ public class UserUpdateDTO {
 	private String username;
 	@NotBlank(message = "Email is required")
 	private String email;
-	@NotBlank(message = "Password is required")
+	@NotBlank(message = "Image is required")
 	private String image;
 	@NotBlank(message = "Phone number is required")
 	private String phone;
