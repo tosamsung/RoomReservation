@@ -22,9 +22,7 @@ api.interceptors.response.use(
         return null;
       }
     }
-
-    // console.log(response);
-    return response;
+    return response?.data??response;
   },
   (error) => {
     if (!error.response) {
