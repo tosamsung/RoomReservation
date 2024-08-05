@@ -45,11 +45,7 @@ public class UserDetailImpl implements UserDetails {
 			authorities.add(new SimpleGrantedAuthority("BUSINESS"));
 		} catch (Exception e) {
 		}
-		
-		
-//		if (businessAccountService.isBusinessAccountExistForUserId(user.getId())) {
-//			authorities.add(new SimpleGrantedAuthority("BUSINESS"));
-//		}
+
 		return authorities;
 	}
 

@@ -16,25 +16,45 @@ import { StatisticsPage } from "../components/admin_pages/Statistics.js";
 import AdminLayout from "../layout/Admin/AdminLayout.js";
 import EmployeeCRUD from "../components/admin_pages/EmployeeCRUD.js";
 import BookingCrud from "../components/admin_pages/BookingCrud.js";
+import AdminSignin from "../components/admin_pages/AdminSignIn.js";
+import Users from "../components/admin_pages/users.js";
+import Posts from "../components/admin_pages/posts.js";
 
 function MyRouter() {
   const { user } = useContext(AppContext);
   return (
     <>
       <Routes>
+        {/*---------------------------- admin---------------------------- */}
+        <Route path="/admin/signin" element={<AdminSignin></AdminSignin>}></Route>
         <Route path="/admin" element={<AdminLayout></AdminLayout>}>
           <Route
-            path="employeeCRUD"
-            element={<EmployeeCRUD></EmployeeCRUD   >}
+            path="employee"
+            element={<EmployeeCRUD></EmployeeCRUD>}
           ></Route>
           <Route path="statistics" element={<StatisticsPage />}></Route>
           <Route path="booking" element={<BookingCrud />}></Route>
+
+          <Route
+            path="users"
+            element={<Users />}
+          ></Route>
+          <Route
+            path="posts"
+            element={<Posts />}>
+              </Route>
+    <Route path="statistics" element={<StatisticsPage/>}></Route>
         </Route>
+        {/*---------------------------- user---------------------------- */}
         <Route path="/signup" element={<Signup></Signup>}></Route>
         <Route path="/signin" element={<Signin></Signin>}></Route>
         <Route
           path="/registerbusiness"
-          element={<RegisterBusiness></RegisterBusiness>}
+          element={
+            <ProtectedRouter redirectPath="/signin" isAllowed={user}>
+              <RegisterBusiness></RegisterBusiness>
+            </ProtectedRouter>
+          }
         ></Route>
         <Route path="/" element={<Layout></Layout>}>
           <Route path="" element={<Home></Home>}></Route>
