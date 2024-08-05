@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,7 +12,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.hotelbooking.HotelBooking.dto.AuthUser;
 import com.hotelbooking.HotelBooking.dto.UserDTO;
 import com.hotelbooking.HotelBooking.entity.User;
 import com.hotelbooking.HotelBooking.enums.CustomerStatus;

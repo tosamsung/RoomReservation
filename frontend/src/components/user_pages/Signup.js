@@ -83,7 +83,7 @@ function Signup() {
       check = false;
     }
     //kiểm tra độ dài mật khẩu
-    if (user.password.length < 8) {
+    if (user.password.length < 6) {
       passwordError.innerHTML = `
        <div>
       <i class="fas fa-exclamation-triangle"></i> 

@@ -38,8 +38,6 @@ public class SecurityConfig {
 						.requestMatchers(HttpMethod.POST,"/users/**").permitAll()
 						.requestMatchers(HttpMethod.PUT,"/users/**").permitAll()
 						.requestMatchers(HttpMethod.DELETE,"/users/**").permitAll()
-
-
 						.anyRequest().authenticated())
 				.sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authenticationProvider(authenticationProvider())

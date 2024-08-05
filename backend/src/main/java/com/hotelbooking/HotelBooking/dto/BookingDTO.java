@@ -1,12 +1,11 @@
 package com.hotelbooking.HotelBooking.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.hotelbooking.HotelBooking.entity.User;
-import com.hotelbooking.HotelBooking.entity.property.Property;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hotelbooking.HotelBooking.enums.BookingStatus;
-import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
-
-public record BookingDTO(Long propertyId, Date checkin, Date checkout, Integer numberOfGuest, Integer numberOfInfant, BookingStatus bookingStatus) {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public record BookingDTO(@NotNull Long propertyId, @NotNull Date checkin, @NotNull Date checkout, @NotNull @Min(1) Integer numberOfGuest, int numberOfInfant, @NotNull BookingStatus bookingStatus) {
 }

@@ -4,15 +4,43 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc47c294-f2c5-4bfd-a572-a597d5f3c682" name="Changes" comment="thong ke" />
+    <list default="true" id="dc47c294-f2c5-4bfd-a572-a597d5f3c682" name="Changes" comment="thong ke">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/hotelbooking/HotelBooking/controller/BookingController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/hotelbooking/HotelBooking/mapper/BookingMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/hotelbooking/HotelBooking/repository/BookingRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/hotelbooking/HotelBooking/responses/BookingResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/hotelbooking/HotelBooking/responses/PageResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/hotelbooking/HotelBooking/service/BookingServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/hotelbooking/HotelBooking/service/serviceinterface/BookingService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/hotelbooking/HotelBooking/service/serviceinterface/CrudService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/hotelbooking/HotelBooking/dto/BookingDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/hotelbooking/HotelBooking/dto/BookingDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/hotelbooking/HotelBooking/entity/Booking.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/hotelbooking/HotelBooking/entity/Booking.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/hotelbooking/HotelBooking/exceptions/AdviceException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/hotelbooking/HotelBooking/exceptions/AdviceException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/hotelbooking/HotelBooking/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/hotelbooking/HotelBooking/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/hotelbooking/HotelBooking/service/userservice/UserAuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/hotelbooking/HotelBooking/service/userservice/UserAuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/hotelbooking/HotelBooking/service/userservice/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/hotelbooking/HotelBooking/service/userservice/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/business_pages/ListProperty.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/business_pages/ListProperty.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/user_pages/Signup.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/user_pages/Signup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/router/MyRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/MyRouter.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Record" />
         <option value="Interface" />
         <option value="Class" />
       </list>
@@ -26,21 +54,21 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "history": [
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;history&quot;: [
     {
-      "state": "OPEN",
-      "assignee": "ta2khu75",
-      "author": "lanpham204"
+      &quot;state&quot;: &quot;OPEN&quot;,
+      &quot;assignee&quot;: &quot;ta2khu75&quot;,
+      &quot;author&quot;: &quot;lanpham204&quot;
     },
     {
-      "assignee": "ta2khu75"
+      &quot;assignee&quot;: &quot;ta2khu75&quot;
     }
   ],
-  "lastFilter": {
-    "assignee": "ta2khu75"
+  &quot;lastFilter&quot;: {
+    &quot;assignee&quot;: &quot;ta2khu75&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/tosamsung/RoomReservation.git&quot;,
@@ -69,7 +97,9 @@
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.HotelBookingApplication.executor": "Run",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.HotelBookingApplication.executor": "Debug",
+    "git-widget-placeholder": "minh",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Lenovo/Downloads/RoomReservation",
@@ -78,6 +108,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "build.tools",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -133,6 +164,12 @@
       <workItem from="1722335481890" duration="95000" />
       <workItem from="1722349764687" duration="863000" />
       <workItem from="1722352990113" duration="1097000" />
+      <workItem from="1722577395857" duration="232000" />
+      <workItem from="1722577872932" duration="3341000" />
+      <workItem from="1722652146259" duration="6163000" />
+      <workItem from="1722663311171" duration="118000" />
+      <workItem from="1722663526232" duration="222000" />
+      <workItem from="1722664735401" duration="775000" />
     </task>
     <task id="LOCAL-00001" summary="thong ke">
       <option name="closed" value="true" />
@@ -162,5 +199,16 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="thong ke" />
     <option name="LAST_COMMIT_MESSAGE" value="thong ke" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/backend/src/main/java/com/hotelbooking/HotelBooking/service/BookingServiceImpl.java</url>
+          <line>41</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

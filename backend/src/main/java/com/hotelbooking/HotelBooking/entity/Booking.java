@@ -2,9 +2,12 @@ package com.hotelbooking.HotelBooking.entity;
 
 import java.util.Date;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import com.hotelbooking.HotelBooking.entity.property.Property;
 import com.hotelbooking.HotelBooking.enums.BookingStatus;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -41,6 +44,8 @@ public class Booking {
 	private BookingStatus bookingStatus;
 
 	private Double total;
+	@CreatedDate
+	@Column(updatable = false, nullable = false)
 	private Date createDate;
 
 }
