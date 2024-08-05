@@ -12,6 +12,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
+import com.hotelbooking.HotelBooking.dto.UserDTO;
 import com.hotelbooking.HotelBooking.dto.UserLoginDTO;
 import com.hotelbooking.HotelBooking.entity.User;
 import com.hotelbooking.HotelBooking.enums.CustomerStatus;

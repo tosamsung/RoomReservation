@@ -1,5 +1,6 @@
 package com.hotelbooking.HotelBooking.exceptions;
 
+import com.hotelbooking.HotelBooking.dto.BookingDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,6 +18,7 @@ public class AdviceException {
     }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception e) {
+        e.printStackTrace();
         return  ResponseEntity.internalServerError().body(e.getMessage());
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)

@@ -5,7 +5,6 @@ import com.hotelbooking.HotelBooking.exceptions.ExistingException;
 import com.hotelbooking.HotelBooking.responses.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -48,6 +47,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
+
 	public UserResponse update(UserUpdateDTO userUpdateDTO, Long id) {
 		User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
 		userUpdateDTO.setId(user.getId());
@@ -60,10 +60,12 @@ public class UserServiceImpl implements UserService{
 		User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
 		userRepository.delete(user);
 	}
+	private User findUserById(Long id){
+		return userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
+	}
 
 	@Override
 	public UserResponse findById(Long id) {
-		User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
-		return modelMapper.map(user, UserResponse.class);
+		return modelMapper.map(findUserById(id), UserResponse.class);
 	}
 }

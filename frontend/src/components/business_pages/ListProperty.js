@@ -346,7 +346,7 @@ function ListProperty() {
                   From the list below, which property category is most similar
                   to your place?
                 </h2>
-                <div className="row bg-white p-1 pt-2 cs-rounded">
+                {/* <div className="row bg-white p-1 pt-2 cs-rounded">
                   <PropertyType
                     image="/images/icon/homestay.png"
                     name="House"
@@ -413,7 +413,7 @@ function ListProperty() {
                     active={property.propertyType}
                     setValue={setProperty}
                   />
-                </div>
+                </div> */}
                 <div className="row mt-2 d-flex justify-content-end p-0">
                   <a
                     onClick={() => {
