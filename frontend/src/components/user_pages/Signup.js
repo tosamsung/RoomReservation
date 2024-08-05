@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
 import { Calendar } from "react-date-range";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
@@ -6,10 +6,11 @@ import { useNavigate } from "react-router-dom";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import UserAuth from "../../service/UserAuth";
+import { AppContext } from "../../context/AppContext";
 function Signup() {
   const [date, setDate] = useState(null);
   const [firstPassword, setFirstPassword] = useState(null);
-  const [user, setUser] = useState({
+  const [user, setUserSignup] = useState({
     firstname: "",
     lastname: "",
     username: "",
@@ -18,6 +19,8 @@ function Signup() {
     password: "",
     birthDate: null,
   });
+  const { setUser } = useContext(AppContext);
+
   const navigate = useNavigate();
 
   const validForm = () => {
@@ -110,8 +113,8 @@ function Signup() {
     if (validForm()) {
       try {
         await UserAuth.signup(user);
-        await UserAuth.signin(user);
-        await UserAuth.validate();
+        const userResp= await UserAuth.signin(user);
+        setUser(userResp)
         navigate("/");
       } catch (error) {
         console.log("dang ky that bai");
@@ -120,7 +123,7 @@ function Signup() {
   };
   const handleBirthDateChange = (event) => {
     setDate(event);
-    setUser((prevUser) => ({
+    setUserSignup((prevUser) => ({
       ...prevUser,
       birthDate: event,
     }));
@@ -152,7 +155,7 @@ function Signup() {
                             className="form-control"
                             placeholder="First name"
                             onChange={(e) => {
-                              setUser((prevUser) => ({
+                              setUserSignup((prevUser) => ({
                                 ...prevUser,
                                 firstname: e.target.value,
                               }));
@@ -167,7 +170,7 @@ function Signup() {
                             className="form-control"
                             placeholder="Last name"
                             onChange={(e) => {
-                              setUser((prevUser) => ({
+                              setUserSignup((prevUser) => ({
                                 ...prevUser,
                                 lastname: e.target.value,
                               }));
@@ -186,7 +189,7 @@ function Signup() {
                         className="form-control"
                         placeholder="Username"
                         onChange={(e) => {
-                          setUser((prevUser) => ({
+                          setUserSignup((prevUser) => ({
                             ...prevUser,
                             username: e.target.value,
                           }));
@@ -200,7 +203,7 @@ function Signup() {
                         className="form-control"
                         placeholder="Email"
                         onChange={(e) => {
-                          setUser((prevUser) => ({
+                          setUserSignup((prevUser) => ({
                             ...prevUser,
                             email: e.target.value,
                           }));
@@ -217,7 +220,7 @@ function Signup() {
                         className="form-control"
                         placeholder="Phone number"
                         onChange={(e) => {
-                          setUser((prevUser) => ({
+                          setUserSignup((prevUser) => ({
                             ...prevUser,
                             phone: e.target.value,
                           }));
@@ -272,7 +275,7 @@ function Signup() {
                         className="form-control"
                         placeholder="Confirm password"
                         onChange={(e) => {
-                          setUser((prevUser) => ({
+                          setUserSignup((prevUser) => ({
                             ...prevUser,
                             password: e.target.value,
                           }));

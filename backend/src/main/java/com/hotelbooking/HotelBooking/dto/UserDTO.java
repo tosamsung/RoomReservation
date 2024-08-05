@@ -38,7 +38,7 @@ public class UserDTO {
 	private String email;
 	@NotBlank(message = "Password is required")
 	private String image;
-	@NotBlank(message = "Phone number is required")
+	@NotBlank(message = "Password is required")
 	@Length(min = 3,message = "Password must be 3 characters")
 	private String password;
 	@NotBlank(message = "Phone number is required")

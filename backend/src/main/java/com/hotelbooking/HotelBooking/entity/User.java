@@ -40,7 +40,7 @@ public class User {
 	private Date birthDate;
 	@CreatedDate
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date createDate;
+	private Date createDate = new Date();
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
 	private CustomerStatus customerStatus=CustomerStatus.ACTIVE;

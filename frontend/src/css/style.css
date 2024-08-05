@@ -115,8 +115,8 @@ h5 {
   background-color: #f5f5f5;
 }
 
-.container-fluid {
-  max-width: 1600px;
+.h-max-3rem{
+  max-height: 3.5rem;
 }
 
 .border-box {
@@ -185,7 +185,6 @@ h5 {
 
 .shadow1 {
   box-shadow: 10px 14px 3px #c3c3c31a;
-  /* Horizontal offset, vertical offset, blur radius, color */
 }
 
 .site-header {
@@ -354,7 +353,9 @@ h5 {
 .fs-small {
   font-size: 13px;
 }
-
+.fs-30{
+  font-size: 18px;
+}
 .rv-badge {
   background-color: #003b95;
   color: white;

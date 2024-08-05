@@ -3,6 +3,7 @@ package com.hotelbooking.HotelBooking.security;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,7 +28,13 @@ public class JWTAuthFilter extends OncePerRequestFilter {
     private JWTUtils jwtUtils;
 
     @Autowired
-    private UserDetailsService detailsService;
+    @Qualifier("userDetailsServiceImpl")
+    private UserDetailsService  userDetailsService;
+    
+    @Autowired
+    @Qualifier("adminDetailsServiceImpl")
+    private UserDetailsService  adminDetailsServiceImpl;
+    
     private static final String AUTH_PATH = "/auth/";
     private static final String VALIDATE_PATH = "/auth/validate";
     private static final String CONTENT_TYPE_JSON = "application/json";
@@ -42,7 +49,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 
         // Skip filter for specific auth paths
         if ((requestURI.startsWith(AUTH_PATH) && !requestURI.equals(VALIDATE_PATH)) || requestURI.equals("/statistics/user-register") || requestURI.startsWith("/statistics/user-register/chart")) {
-            filterChain.doFilter(request, response);
+        	filterChain.doFilter(request, response);
             return;
         }
 
@@ -58,7 +65,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
             String userName = jwtUtils.extractUsername(accessToken);
 
             if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = detailsService.loadUserByUsername(userName);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
 
                 if (jwtUtils.isTokenValid(accessToken, userDetails)) {
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
