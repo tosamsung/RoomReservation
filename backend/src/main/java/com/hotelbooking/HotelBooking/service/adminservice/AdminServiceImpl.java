@@ -1,4 +1,4 @@
-package com.hotelbooking.HotelBooking.service.userservice;
+package com.hotelbooking.HotelBooking.service.adminservice;
 
 import java.util.HashSet;
 import java.util.List;

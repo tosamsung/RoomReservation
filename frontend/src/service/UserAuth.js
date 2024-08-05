@@ -19,15 +19,15 @@ class UserAuthService {
   static async signin(userData) {
     try {
       const response = await api.post(`/auth/signin`, userData);
-      return response.data;
+      return response;
     } catch (error) {
       throw error;
     }
   }
   static async validate() {
     try {
-      const response = await api.post(`/auth/validate`);
-      return response.data;
+      const response = await api.post(`/auth/validate`);      
+      return response;
     } catch (error) {
       throw error;
     }

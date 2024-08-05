@@ -115,8 +115,8 @@ h5 {
   background-color: #f5f5f5;
 }
 
-.container-fluid {
-  max-width: 1600px;
+.h-max-3rem{
+  max-height: 3.5rem;
 }
 
 .border-box {

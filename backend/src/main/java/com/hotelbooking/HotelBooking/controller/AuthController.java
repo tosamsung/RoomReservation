@@ -2,8 +2,8 @@ package com.hotelbooking.HotelBooking.controller;
 
 import java.io.IOException;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +14,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.hotelbooking.HotelBooking.dto.UserDTO;
 import com.hotelbooking.HotelBooking.dto.UserLoginDTO;
 import com.hotelbooking.HotelBooking.entity.User;
+import com.hotelbooking.HotelBooking.entity.employee.Admin;
+import com.hotelbooking.HotelBooking.responses.AdminResponse;
+import com.hotelbooking.HotelBooking.responses.UserResponse;
+import com.hotelbooking.HotelBooking.service.adminservice.AdminAuthService;
 import com.hotelbooking.HotelBooking.service.serviceinterface.BusinessAccountService;
 import com.hotelbooking.HotelBooking.service.serviceinterface.UserService;
 import com.hotelbooking.HotelBooking.service.userservice.UserAuthService;
-import com.hotelbooking.HotelBooking.service.userservice.UserServiceImpl;
 import com.hotelbooking.HotelBooking.utils.CookieUtils;
 import com.hotelbooking.HotelBooking.utils.JWTUtils;
 
@@ -32,6 +34,10 @@ import jakarta.servlet.http.HttpServletResponse;
 public class AuthController {
 	@Autowired
 	UserAuthService userAuthService;
+	
+	@Autowired
+	AdminAuthService adminAuthService;
+	
 	@Autowired
 	UserService userService;
 	@Autowired
@@ -41,15 +47,16 @@ public class AuthController {
 	private JWTUtils jwtUtils;
 
 	@Autowired
-	private UserDetailsService detailsService;
+    @Qualifier("userDetailsServiceImpl")
+	private UserDetailsService userDetailsService;
 
 	private static final String CONTENT_TYPE_JSON = "application/json";
 	private static final String ENCODING_UTF8 = "UTF-8";
 
 	@PostMapping("/signup")
-	public ResponseEntity<UserDTO> signup(@RequestBody User user) {
+	public ResponseEntity<UserResponse> signup(@RequestBody User user) {
 		User result= userAuthService.signup(user);
-		return ResponseEntity.ok(new UserDTO(result));
+		return ResponseEntity.ok(new UserResponse(result));
 	}
 
 	@PostMapping("/logout")
@@ -58,11 +65,11 @@ public class AuthController {
 		return ResponseEntity.ok("logout sucess");
 	}
 	@PostMapping("/validate")
-	public ResponseEntity<UserDTO> validate(HttpServletRequest request) {
+	public ResponseEntity<UserResponse> validate(HttpServletRequest request) {
 		String accessToken = CookieUtils.getCookieValueByName(request, "accessToken");
 		String userName = jwtUtils.extractUsername(accessToken);
 		User user=userService.findByUserName(userName);
-		UserDTO userDTO=new UserDTO(user);
+		UserResponse userDTO=new UserResponse(user);
 		if(businessAccountService.isBusinessAccountExistForUserId(user.getId())) {
 			userDTO.setHaveBusinessAccount(true);
 		}
@@ -71,15 +78,16 @@ public class AuthController {
 	}
 
 	@PostMapping("/signin")
-	public ResponseEntity<UserDTO> signin(@RequestBody UserLoginDTO userLoginDTO, HttpServletResponse response,
+	public ResponseEntity<UserResponse> signin(@RequestBody UserLoginDTO userLoginDTO, HttpServletResponse response,
 			HttpServletRequest request) {
 		User result = userAuthService.signin(userLoginDTO, response);
-		UserDTO userDTO=new UserDTO(result);
+		UserResponse userDTO=new UserResponse(result);
 		if(businessAccountService.isBusinessAccountExistForUserId(userDTO.getId())) {
 			userDTO.setHaveBusinessAccount(true);
 		}
 		return ResponseEntity.ok(userDTO);
 	}
+
 
 	@PostMapping("/refreshToken")
 	public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException, IllegalAccessException {
@@ -103,7 +111,7 @@ public class AuthController {
 	public String refreshAccessToken(String refreshToken) {
 		try {
 			String userName = jwtUtils.extractUsername(refreshToken);
-			UserDetails userDetails = detailsService.loadUserByUsername(userName);
+			UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
 
 			if (jwtUtils.isTokenValid(refreshToken, userDetails)) {
 				String newAccessToken = jwtUtils.generateAccessToken(userDetails.getUsername());

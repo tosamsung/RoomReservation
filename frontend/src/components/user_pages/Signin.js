@@ -26,7 +26,7 @@ function Signin() {
 
     try {
       const userData = { username, password };
-      const response = await UserAuthService.signin(userData);
+      const response = await UserAuthService.signin(userData);      
       setUser(response)
       navigate("/");
     } catch (error) {

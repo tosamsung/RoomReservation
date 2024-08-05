@@ -19,6 +19,5 @@ import lombok.NoArgsConstructor;
 public class EmployeeRole {
 	@Id
 	private String name;
-	@ManyToMany(mappedBy = "roles")
-    private Set<Admin> admins ;
+
 }

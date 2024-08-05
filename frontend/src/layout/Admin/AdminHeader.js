@@ -10,7 +10,7 @@ function AdminHeader() {
   };
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light h-max-3rem">
         <div className="container-fluid">
           <button
             type="button"
@@ -19,7 +19,7 @@ function AdminHeader() {
             onClick={toggleSidebar}
           >
             <i className="fas fa-align-left" />
-            <span>Toggle Sidebar</span>
+            {/* <span>Toggle Sidebar</span> */}
           </button>
           <button
             className="btn btn-dark d-inline-block d-lg-none ml-auto"
@@ -49,10 +49,14 @@ function AdminHeader() {
                   Page
                 </a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Page
-                </a>
+              <li className="nav-item d-flex align-items-center ml-2">
+                <img
+                  src="https://cdn-icons-png.freepik.com/512/168/168723.png"
+                  className="rounded-circle img-fluid"
+                  alt="Profile"
+                  style={{ width: "40px", height: "40px", marginRight: "8px" }}
+                />
+                <p className="m-0">test</p>
               </li>
             </ul>
           </div>
