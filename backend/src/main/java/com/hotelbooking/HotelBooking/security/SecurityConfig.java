@@ -34,6 +34,7 @@ public class SecurityConfig {
 				.hasRole("BUSINESS").requestMatchers(HttpMethod.GET, "/users/**").permitAll()
 				.requestMatchers(HttpMethod.POST, "/users/**").permitAll().requestMatchers(HttpMethod.PUT, "/users/**")
 				.permitAll().requestMatchers(HttpMethod.DELETE, "/users/**").permitAll().anyRequest().authenticated())
+
 				.sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
 

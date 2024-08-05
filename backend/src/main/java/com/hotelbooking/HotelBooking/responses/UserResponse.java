@@ -36,7 +36,6 @@ public class UserResponse {
 	private CustomerStatus customerStatus = CustomerStatus.ACTIVE;
 
 	private boolean haveBusinessAccount;
-	private int roleId;
 
 	
 	public UserResponse(User user) {
