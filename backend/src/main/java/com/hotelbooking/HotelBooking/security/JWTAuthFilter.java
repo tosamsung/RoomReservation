@@ -24,67 +24,103 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class JWTAuthFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JWTUtils jwtUtils;
+	@Autowired
+	private JWTUtils jwtUtils;
 
-    @Autowired
-    @Qualifier("userDetailsServiceImpl")
-    private UserDetailsService  userDetailsService;
-    
-    @Autowired
-    @Qualifier("adminDetailsServiceImpl")
-    private UserDetailsService  adminDetailsServiceImpl;
-    
-    private static final String AUTH_PATH = "/auth/";
-    private static final String VALIDATE_PATH = "/auth/validate";
-    private static final String CONTENT_TYPE_JSON = "application/json";
-    private static final String ENCODING_UTF8 = "UTF-8";
-    private static final String ERROR_TOKEN_NOT_FOUND = "{\"statusCode\": 401, \"error\": \"Refresh\"}";
-    private static final String ERROR_TOKEN_EXPIRED = "{\"statusCode\": 401, \"error\": \"Refresh\"}";
+	@Autowired
+	@Qualifier("userDetailsServiceImpl")
+	private UserDetailsService userDetailsService;
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
-        String requestURI = request.getRequestURI();
+	@Autowired
+	@Qualifier("adminDetailsServiceImpl")
+	private UserDetailsService adminDetailsServiceImpl;
 
-        // Skip filter for specific auth paths
-        if ((requestURI.startsWith(AUTH_PATH) && !requestURI.equals(VALIDATE_PATH)) || requestURI.equals("/statistics/user-register") || requestURI.startsWith("/statistics/user-register/chart")) {
-        	filterChain.doFilter(request, response);
-            return;
-        }
+	private static final String AUTH_PATH = "/auth/";
+	private static final String VALIDATE_PATH = "/auth/validate";
+	private static final String CONTENT_TYPE_JSON = "application/json";
+	private static final String ENCODING_UTF8 = "UTF-8";
+	private static final String ERROR_TOKEN_NOT_FOUND = "{\"statusCode\": 401, \"error\": \"Refresh\"}";
+	private static final String ERROR_TOKEN_EXPIRED = "{\"statusCode\": 401, \"error\": \"Refresh\"}";
 
-        String accessToken = CookieUtils.getCookieValueByName(request, "accessToken");
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
+		String requestURI = request.getRequestURI();
+		
+		// Skip filter for specific auth paths
+		if ((requestURI.startsWith(AUTH_PATH) && !requestURI.equals(VALIDATE_PATH))
+				|| requestURI.equals("/statistics/user-register")
+				|| requestURI.startsWith("/statistics/user-register/chart")) {
+			filterChain.doFilter(request, response);
+			return;
+		}
+		if(requestURI.startsWith("/admins/")) {
+			jwtFilterAdmin(request, response, filterChain);
+		}else {
+			jwtFilterUser(request, response, filterChain);
+		}
 
-        // Handle missing access token
-        if (accessToken == null || accessToken.isBlank()) {
-            writeErrorResponse(response, ERROR_TOKEN_NOT_FOUND);
-            return;
-        }
+	}
+	public void jwtFilterAdmin(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
+		String accessToken = CookieUtils.getCookieValueByName(request, "AdminAToken");
+		if (accessToken == null || accessToken.isBlank()) {
+			writeErrorResponse(response, ERROR_TOKEN_NOT_FOUND);
+			return;
+		}
+		try {
+			String userName = jwtUtils.extractUsername(accessToken);
 
-        try {
-            String userName = jwtUtils.extractUsername(accessToken);
+			if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+				UserDetails userDetails = adminDetailsServiceImpl.loadUserByUsername(userName);
 
-            if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
+				if (jwtUtils.isTokenValid(accessToken, userDetails)) {
+					UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+							userDetails, null, userDetails.getAuthorities());
+					authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+					SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+				}
+			}
 
-                if (jwtUtils.isTokenValid(accessToken, userDetails)) {
-                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.getAuthorities());
-                    authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                }
-            }
+			filterChain.doFilter(request, response);
+		} catch (ExpiredJwtException e) {
+			writeErrorResponse(response, ERROR_TOKEN_EXPIRED);
+		}
 
-            filterChain.doFilter(request, response);
-        } catch (ExpiredJwtException e) {
-            writeErrorResponse(response, ERROR_TOKEN_EXPIRED);
-        }
-    }
+	}
+	public void jwtFilterUser(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
+		String accessToken = CookieUtils.getCookieValueByName(request, "accessToken");
 
-    private void writeErrorResponse(HttpServletResponse response, String errorMessage) throws IOException {
-        response.setContentType(CONTENT_TYPE_JSON);
-        response.setCharacterEncoding(ENCODING_UTF8);
-        response.getWriter().write(errorMessage);
-    }
+		// Handle missing access token
+		if (accessToken == null || accessToken.isBlank()) {
+			writeErrorResponse(response, ERROR_TOKEN_NOT_FOUND);
+			return;
+		}
+		try {
+			String userName = jwtUtils.extractUsername(accessToken);
+
+			if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+				UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
+
+				if (jwtUtils.isTokenValid(accessToken, userDetails)) {
+					UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+							userDetails, null, userDetails.getAuthorities());
+					authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+					SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+				}
+			}
+
+			filterChain.doFilter(request, response);
+		} catch (ExpiredJwtException e) {
+			writeErrorResponse(response, ERROR_TOKEN_EXPIRED);
+		}
+
+	}
+
+	private void writeErrorResponse(HttpServletResponse response, String errorMessage) throws IOException {
+		response.setContentType(CONTENT_TYPE_JSON);
+		response.setCharacterEncoding(ENCODING_UTF8);
+		response.getWriter().write(errorMessage);
+	}
 }
-

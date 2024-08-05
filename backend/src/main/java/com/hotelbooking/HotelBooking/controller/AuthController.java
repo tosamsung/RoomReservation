@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hotelbooking.HotelBooking.dto.UserLoginDTO;
 import com.hotelbooking.HotelBooking.entity.User;
-import com.hotelbooking.HotelBooking.entity.employee.Admin;
-import com.hotelbooking.HotelBooking.responses.AdminResponse;
 import com.hotelbooking.HotelBooking.responses.UserResponse;
 import com.hotelbooking.HotelBooking.service.adminservice.AdminAuthService;
 import com.hotelbooking.HotelBooking.service.serviceinterface.BusinessAccountService;
@@ -90,24 +89,28 @@ public class AuthController {
 
 
 	@PostMapping("/refreshToken")
-	public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException, IllegalAccessException {
-		String refreshToken = CookieUtils.getCookieValueByName(request, "refreshToken");
-		if(refreshToken==null || refreshToken.isBlank()) {
-			writeErrorResponse(response, "{\"statusCode\": 403, \"error\": \"Expired\"}");
-			return;
-		}
-		try {
-			String newAccessToken = refreshAccessToken(refreshToken);
-			ResponseCookie newAccessTokenCookie = ResponseCookie.from("accessToken", newAccessToken).httpOnly(true)
-					.secure(true).path("/").maxAge(604800).sameSite("None").build();
-			response.addHeader(HttpHeaders.SET_COOKIE, newAccessTokenCookie.toString());
-			response.setStatus(HttpServletResponse.SC_OK);
-		} catch (Exception e) {		
-			throw e;
-		}
-
-	}
-
+    public ResponseEntity<?> refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException, IllegalAccessException {
+        String refreshToken = CookieUtils.getCookieValueByName(request, "refreshToken");
+        if (refreshToken == null || refreshToken.isBlank()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                                 .body("{\"statusCode\": 403, \"error\": \"Expired\"}");
+        }
+        try {
+            String newAccessToken = refreshAccessToken(refreshToken);
+            ResponseCookie newAccessTokenCookie = ResponseCookie.from("accessToken", newAccessToken)
+                                                                .httpOnly(true)
+                                                                .secure(true)
+                                                                .path("/")
+                                                                .maxAge(604800)
+                                                                .sameSite("None")
+                                                                .build();
+            response.addHeader(HttpHeaders.SET_COOKIE, newAccessTokenCookie.toString());
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body("{\"statusCode\": 500, \"error\": \"Internal Server Error\"}");
+        }
+    }
 	public String refreshAccessToken(String refreshToken) {
 		try {
 			String userName = jwtUtils.extractUsername(refreshToken);
@@ -125,9 +128,4 @@ public class AuthController {
 
 	}
 
-	private void writeErrorResponse(HttpServletResponse response, String errorMessage) throws IOException {
-		response.setContentType(CONTENT_TYPE_JSON);
-		response.setCharacterEncoding(ENCODING_UTF8);
-		response.getWriter().write(errorMessage);
-	}
 }

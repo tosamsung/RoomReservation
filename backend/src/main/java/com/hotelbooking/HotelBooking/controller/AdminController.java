@@ -32,7 +32,11 @@ public class AdminController {
 		Pageable pageable = PageRequest.of(page, size);
 		return adminService.getAllAdmins(pageable);
 	}
-	
+	@PostMapping("/testJwt")
+	public ResponseEntity<String> testJwt(){
+		
+		return ResponseEntity.ok("testSucces");
+	}
 	@PostMapping()
 	public ResponseEntity<String> create(@RequestBody Admin admin){
 		adminService.create(admin);

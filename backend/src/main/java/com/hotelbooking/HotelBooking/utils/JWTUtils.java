@@ -21,7 +21,7 @@ import io.jsonwebtoken.Jwts;
 @Component
 public class JWTUtils {
 	private SecretKey secretKey;
-	private static final long EXPIRATION_TIME_ACCESS_TOKEN = 15*60 * 1000;
+	private static final long EXPIRATION_TIME_ACCESS_TOKEN = 30 * 1000;
 	private static final long EXPIRATION_TIME_REFRESH_TOKEN = 5 * 24 * 60 * 60 * 1000;
 	
 	public JWTUtils() {

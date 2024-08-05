@@ -30,10 +30,13 @@ public class SecurityConfig {
 		httpSecurity.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(request -> request
 				.requestMatchers("/auth/**", "/public/**", "/statistics/user-register",
 						"/statistics/user-register/chart", "/statistics/user-register/chart/**")
-				.permitAll().requestMatchers("/business/create").permitAll().requestMatchers("/business/**")
-				.hasRole("BUSINESS").requestMatchers(HttpMethod.GET, "/users/**").permitAll()
-				.requestMatchers(HttpMethod.POST, "/users/**").permitAll().requestMatchers(HttpMethod.PUT, "/users/**")
-				.permitAll().requestMatchers(HttpMethod.DELETE, "/users/**").permitAll().anyRequest().authenticated())
+				.permitAll().requestMatchers("/business/create").permitAll().
+				requestMatchers("/business/**").hasRole("BUSINESS")
+				.requestMatchers(HttpMethod.GET, "/users/**").permitAll()
+				.requestMatchers(HttpMethod.POST, "/users/**").permitAll()
+				.requestMatchers(HttpMethod.PUT, "/users/**").permitAll()
+				.requestMatchers(HttpMethod.DELETE, "/users/**").permitAll()
+				.anyRequest().authenticated())
 
 				.sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -44,40 +47,43 @@ public class SecurityConfig {
 		return httpSecurity.build();
 	}
 
-    @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
-    }
+	@Bean
+	public DaoAuthenticationProvider daoAuthenticationProvider(
+			@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+		provider.setUserDetailsService(userDetailsService);
+		provider.setPasswordEncoder(passwordEncoder());
+		return provider;
+	}
 
-    @Bean
-    public DaoAuthenticationProvider adminAuthenticationProvider( @Qualifier("adminDetailsServiceImpl") UserDetailsService adminDetailsService) {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(adminDetailsService);
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
-    }
+	@Bean
+	public DaoAuthenticationProvider adminAuthenticationProvider(
+			@Qualifier("adminDetailsServiceImpl") UserDetailsService adminDetailsService) {
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+		provider.setUserDetailsService(adminDetailsService);
+		provider.setPasswordEncoder(passwordEncoder());
+		return provider;
+	}
 
-    @Bean
-    @Primary
-    public AuthenticationManager userAuthenticationManager(
-            @Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) throws Exception {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(passwordEncoder());
-        return new ProviderManager(provider);
-    }
+	@Bean
+	@Primary
+	public AuthenticationManager userAuthenticationManager(
+			@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) throws Exception {
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+		provider.setUserDetailsService(userDetailsService);
+		provider.setPasswordEncoder(passwordEncoder());
+		return new ProviderManager(provider);
+	}
 
-    @Bean
-    public AuthenticationManager adminAuthenticationManager(
-            @Qualifier("adminDetailsServiceImpl") UserDetailsService adminDetailsService) throws Exception {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(adminDetailsService);
-        provider.setPasswordEncoder(passwordEncoder());
-        return new ProviderManager(provider);
-    }
+	@Bean
+	public AuthenticationManager adminAuthenticationManager(
+			@Qualifier("adminDetailsServiceImpl") UserDetailsService adminDetailsService) throws Exception {
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+		provider.setUserDetailsService(adminDetailsService);
+		provider.setPasswordEncoder(passwordEncoder());
+		return new ProviderManager(provider);
+	}
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();

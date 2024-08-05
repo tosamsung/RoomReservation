@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.hotelbooking.HotelBooking.dto.AdminDTO;
@@ -52,6 +53,11 @@ public class AdminServiceImpl implements AdminService {
 			}
 		}
 		adminRepository.save(admin);
+	}
+	@Override
+	public Admin findByUsername(String username) {
+	    return adminRepository.findByUsername(username)
+	                          .orElseThrow(() -> new UsernameNotFoundException("Username not found: " + username));
 	}
 
 	@Override
