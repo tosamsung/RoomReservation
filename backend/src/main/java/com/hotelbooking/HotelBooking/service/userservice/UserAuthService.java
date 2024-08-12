@@ -4,17 +4,14 @@ import java.util.Date;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.hotelbooking.HotelBooking.dto.AuthUser;
-import com.hotelbooking.HotelBooking.dto.UserDTO;
 import com.hotelbooking.HotelBooking.dto.UserLoginDTO;
 import com.hotelbooking.HotelBooking.entity.User;
 import com.hotelbooking.HotelBooking.enums.CustomerStatus;
@@ -34,11 +31,12 @@ public class UserAuthService {
 	private JWTUtils jwtUtils;
 
 	@Autowired
-	private AuthenticationManager authenticationManager;
+	@Qualifier("userAuthenticationManager")
+	private AuthenticationManager userAuthenticationManager;
 
 	public User signin(UserLoginDTO user, HttpServletResponse response) {
 
-		authenticationManager
+		userAuthenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 		User userRepo = userRepository.findByUsername(user.getUsername()).orElseThrow();
 		String accessToken = jwtUtils.generateAccessToken(userRepo);

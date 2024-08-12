@@ -3,6 +3,7 @@ package com.hotelbooking.HotelBooking.security;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,61 +24,81 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class JWTAuthFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JWTUtils jwtUtils;
+	@Autowired
+	private JWTUtils jwtUtils;
 
-    @Autowired
-    private UserDetailsService detailsService;
-    private static final String AUTH_PATH = "/auth/";
-    private static final String VALIDATE_PATH = "/auth/validate";
-    private static final String CONTENT_TYPE_JSON = "application/json";
-    private static final String ENCODING_UTF8 = "UTF-8";
-    private static final String ERROR_TOKEN_NOT_FOUND = "{\"statusCode\": 401, \"error\": \"Refresh\"}";
-    private static final String ERROR_TOKEN_EXPIRED = "{\"statusCode\": 401, \"error\": \"Refresh\"}";
+	@Autowired
+	@Qualifier("userDetailsServiceImpl")
+	private UserDetailsService userDetailsService;
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
-        String requestURI = request.getRequestURI();
+	@Autowired
+	@Qualifier("adminDetailsServiceImpl")
+	private UserDetailsService adminDetailsServiceImpl;
 
-        // Skip filter for specific auth paths
-        if ((requestURI.startsWith(AUTH_PATH) && !requestURI.equals(VALIDATE_PATH)) || requestURI.equals("/statistics/user-register") || requestURI.startsWith("/statistics/user-register/chart")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+	private static final String AUTH_PATH = "/auth/";
+	private static final String VALIDATE_PATH = "/validate";
 
-        String accessToken = CookieUtils.getCookieValueByName(request, "accessToken");
+	private static final String CONTENT_TYPE_JSON = "application/json";
+	private static final String ENCODING_UTF8 = "UTF-8";
+	private static final String ERROR_TOKEN_NOT_FOUND = "{\"statusCode\": 401, \"error\": \"Refresh\"}";
+	private static final String ERROR_TOKEN_EXPIRED = "{\"statusCode\": 401, \"error\": \"Refresh\"}";
 
-        // Handle missing access token
-        if (accessToken == null || accessToken.isBlank()) {
-            writeErrorResponse(response, ERROR_TOKEN_NOT_FOUND);
-            return;
-        }
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+	        throws ServletException, IOException {
+	    String requestURI = request.getRequestURI();
 
-        try {
-            String userName = jwtUtils.extractUsername(accessToken);
+	    if (shouldSkipFilter(requestURI)) {
+	        filterChain.doFilter(request, response);
+	        return;
+	    }
 
-            if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = detailsService.loadUserByUsername(userName);
+	    if (requestURI.contains("/admin")) {
+	        handleJWTAuthentication(request, response, filterChain, "AdminAToken", adminDetailsServiceImpl);
+	    } else {
+	        handleJWTAuthentication(request, response, filterChain, "accessToken", userDetailsService);
+	    }
+	}
 
-                if (jwtUtils.isTokenValid(accessToken, userDetails)) {
-                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.getAuthorities());
-                    authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                }
-            }
+	private boolean shouldSkipFilter(String requestURI) {
+	    return (requestURI.startsWith(AUTH_PATH) 
+	            && !requestURI.contains(VALIDATE_PATH)
+	            || requestURI.equals("/statistics/user-register")
+	            || requestURI.startsWith("/statistics/user-register/chart"));
+	}
 
-            filterChain.doFilter(request, response);
-        } catch (ExpiredJwtException e) {
-            writeErrorResponse(response, ERROR_TOKEN_EXPIRED);
-        }
-    }
+	private void handleJWTAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain,
+	                                     String tokenName, UserDetailsService userDetailsService)
+	        throws IOException, ServletException {
+	    String accessToken = CookieUtils.getCookieValueByName(request, tokenName);
+	    
+	    if (accessToken == null || accessToken.isBlank()) {
+	        writeErrorResponse(response, ERROR_TOKEN_NOT_FOUND);
+	        return;
+	    }
 
-    private void writeErrorResponse(HttpServletResponse response, String errorMessage) throws IOException {
-        response.setContentType(CONTENT_TYPE_JSON);
-        response.setCharacterEncoding(ENCODING_UTF8);
-        response.getWriter().write(errorMessage);
-    }
+	    try {
+	        String userName = jwtUtils.extractUsername(accessToken);
+
+	        if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+	            UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
+	            if (jwtUtils.isTokenValid(accessToken, userDetails)) {
+	                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+	                        userDetails, null, userDetails.getAuthorities());
+	                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+	                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+	            }
+	        }
+
+	        filterChain.doFilter(request, response);
+	    } catch (ExpiredJwtException e) {
+	        writeErrorResponse(response, ERROR_TOKEN_EXPIRED);
+	    }
+	}
+
+	private void writeErrorResponse(HttpServletResponse response, String errorMessage) throws IOException {
+		response.setContentType(CONTENT_TYPE_JSON);
+		response.setCharacterEncoding(ENCODING_UTF8);
+		response.getWriter().write(errorMessage);
+	}
 }
-

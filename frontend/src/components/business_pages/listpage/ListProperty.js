@@ -1,12 +1,19 @@
 import { useState, useEffect, useRef } from "react";
+<<<<<<< HEAD:frontend/src/components/business_pages/ListProperty.js
 import ProgressBar from "./business_component/progressbar";
 import PropertyType from "./business_component/PropertyType";
+=======
+import ProgressBar from "../business_component/ProgressBar";
+import PropertyType from "../business_component/PropertyType";
+
+>>>>>>> 989e11214f9db2b51d10dacc39f5e0f60c10c606:frontend/src/components/business_pages/listpage/ListProperty.js
 import ResultMap from "./ResultMap";
 import * as opencage from "opencage-api-client";
 import UIkit from "uikit";
-import DropdownCountry from "../util_component/DropdownCountry";
-import DropdownCity from "../util_component/DropdownCity";
-import ConfirmModal from "../util_component/ConfirmModal";
+import DropdownCountry from "../../util_component/DropdownCountry";
+import DropdownCity from "../../util_component/DropdownCity";
+import ConfirmModal from "../../util_component/ConfirmModal";
+import ParkingAndBreakfast from "./ParkingAndBreakfast";
 
 function ListProperty() {
   const openCageApiKey = "cca4b3c6f78f4a02aeb0648ec49e3593";
@@ -31,13 +38,15 @@ function ListProperty() {
           description: "",
           rate: 0,
           propertyType: "",
-          reservationType: "Online",
-          propertyStatus: "Available",
+          reservationType: "",
+          propertyStatus: "",
           address: "",
           city: "",
           country: "",
           lat: null,
           lng: null,
+          parkingDetail: null,
+          breakfastDetail: null,
         };
   });
   const handleMap = (apikey, city, country) => {
@@ -76,7 +85,7 @@ function ListProperty() {
   return (
     <>
       <link rel="stylesheet" href="/css/semantic.min.css" />
-      {/* <Progres max={100} current={progress}></Progres> */}
+      <ProgressBar max={100} current={progress}></ProgressBar>
       <div className="container-fluid bg-business min-vh-100">
         <div className="container pt-2 px-5 ">
           <div className="row">
@@ -94,10 +103,13 @@ function ListProperty() {
                 <a href="#">map</a>
               </li>
               <li className={activeTab === 3 ? "uk-active" : ""}>
-                <a href="#">type</a>
+                <a href="#">category</a>
               </li>
               <li className={activeTab === 4 ? "uk-active" : ""}>
-                <a href="#">Item</a>
+                <a href="#">type</a>
+              </li>
+              <li className={activeTab === 5 ? "uk-active" : ""}>
+                <a href="#">parking vs breakfast</a>
               </li>
             </ul>
             <div className="uk-switcher uk-margin col-7">
@@ -320,11 +332,14 @@ function ListProperty() {
                       titleNo={"Cancel"}
                       titleYes={"Save"}
                       handleYes={() => {
-                        setProperty((prev) => ({
-                          ...prev,
-                          lat: markerPosition.current.lat,
-                          lng: markerPosition.current.lng,
-                        }));
+                        if (showMap) {
+                          setProperty((prev) => ({
+                            ...prev,
+                            lat: markerPosition.current.lat,
+                            lng: markerPosition.current.lng,
+                          }));
+                        }
+
                         setActiveTab(3);
                       }}
                       content={
@@ -435,20 +450,39 @@ function ListProperty() {
                 </div>
               </div>
               {/* ------------------------------reservation type -----------------------*/}
-
               <div>
                 <h2 className="f-robo fw700">
                   What type of place will guests have?
                 </h2>
                 <div className="row bg-white p-1 pt-2 cs-rounded">
-                  <div className="col-12 mb-2">
-                    <div className="border-gray cs-rounded p-2 cursor-pointer">
+                  <div
+                    className="col-12 mb-2"
+                    onClick={() => {
+                      setProperty((prev) => ({
+                        ...prev,
+                        reservationType: "ENTIRE",
+                      }));
+                    }}
+                  >
+                    <div
+                      className={`border-gray cs-rounded p-2 cursor-pointer ${
+                        property.reservationType === "ENTIRE"
+                          ? "border-orange"
+                          : ""
+                      }`}
+                    >
                       <img
                         src="/images/icon/all.png"
                         alt=""
                         className="category-icon mr-2 mb-2"
                       />
-                      <h6 className="f-robo fwbolder m-0 d-inline-block">
+                      <h6
+                        className={`f-robo fwbolder m-0 d-inline-block ${
+                          property.reservationType === "ENTIRE"
+                            ? "text-orange"
+                            : ""
+                        }`}
+                      >
                         An entire place
                       </h6>
                       <p className="m-0 fw500 fs-small ">
@@ -456,14 +490,34 @@ function ListProperty() {
                       </p>
                     </div>
                   </div>
-                  <div className="col-12 mb-2">
-                    <div className="border-gray cs-rounded p-2 cursor-pointer">
+                  <div
+                    className="col-12 mb-2"
+                    onClick={() => {
+                      setProperty((prev) => ({
+                        ...prev,
+                        reservationType: "ROOM",
+                      }));
+                    }}
+                  >
+                    <div
+                      className={`border-gray cs-rounded p-2 cursor-pointer ${
+                        property.reservationType === "ROOM"
+                          ? "border-orange"
+                          : ""
+                      }`}
+                    >
                       <img
                         src="/images/icon/room.png"
                         alt=""
                         className="category-icon mr-2 mb-2"
                       />
-                      <h6 className="f-robo fwbolder m-0 d-inline-block">
+                      <h6
+                        className={`f-robo fwbolder m-0 d-inline-block ${
+                          property.reservationType === "ROOM"
+                            ? "text-orange"
+                            : ""
+                        }`}
+                      >
                         A room
                       </h6>
                       <p className="m-0 fw500 fs-small">
@@ -472,14 +526,34 @@ function ListProperty() {
                       </p>
                     </div>
                   </div>
-                  <div className="col-12 mb-2">
-                    <div className="border-gray cs-rounded p-2 cursor-pointer">
+                  <div
+                    className="col-12 mb-2"
+                    onClick={() => {
+                      setProperty((prev) => ({
+                        ...prev,
+                        reservationType: "SHARED",
+                      }));
+                    }}
+                  >
+                    <div
+                      className={`border-gray cs-rounded p-2 cursor-pointer ${
+                        property.reservationType === "SHARED"
+                          ? "border-orange"
+                          : ""
+                      }`}
+                    >
                       <img
                         src="/images/icon/shared-flat.png"
                         alt=""
                         className="category-icon mr-2 mb-2"
                       />
-                      <h6 className="f-robo fwbolder m-0 d-inline-block">
+                      <h6
+                        className={`f-robo fwbolder m-0 d-inline-block ${
+                          property.reservationType === "SHARED"
+                            ? "text-orange"
+                            : ""
+                        }`}
+                      >
                         A shared room
                       </h6>
                       <p className="m-0 fw500 fs-small">
@@ -501,6 +575,31 @@ function ListProperty() {
                   <a
                     onClick={() => {
                       setActiveTab(5);
+                    }}
+                    className="btn bg-blue p-2 px-5 text-white"
+                  >
+                    Continue
+                  </a>
+                </div>
+              </div>
+              {/* ------------------------------ parking vs breakfast -----------------------*/}
+              <div>
+                <ParkingAndBreakfast
+                 setValue={setProperty}
+                 value={property}
+                ></ParkingAndBreakfast>
+                <div className="row mt-2 d-flex justify-content-end p-0">
+                  <a
+                    onClick={() => {
+                      setActiveTab(4);
+                    }}
+                    className="btn bg-white p-2 px-3 text-white mr-2 btn-outline-primary"
+                  >
+                    <i className="fa-solid fa-chevron-left text-primary"></i>
+                  </a>
+                  <a
+                    onClick={() => {
+                      setActiveTab(6);
                     }}
                     className="btn bg-blue p-2 px-5 text-white"
                   >

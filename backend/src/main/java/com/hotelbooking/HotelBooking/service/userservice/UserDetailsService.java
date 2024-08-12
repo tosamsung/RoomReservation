@@ -1,6 +1,7 @@
 package com.hotelbooking.HotelBooking.service.userservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import com.hotelbooking.HotelBooking.entity.UserDetailImpl;
 import com.hotelbooking.HotelBooking.repository.UserRepository;
 
 @Service
+@Qualifier("userDetailsServiceImpl")
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 	@Autowired
 	UserRepository userRepository;

@@ -1,4 +1,4 @@
-package com.hotelbooking.HotelBooking.service.userservice;
+package com.hotelbooking.HotelBooking.service.adminservice;
 
 import java.util.HashSet;
 
@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.hotelbooking.HotelBooking.dto.AdminDTO;
@@ -40,6 +41,11 @@ public class AdminServiceImpl implements AdminService {
 		List<AdminResponse> adminDTOs = admins.stream().map(AdminMapper::toResponse).collect(Collectors.toList());
 		return new PageImpl<>(adminDTOs, pageable, admins.getTotalElements());
 
+	}
+	@Override
+	public Admin findByUsername(String username) {
+	    return adminRepository.findByUsername(username)
+	                          .orElseThrow(() -> new UsernameNotFoundException("Username not found: " + username));
 	}
 
 	@Override

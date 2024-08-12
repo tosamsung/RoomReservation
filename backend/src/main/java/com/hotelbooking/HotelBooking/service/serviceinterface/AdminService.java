@@ -18,5 +18,8 @@ public interface AdminService {
 
 	void delete(Long id);
 
+
+	Admin findByUsername(String username);
+
 	Page<AdminResponse> find(Pageable pageable);
 }

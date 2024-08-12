@@ -1,8 +1,12 @@
+import { useContext } from "react";
+import { AdminContext } from "../../context/AdminContext";
+
 function AdminHeader() {
+  const {admin} = useContext(AdminContext);
+
   const toggleSidebar = () => {
     const sidebar = document.querySelector("#sidebar");
     const content = document.querySelector("#content");
-
     if (sidebar) {
       sidebar.classList.toggle("active");
       content.classList.toggle("active");
@@ -10,7 +14,7 @@ function AdminHeader() {
   };
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light h-max-3rem">
         <div className="container-fluid">
           <button
             type="button"
@@ -19,7 +23,7 @@ function AdminHeader() {
             onClick={toggleSidebar}
           >
             <i className="fas fa-align-left" />
-            <span>Toggle Sidebar</span>
+            {/* <span>Toggle Sidebar</span> */}
           </button>
           <button
             className="btn btn-dark d-inline-block d-lg-none ml-auto"
@@ -49,10 +53,8 @@ function AdminHeader() {
                   Page
                 </a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Page
-                </a>
+              <li className="nav-item d-flex align-items-center ml-2">
+                <p className="m-0 fs-small">Email : {admin.email}</p>
               </li>
             </ul>
           </div>

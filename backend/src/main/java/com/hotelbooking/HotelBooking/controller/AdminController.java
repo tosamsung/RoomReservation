@@ -37,7 +37,11 @@ public class AdminController {
 	    return ResponseEntity.ok(adminPage);
 	}
 
-	
+	@PostMapping("/testJwt")
+	public ResponseEntity<String> testJwt(){
+		
+		return ResponseEntity.ok("testSucces");
+	}
 	@PostMapping()
 	public ResponseEntity<AdminResponse> create(@RequestBody AdminDTO admin){
 		return ResponseEntity.ok(adminService.create(admin));

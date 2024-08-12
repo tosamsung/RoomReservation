@@ -38,6 +38,18 @@ public class UserResponse {
 	private boolean haveBusinessAccount;
 
 	
-	
+	public UserResponse(User user) {
+		super();
+		this.id = user.getId();
+		this.firstname = user.getFirstname();
+		this.lastname = user.getLastname();
+		this.username = user.getUsername();
+		this.email = user.getEmail();
+		this.image = user.getImage();
+		this.phone = user.getPhone();
+		this.birthDate = user.getBirthDate();
+		this.createDate = user.getCreateDate();
+		this.customerStatus = user.getCustomerStatus();
+	}
 
 }

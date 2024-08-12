@@ -1,13 +1,7 @@
 import { Route, Routes } from "react-router-dom";
-import Layout from "../layout/Layout.js";
-import Home from "../components/user_pages/Home.js";
-import Signin from "../components/user_pages/Signin.js";
-import Signup from "../components/user_pages/Signup.js";
-import BusinessLayout from "../layout/Business/BusinessLayout.js";
-import RegisterBusiness from "../components/business_pages/RegisterBusiness.js";
-import Page404 from "../components/other_pages/Page404.js";
-import ProtectedRouter from "./ProtectRouter.js";
+
 import { useContext } from "react";
+<<<<<<< HEAD
 import { AppContext } from "../context/AppContext.js";
 import GroupHomepage from "../components/business_pages/GroupHomepage.js";
 import PropertyReviews from "../components/business_pages/PropertyReviews.js";
@@ -16,6 +10,13 @@ import { StatisticsPage } from "../components/admin_pages/Statistics.js";
 import AdminLayout from "../layout/Admin/AdminLayout.js";
 import EmployeeCRUD from "../components/admin_pages/EmployeeCRUD.js";
 import Users from "../components/admin_pages/users.js";
+=======
+import { AppContext, AppProvider } from "../context/AppContext.js";
+
+import { AdminProvider } from "../context/AdminContext.js";
+import UserRouter from "./UserRouter.js";
+import AdminRouter from "./AdminRouter.js";
+>>>>>>> 989e11214f9db2b51d10dacc39f5e0f60c10c606
 // import Posts from "../components/admin_pages/posts.js";
 
 function MyRouter() {
@@ -23,6 +24,7 @@ function MyRouter() {
   return (
     <>
       <Routes>
+<<<<<<< HEAD
         <Route path="/admin" element={<AdminLayout></AdminLayout>}>
           <Route
             path="employee"
@@ -34,40 +36,27 @@ function MyRouter() {
         </Route>
         <Route path="/signup" element={<Signup></Signup>}></Route>
         <Route path="/signin" element={<Signin></Signin>}></Route>
+=======
+        {/*---------------------------- admin---------------------------- */}
+>>>>>>> 989e11214f9db2b51d10dacc39f5e0f60c10c606
         <Route
-          path="/registerbusiness"
+          path="/admin/*"
           element={
-            <ProtectedRouter redirectPath="/signin" isAllowed={user}>
-              <RegisterBusiness></RegisterBusiness>
-            </ProtectedRouter>
+            <AdminProvider>
+              <AdminRouter />
+            </AdminProvider>
           }
-        ></Route>
-        <Route path="/" element={<Layout></Layout>}>
-          <Route path="" element={<Home></Home>}></Route>
-        </Route>
-        {/* -------------------------business ---------------------------*/}
+        />
+        {/*---------------------------- user ---------------------------- */}
         <Route
-          path="/business"
+          path="/*"
           element={
-            <ProtectedRouter
-              redirectPath="/registerbusiness"
-              isAllowed={user && user.haveBusinessAccount}
-            >
-              <BusinessLayout></BusinessLayout>
-            </ProtectedRouter>
+            <AppProvider>
+              <UserRouter />
+            </AppProvider>
           }
-        >
-          <Route path="" element={<GroupHomepage></GroupHomepage>}></Route>
-          <Route
-            path="listproperty"
-            element={<ListProperty></ListProperty>}
-          ></Route>
-          <Route
-            path="reviews"
-            element={<PropertyReviews></PropertyReviews>}
-          ></Route>
-        </Route>
-        <Route path="/*" element={<Page404></Page404>}></Route>
+        />
+
       </Routes>
     </>
   );

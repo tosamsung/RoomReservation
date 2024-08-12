@@ -9,18 +9,19 @@ import java.util.function.Function;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.hotelbooking.HotelBooking.entity.User;
+import com.hotelbooking.HotelBooking.entity.employee.Admin;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 
 @Component
 public class JWTUtils {
 	private SecretKey secretKey;
-	private static final long EXPIRATION_TIME_ACCESS_TOKEN = 15*60 * 1000;
+	private static final long EXPIRATION_TIME_ACCESS_TOKEN = 30 * 1000;
 	private static final long EXPIRATION_TIME_REFRESH_TOKEN = 5 * 24 * 60 * 60 * 1000;
 	
 	public JWTUtils() {
@@ -56,7 +57,15 @@ public class JWTUtils {
 				.signWith(secretKey)
 				.compact();
 	}
-	
+	public String generateAdminRefreshToken(HashMap<String, Object> claims, Admin admin) {
+		return Jwts.builder()
+				.claims(claims)
+				.subject(admin.getUsername())
+				.issuedAt(new Date(System.currentTimeMillis()))
+				.expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME_REFRESH_TOKEN))
+				.signWith(secretKey)
+				.compact();
+	}
 	public <T> T extractClaims(String token, Function<Claims, T> claimsTFunction) {
 		return claimsTFunction.apply(Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload());
 	}
