@@ -13,12 +13,16 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "role")
 public class EmployeeRole {
 	@Id
 	private String name;
-	@ManyToMany(mappedBy = "roles")
-    private Set<Admin> admins ;
+
+	public EmployeeRole(String name) {
+		super();
+		this.name = name;
+	}
+	
+	
 }

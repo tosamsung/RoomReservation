@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hotelbooking.HotelBooking.dto.AdminDTO;
 import com.hotelbooking.HotelBooking.entity.employee.Admin;
+import com.hotelbooking.HotelBooking.responses.AdminResponse;
+import com.hotelbooking.HotelBooking.responses.UserListResponse;
 import com.hotelbooking.HotelBooking.service.serviceinterface.AdminService;
 
 @RestController
@@ -28,21 +30,22 @@ public class AdminController {
 	AdminService adminService;
 
 	@GetMapping
-	public Page<AdminDTO> getAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-		Pageable pageable = PageRequest.of(page, size);
-		return adminService.getAllAdmins(pageable);
+	public ResponseEntity<Page<AdminResponse>> getAllAdmins(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
+	    Pageable pageable = PageRequest.of(page, size);
+	    Page<AdminResponse> adminPage = adminService.getAllAdmins(pageable);
+	    
+	    return ResponseEntity.ok(adminPage);
 	}
+
 	
 	@PostMapping()
-	public ResponseEntity<String> create(@RequestBody Admin admin){
-		adminService.create(admin);
-		return ResponseEntity.ok("Insert admin successfuly");
+	public ResponseEntity<AdminResponse> create(@RequestBody AdminDTO admin){
+		return ResponseEntity.ok(adminService.create(admin));
 	}
 	
 	@PutMapping()
-	public ResponseEntity<String> update(@RequestBody Admin admin){
-		adminService.update(admin);
-		return ResponseEntity.ok("Update admin successfuly");
+	public ResponseEntity<AdminResponse> update(@RequestBody AdminDTO admin){
+		return ResponseEntity.ok(adminService.update(admin));
 	}
 	
 	@DeleteMapping("{id}")
