@@ -1,7 +1,12 @@
 import { useState, useEffect, useRef } from "react";
+<<<<<<< HEAD:frontend/src/components/business_pages/ListProperty.js
+import ProgressBar from "./business_component/progressbar";
+import PropertyType from "./business_component/PropertyType";
+=======
 import ProgressBar from "../business_component/ProgressBar";
 import PropertyType from "../business_component/PropertyType";
 
+>>>>>>> 989e11214f9db2b51d10dacc39f5e0f60c10c606:frontend/src/components/business_pages/listpage/ListProperty.js
 import ResultMap from "./ResultMap";
 import * as opencage from "opencage-api-client";
 import UIkit from "uikit";

@@ -29,7 +29,7 @@ function Table({ list }) {
                 <td>{item.phone}</td>
                 <td>{item.identificationNumber}</td>
                 <td>{item.salary}</td>
-                <td>{item.roles.length > 0 && item.role[0].name}</td>
+                <td>{item.roles.length > 0 && item.roles[0]}</td>
                 <td>{item.workingStatus}</td>
               </tr>
             ))}

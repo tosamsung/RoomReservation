@@ -7,15 +7,19 @@ import org.springframework.data.domain.Pageable;
 
 import com.hotelbooking.HotelBooking.dto.AdminDTO;
 import com.hotelbooking.HotelBooking.entity.employee.Admin;
+import com.hotelbooking.HotelBooking.responses.AdminResponse;
 
 public interface AdminService {
-    Page<AdminDTO> getAllAdmins(Pageable pageable);
+    Page<AdminResponse> getAllAdmins(Pageable pageable);
 
-	void create(Admin admin);
+	AdminResponse create(AdminDTO admin);
 
-	void update(Admin admin);
+	AdminResponse update(AdminDTO admin);
 
 	void delete(Long id);
 
+
 	Admin findByUsername(String username);
+
+	Page<AdminResponse> find(Pageable pageable);
 }

@@ -1,72 +1,175 @@
-function Form() {
+import React from "react";
+import {
+  Button,
+  Form,
+  Input,
+  InputNumber,
+  Radio,
+  Row,
+  Col,
+  notification,
+  DatePicker,
+} from "antd";
+import AdminService from "../../../service/AdminService";
+
+const { RangePicker } = DatePicker;
+
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 8 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 16 },
+  },
+};
+
+const rolesOptions = [
+  { label: "Admin", value: "Admin" },
+  { label: "Staff", value: "Staff" },
+  // add more roles as needed
+];
+
+const App = () => {
+  const [form] = Form.useForm();
+
+  const onFinish = async (values) => {
+    try {
+      const response = await AdminService.create(values);
+      notification.success({
+        message: "Success",
+        description: "Admin created successfully",
+      });
+    } catch (error) {
+      notification.error({
+        message: "Error",
+        description: "Failed to create admin",
+      });
+      throw error;
+    }
+  };
+
   return (
-    <>
-      <div id="login">
-        <h3 className="text-center text-white pt-5">Login form</h3>
-        <div className="container">
-          <div
-            id="login-row"
-            className="row justify-content-center align-items-center"
-          >
-            <div id="login-column" className="col-md-6">
-              <div id="login-box" className="col-md-12">
-                <form id="login-form" className="form">
-                  <h3 className="text-center text-info">Login</h3>
-                  <div className="form-group">
-                    <label htmlFor="username" className="text-info">
-                      Username:
-                    </label>
-                    <br />
-                    <input
-                      type="text"
-                      name="username"
-                      id="username"
-                      className="form-control"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="password" className="text-info">
-                      Password:
-                    </label>
-                    <br />
-                    <input
-                      type="text"
-                      name="password"
-                      id="password"
-                      className="form-control"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="remember-me" className="text-info">
-                      <span>Remember me</span>&nbsp;
-                      <span>
-                        <input
-                          id="remember-me"
-                          name="remember-me"
-                          type="checkbox"
-                        />
-                      </span>
-                    </label>
-                    <br />
-                    <input
-                      type="submit"
-                      name="submit"
-                      className="btn btn-info btn-md"
-                      defaultValue="submit"
-                    />
-                  </div>
-                  <div id="register-link" className="text-right">
-                    <a href="#" className="text-info">
-                      Register here
-                    </a>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        marginTop: -80,
+      }}
+    >
+      <Form
+        {...formItemLayout}
+        form={form}
+        onFinish={onFinish}
+        style={{
+          maxWidth: 600,
+          width: "100%",
+        }}
+      >
+        <Row gutter={16}>
+          <Col span={12}>
+            <Form.Item
+              label="Username"
+              name="username"
+              rules={[{ required: true, message: "Please input!" }]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              label="Fullname"
+              name="fullname"
+              rules={[{ required: true, message: "Please input!" }]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Row gutter={16}>
+          <Col span={12}>
+            <Form.Item
+              label="Password"
+              name="password"
+              rules={[{ required: true, message: "Please input!" }]}
+            >
+              <Input.Password />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              label="Identification"
+              name="identificationNumber"
+              rules={[{ required: true, message: "Please input!" }]}
+            >
+              <InputNumber style={{ width: "100%" }} />
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Row gutter={16}>
+          <Col span={12}>
+            <Form.Item
+              label="Phone"
+              name="phone"
+              rules={[{ required: true, message: "Please input!" }]}
+            >
+              <InputNumber style={{ width: "100%" }} />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[
+                { required: true, message: "Please input your email!" },
+                { type: "email", message: "The input is not a valid email!" },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Row gutter={16}>
+          <Col span={12}>
+            <Form.Item
+              label="Salary"
+              name="salary"
+              rules={[{ required: true, message: "Please input!" }]}
+            >
+              <InputNumber style={{ width: "100%" }} />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              label="Role"
+              name="roles"
+              rules={[{ required: true, message: "Please select a role!" }]}
+            >
+              <Radio.Group>
+                {rolesOptions.map((role) => (
+                  <Radio key={role.value} value={role.value}>
+                    {role.label}
+                  </Radio>
+                ))}
+              </Radio.Group>
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
   );
-}
-export default Form;
+};
+
+export default App;

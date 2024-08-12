@@ -13,11 +13,17 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "role")
 public class EmployeeRole {
 	@Id
 	private String name;
+
+	public EmployeeRole(String name) {
+		super();
+		this.name = name;
+	}
+	
+	
 
 }
