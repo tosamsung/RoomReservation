@@ -14,6 +14,7 @@ export const AppProvider = ({ children }) => {
       setUser(validatedUser);
       setLoading(false);
     } catch (error) {
+      setUser(null);
       setLoading(false);
     }
   };

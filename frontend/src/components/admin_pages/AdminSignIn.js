@@ -2,19 +2,21 @@ import React from "react";
 import { Form, Input, Button, Modal } from "antd";
 import AdminAuthService from "../../service/AdminAuthService";
 import { useNavigate } from "react-router-dom";
+import { AdminContext } from "../../context/AdminContext";
+import { useContext } from "react";
 
 function AdminSignin() {
   const [form] = Form.useForm();
+  const {setAdmin} = useContext(AdminContext);
+
   const navigate = useNavigate();
 
   const handleSignin = async (values) => {
     try {
       const response = await AdminAuthService.signin(values);
-      console.log("Signin successful", response);
+      setAdmin(response)
       navigate("/admin");
-
     } catch (error) {
-      console.error("Signin failed", error);
       Modal.error({
         title: "Signin Failed",
         content: "Invalid username or password. Please try again.",
