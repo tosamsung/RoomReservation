@@ -92,11 +92,14 @@ public class AuthController {
     public ResponseEntity<?> refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException, IllegalAccessException {
         String refreshToken = CookieUtils.getCookieValueByName(request, "refreshToken");
         if (refreshToken == null || refreshToken.isBlank()) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                                 .body("{\"statusCode\": 403, \"error\": \"Expired\"}");
+            return buildErrorResponse(HttpStatus.FORBIDDEN, "Token Not Found or Empty");
+
         }
         try {
             String newAccessToken = refreshAccessToken(refreshToken);
+            if (newAccessToken == null) {
+                return buildErrorResponse(HttpStatus.FORBIDDEN, "Invalid or Expired Token");
+            }
             ResponseCookie newAccessTokenCookie = ResponseCookie.from("accessToken", newAccessToken)
                                                                 .httpOnly(true)
                                                                 .secure(true)
@@ -107,25 +110,24 @@ public class AuthController {
             response.addHeader(HttpHeaders.SET_COOKIE, newAccessTokenCookie.toString());
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                 .body("{\"statusCode\": 500, \"error\": \"Internal Server Error\"}");
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
         }
     }
-	public String refreshAccessToken(String refreshToken) {
-		try {
-			String userName = jwtUtils.extractUsername(refreshToken);
-			UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
+	private String refreshAccessToken(String refreshToken) {
+	    try {
+	        String userName = jwtUtils.extractUsername(refreshToken);
+	        UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
 
-			if (jwtUtils.isTokenValid(refreshToken, userDetails)) {
-				String newAccessToken = jwtUtils.generateAccessToken(userDetails.getUsername());
-				return newAccessToken;
-			} else {
-				return null;
-			}
-		} catch (Exception e) {
-			throw e;
-		}
-
+	        if (jwtUtils.isTokenValid(refreshToken, userDetails)) {
+	            return jwtUtils.generateAccessToken(userDetails.getUsername());
+	        }
+	    } catch (Exception e) {
+	        throw e;
+	    }
+	    return null;
 	}
-
+	private ResponseEntity<String> buildErrorResponse(HttpStatus status, String errorMessage) {
+	    return ResponseEntity.status(status)
+	                         .body(String.format("{\"statusCode\": %d, \"error\": \"%s\"}", status.value(), errorMessage));
+	}
 }

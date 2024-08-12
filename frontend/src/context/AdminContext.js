@@ -1,6 +1,8 @@
 import React, { useEffect, useState, createContext } from "react";
 import PageLoading from "../components/other_pages/PageLoading";
 import AdminAuthService from "../service/AdminAuthService";
+import { useNavigate } from "react-router-dom";
+
 export const AdminContext = createContext({});
 export const AdminProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
@@ -9,10 +11,11 @@ export const AdminProvider = ({ children }) => {
   const fetchAdmin = async () => {
     setLoading(true);
     try {
-      const result = await AdminAuthService.validate();
+      const result = await AdminAuthService.validate();      
       setAdmin(result);
       setLoading(false);
     } catch (error) {
+      setAdmin(null);
       setLoading(false);
     }
   };
@@ -27,7 +30,7 @@ export const AdminProvider = ({ children }) => {
     <AdminContext.Provider
       value={{
         admin,
-        setAdmin,
+        setAdmin
       }}
     >
       {children}

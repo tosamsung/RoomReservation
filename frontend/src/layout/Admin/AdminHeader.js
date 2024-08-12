@@ -1,8 +1,12 @@
+import { useContext } from "react";
+import { AdminContext } from "../../context/AdminContext";
+
 function AdminHeader() {
+  const {admin} = useContext(AdminContext);
+
   const toggleSidebar = () => {
     const sidebar = document.querySelector("#sidebar");
     const content = document.querySelector("#content");
-
     if (sidebar) {
       sidebar.classList.toggle("active");
       content.classList.toggle("active");
@@ -50,13 +54,7 @@ function AdminHeader() {
                 </a>
               </li>
               <li className="nav-item d-flex align-items-center ml-2">
-                <img
-                  src="https://cdn-icons-png.freepik.com/512/168/168723.png"
-                  className="rounded-circle img-fluid"
-                  alt="Profile"
-                  style={{ width: "40px", height: "40px", marginRight: "8px" }}
-                />
-                <p className="m-0">test</p>
+                <p className="m-0 fs-small">Email : {admin.email}</p>
               </li>
             </ul>
           </div>

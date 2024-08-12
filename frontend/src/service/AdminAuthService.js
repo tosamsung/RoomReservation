@@ -1,11 +1,9 @@
-import api from "../util/ApiUtil";
+import api from "../util/ApiAdminUtil";
 class AdminAuthService {
 
   static async signin(userData) {
     try {
-      const response = await api.post(`/auth/admin/signin`, userData);
-      console.log(response);
-      
+      const response = await api.post(`/auth/admin/signin`, userData);      
       return response;
     } catch (error) {
       throw error;
@@ -13,7 +11,7 @@ class AdminAuthService {
   }
   static async validate() {
     try {
-      const response = await api.post(`/auth/admin/validate`);      
+      const response = await api.post(`/auth/admin/validate`);            
       return response;
     } catch (error) {
       throw error;

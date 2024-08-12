@@ -42,16 +42,17 @@ public class AdminAuthController {
 	@Autowired
 	@Qualifier("adminDetailsServiceImpl")
 	private UserDetailsService adminDetailsServiceImpl;
-	
+
 	@Autowired
 	AdminService adminService;
 	@Autowired
 	private JWTUtils jwtUtils;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+
 	@PostMapping("/test")
 	public ResponseEntity<AdminResponse> createTestAdmin() {
-		Admin testAdmin=new Admin();
+		Admin testAdmin = new Admin();
 		testAdmin.setCreateDate(new Date());
 		testAdmin.setUsername("Admin");
 		testAdmin.setFullname("ABC");
@@ -59,69 +60,75 @@ public class AdminAuthController {
 		testAdmin.setIdentificationNumber("44553224");
 		testAdmin.setPhone("123");
 		testAdmin.setEmail("Admin@gmail.com");
-		EmployeeRole role=new EmployeeRole();
+		EmployeeRole role = new EmployeeRole();
 		role.setName("ADMIN");
-		Set<EmployeeRole> setRole=new HashSet<EmployeeRole>();
+		Set<EmployeeRole> setRole = new HashSet<EmployeeRole>();
 		setRole.add(role);
 		testAdmin.setRoles(setRole);
-		Admin admin= adminAuthService.saveAdmin(testAdmin);
-		AdminResponse reponse=new AdminResponse(admin);
+		Admin admin = adminAuthService.saveAdmin(testAdmin);
+		AdminResponse reponse = new AdminResponse(admin);
 		return ResponseEntity.ok(reponse);
 	}
-	
+
 	@PostMapping("/signin")
-	public ResponseEntity<AdminResponse> adminSignin(@RequestBody UserLoginDTO userLoginDTO, HttpServletResponse response,
-			HttpServletRequest request) {
-		Admin result=adminAuthService.signin(userLoginDTO, response);
-		AdminResponse reponse=new AdminResponse(result);
-		
+	public ResponseEntity<AdminResponse> adminSignin(@RequestBody UserLoginDTO userLoginDTO,
+			HttpServletResponse response, HttpServletRequest request) {
+		Admin result = adminAuthService.signin(userLoginDTO, response);
+		AdminResponse reponse = new AdminResponse(result);
+
 		return ResponseEntity.ok(reponse);
 	}
+
 	@PostMapping("/validate")
 	public ResponseEntity<AdminResponse> validate(HttpServletRequest request) {
-		String accessToken = CookieUtils.getCookieValueByName(request, "accessToken");
+		String accessToken = CookieUtils.getCookieValueByName(request, "AdminAToken");
 		String userName = jwtUtils.extractUsername(accessToken);
-		Admin admin=adminService.findByUsername(userName);
-		AdminResponse adminResponse=new AdminResponse(admin);
+		Admin admin = adminService.findByUsername(userName);
+		AdminResponse adminResponse = new AdminResponse(admin);
 		return ResponseEntity.ok(adminResponse);
 
 	}
+
 	@PostMapping("/refreshToken")
-	public ResponseEntity<?> refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException, IllegalAccessException {
-	    String refreshToken = CookieUtils.getCookieValueByName(request, "AdminRToken");
-	    if (refreshToken == null || refreshToken.isBlank()) {
-	        return ResponseEntity.status(HttpStatus.FORBIDDEN)
-	                             .body("{\"statusCode\": 403, \"error\": \"Expired\"}");
-	    }
-	    try {
-	        String newAccessToken = refreshAccessToken(refreshToken);
-	        ResponseCookie newAccessTokenCookie = ResponseCookie.from("AdminAToken", newAccessToken)
-	                                                            .httpOnly(true)
-	                                                            .secure(true)
-	                                                            .path("/")
-	                                                            .maxAge(604800)
-	                                                            .sameSite("None")
-	                                                            .build();
-	        response.addHeader(HttpHeaders.SET_COOKIE, newAccessTokenCookie.toString());
-	        return ResponseEntity.ok().build();
-	    } catch (Exception e) {
-	        throw e;
-	    }
+	public ResponseEntity<?> refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String refreshToken = CookieUtils.getCookieValueByName(request, "AdminRToken");
+		if (refreshToken == null || refreshToken.isBlank()) {
+			return buildErrorResponse(HttpStatus.FORBIDDEN, "Token Not Found or Empty");
+		}
+
+		try {
+			String newAccessToken = refreshAccessToken(refreshToken);
+			if (newAccessToken == null) {
+				return buildErrorResponse(HttpStatus.FORBIDDEN, "Invalid or Expired Token");
+			}
+
+			ResponseCookie newAccessTokenCookie = ResponseCookie.from("AdminAToken", newAccessToken).httpOnly(true)
+					.secure(true).path("/").maxAge(604800).sameSite("None").build();
+			response.addHeader(HttpHeaders.SET_COOKIE, newAccessTokenCookie.toString());
+
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
+		}
 	}
+
+	private ResponseEntity<String> buildErrorResponse(HttpStatus status, String errorMessage) {
+		return ResponseEntity.status(status)
+				.body("{\"statusCode\": " + status.value() + ", \"error\": \"" + errorMessage + "\"}");
+	}
+
 	public String refreshAccessToken(String refreshToken) {
 		try {
 			String userName = jwtUtils.extractUsername(refreshToken);
 			UserDetails userDetails = adminDetailsServiceImpl.loadUserByUsername(userName);
 
 			if (jwtUtils.isTokenValid(refreshToken, userDetails)) {
-				String newAccessToken = jwtUtils.generateAccessToken(userDetails.getUsername());
-				return newAccessToken;
-			} else {
-				return null;
+				return jwtUtils.generateAccessToken(userDetails.getUsername());
 			}
 		} catch (Exception e) {
 			throw e;
 		}
+		return null;
 
 	}
 
