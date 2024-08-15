@@ -24,8 +24,5 @@ public class Facility {
 	
     @Enumerated(EnumType.STRING)
 	private FacilityType facilityType;
-    
-    @ManyToMany(mappedBy = "facilities")
-    private Set<Property> properties;
 
 }

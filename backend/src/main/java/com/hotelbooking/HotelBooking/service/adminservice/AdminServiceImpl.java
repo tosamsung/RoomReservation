@@ -32,8 +32,18 @@ public class AdminServiceImpl implements AdminService {
 	private final AdminRepository adminRepository;
 
 	private final EmployeeRoleRepository employeeRoleRepository;
-
+  
 	private final ModelMapper modelMapper;
+
+	@Override
+    public Page<AdminDTO> getAllAdmins(Pageable pageable) {
+        Page<Admin> admins = adminRepository.findAll(pageable);
+        List<Admin> testlist=admins.getContent();
+        List<AdminDTO> adminDTOs = admins.stream()
+                                         .map(AdminMapper::toDTO)
+                                         .collect(Collectors.toList());
+        return new PageImpl<>(adminDTOs, pageable, admins.getTotalElements());
+    }
 
 	@Override
 	public Page<AdminResponse> getAllAdmins(Pageable pageable) {

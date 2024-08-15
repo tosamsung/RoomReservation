@@ -6,7 +6,7 @@ public enum FacilityType {
     KITCHEN,
     BATHROOM,
     BEDROOM,
-    TRANSFER,
+    TRANSFER,VIEW,
     TOURS,
     UTILLITIES
 }

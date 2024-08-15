@@ -15,6 +15,5 @@ public class BreakfastDTO {
 	@Min(value = 0, message = "Breakfast price must be greater than or equal to 0")
 	private Double price;
 
-	@NotBlank(message = "Breakfast type is required")
 	private String type;
 }
