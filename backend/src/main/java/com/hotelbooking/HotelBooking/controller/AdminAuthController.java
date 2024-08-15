@@ -50,7 +50,7 @@ public class AdminAuthController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	@PostMapping("/test")
+	@PostMapping("/insertDefaultAdmin")
 	public ResponseEntity<AdminResponse> createTestAdmin() {
 		Admin testAdmin = new Admin();
 		testAdmin.setCreateDate(new Date());

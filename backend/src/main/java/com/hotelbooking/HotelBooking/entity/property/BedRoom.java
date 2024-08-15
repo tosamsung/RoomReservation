@@ -1,4 +1,7 @@
-package com.hotelbooking.HotelBooking.entity.room;
+package com.hotelbooking.HotelBooking.entity.property;
+
+
+import com.hotelbooking.HotelBooking.enums.BedType;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,13 +18,15 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "BedRoomImages")
-public class BedRoomImage {
+@Table(name = "BedRooms")
+public class BedRoom {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@ManyToOne
-	@JoinColumn(name = "bedroom_id", referencedColumnName = "id", nullable = false)
-	private BedRoom bedRoom;
-	private String image;
+	@JoinColumn(name = "property_id", referencedColumnName = "id", nullable = false)
+	private Property property;
+	
+	private Integer quantity;
+	private BedType bedType;
 }

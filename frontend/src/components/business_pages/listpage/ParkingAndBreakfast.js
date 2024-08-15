@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import Badge from "./Badge";
 function currencyFormat(num) {
   // Convert number to a string and format with commas for thousands
   return num.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
@@ -47,7 +48,26 @@ function ParkingAndBreakfast({ value, setValue }) {
       }));
     }
   };
-
+  const handleBreakfastTypeClick = (type) => {
+    setValue((prev) => ({
+      ...prev,
+      breakfastDetail: {
+        ...prev.breakfastDetail,
+        type, // Directly set the selected type
+      },
+    }));
+  };
+  const breakfastTypes = [
+    "Continental Breakfast",
+    "English Breakfast",
+    "Asian Breakfasts",
+    "European Breakfasts",
+    "Middle Eastern Breakfasts",
+    "Latin American Breakfasts",
+    "Healthy/Modern Breakfasts",
+    "Scandinavian Breakfast",
+    "Mexican Breakfast",
+  ];
   return (
     <>
       <h2 className="f-robo fw700">Parking and breakfast</h2>
@@ -160,32 +180,36 @@ function ParkingAndBreakfast({ value, setValue }) {
             </div>
             <div className="col-12 my-2">
               <div>
-                <span className="badge badge-pill p-2 border border-dark cursor-pointer mr-2 mb-2">
-                  Continental Breakfast
-                </span>
-                <span className="badge badge-pill p-2 border border-dark cursor-pointer mr-2 mb-2">
-                  English Breakfast
-                </span>
-                <span className="badge badge-pill p-2 border border-dark cursor-pointer mr-2 mb-2">
-                  Asian Breakfasts
-                </span>
-                <span className="badge badge-pill p-2 border border-dark cursor-pointer mr-2 mb-2">
-                  European Breakfasts
-                </span>
-                <span className="badge badge-pill p-2 border border-dark cursor-pointer mr-2 mb-2">
-                  Middle Eastern Breakfasts
-                </span>
-                <span className="badge badge-pill p-2 border border-dark cursor-pointer mr-2 mb-2">
-                  Latin American Breakfasts
-                </span>
-                <span className="badge badge-pill p-2 border border-dark cursor-pointer mr-2 mb-2">
-                  Healthy/Modern Breakfasts
-                </span>
-                <span className="badge badge-pill p-2 border border-dark cursor-pointer mr-2 mb-2">
-                  Scandinavian Breakfast
-                </span>
-                <span className="badge badge-pill p-2 border border-dark cursor-pointer mr-2 mb-2">
-                  Mexican Breakfast
+                {breakfastTypes.map((type) => (
+                  <Badge
+                    name={type}
+                    key={type}
+                    active={value.breakfastDetail?.type === type}
+                    handleClick={()=>{
+                      handleBreakfastTypeClick(type)
+                    }}
+                  ></Badge>
+                  // <span
+                  //   key={type}
+                  //   className={`badge badge-pill p-2 border border-dark cursor-pointer mr-2 mb-2 ${
+                  //     value.breakfastDetail?.type === type
+                  //       ? "bg-dark text-white"
+                  //       : ""
+                  //   }`}
+                  //   onClick={() => handleBreakfastTypeClick(type)}
+                  // >
+                  //   {type}
+                  // </span>
+                ))}
+                <span
+                  className={`badge badge-pill p-2 border border-dark cursor-pointer mr-2 mb-2 ${
+                    value.breakfastDetail?.type === null
+                      ? "bg-dark text-white"
+                      : ""
+                  }`}
+                  onClick={() => handleBreakfastTypeClick(null)}
+                >
+                  Other{" "}
                 </span>
               </div>
             </div>

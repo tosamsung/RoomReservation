@@ -9,6 +9,7 @@ import DropdownCountry from "../../util_component/DropdownCountry";
 import DropdownCity from "../../util_component/DropdownCity";
 import ConfirmModal from "../../util_component/ConfirmModal";
 import ParkingAndBreakfast from "./ParkingAndBreakfast";
+import Facilities from "./Facilities";
 
 function ListProperty() {
   const openCageApiKey = "cca4b3c6f78f4a02aeb0648ec49e3593";
@@ -24,6 +25,11 @@ function ListProperty() {
   );
   const [progress, setProgress] = useState(0);
   //entity state
+  const [clickedFacilities, setClickedFacilities] = useState(() => {
+    const savedFacilities = localStorage.getItem("selectedFacilities");
+    return savedFacilities ? JSON.parse(savedFacilities) : [];
+  });
+
   const [property, setProperty] = useState(() => {
     const savedProperty = localStorage.getItem("property");
     return savedProperty
@@ -66,6 +72,12 @@ function ListProperty() {
     setProgress(activeTab * 10);
   }, [activeTab]);
   useEffect(() => {
+    localStorage.setItem(
+      "selectedFacilities",
+      JSON.stringify(clickedFacilities)
+    );
+  }, [clickedFacilities]);
+  useEffect(() => {
     setShowMap(false);
     markerPosition.current = { lat: null, lng: null };
   }, [property.city, property.country]);
@@ -105,6 +117,9 @@ function ListProperty() {
               </li>
               <li className={activeTab === 5 ? "uk-active" : ""}>
                 <a href="#">parking vs breakfast</a>
+              </li>
+              <li className={activeTab === 6 ? "uk-active" : ""}>
+                <a href="#">facilities</a>
               </li>
             </ul>
             <div className="uk-switcher uk-margin col-7">
@@ -358,7 +373,7 @@ function ListProperty() {
                 <div className="row bg-white p-1 pt-2 cs-rounded">
                   <PropertyType
                     image="/images/icon/homestay.png"
-                    name="House"
+                    name="Homestay"
                     active={property.propertyType}
                     setValue={setProperty}
                   />
@@ -580,8 +595,8 @@ function ListProperty() {
               {/* ------------------------------ parking vs breakfast -----------------------*/}
               <div>
                 <ParkingAndBreakfast
-                 setValue={setProperty}
-                 value={property}
+                  setValue={setProperty}
+                  value={property}
                 ></ParkingAndBreakfast>
                 <div className="row mt-2 d-flex justify-content-end p-0">
                   <a
@@ -595,6 +610,31 @@ function ListProperty() {
                   <a
                     onClick={() => {
                       setActiveTab(6);
+                    }}
+                    className="btn bg-blue p-2 px-5 text-white"
+                  >
+                    Continue
+                  </a>
+                </div>
+              </div>
+              {/* ------------------------------ facilities -----------------------*/}
+              <div>
+                <Facilities
+                 clickedFacilities={clickedFacilities}
+                 setClickedFacilities={setClickedFacilities}
+                ></Facilities>
+                <div className="row mt-2 d-flex justify-content-end p-0">
+                  <a
+                    onClick={() => {
+                      setActiveTab(5);
+                    }}
+                    className="btn bg-white p-2 px-3 text-white mr-2 btn-outline-primary"
+                  >
+                    <i className="fa-solid fa-chevron-left text-primary"></i>
+                  </a>
+                  <a
+                    onClick={() => {
+                      setActiveTab(7);
                     }}
                     className="btn bg-blue p-2 px-5 text-white"
                   >

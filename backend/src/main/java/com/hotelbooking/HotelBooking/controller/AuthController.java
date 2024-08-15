@@ -49,8 +49,6 @@ public class AuthController {
     @Qualifier("userDetailsServiceImpl")
 	private UserDetailsService userDetailsService;
 
-	private static final String CONTENT_TYPE_JSON = "application/json";
-	private static final String ENCODING_UTF8 = "UTF-8";
 
 	@PostMapping("/signup")
 	public ResponseEntity<UserResponse> signup(@RequestBody User user) {
