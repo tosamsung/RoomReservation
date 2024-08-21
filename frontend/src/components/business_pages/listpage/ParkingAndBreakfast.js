@@ -70,7 +70,6 @@ function ParkingAndBreakfast({ value, setValue }) {
   ];
   return (
     <>
-      <h2 className="f-robo fw700">Parking and breakfast</h2>
       <div className="row bg-white p-1 pt-2 cs-rounded">
         <div className="col-12">
           <div className="form-check">

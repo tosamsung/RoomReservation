@@ -66,7 +66,6 @@ function Facilities({ clickedFacilities, setClickedFacilities }) {
 
   return (
     <>
-      <h2 className="f-robo fw700">Facilities , Views</h2>
       <div className="row tab-content bg-white p-1 pt-2 cs-rounded">
         <ul className="nav nav-tabs col-12 mb-3 p-0">
           {facilityTypes.map((type) => (

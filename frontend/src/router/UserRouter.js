@@ -13,6 +13,7 @@ import Layout from "../layout/Layout";
 import Home from "../components/user_pages/Home";
 import { AppContext } from "../context/AppContext";
 import ListProperty from "../components/business_pages/listpage/ListProperty";
+import DetailPage from "../components/user_pages/DetailPage";
 
 function UserRouter() {
     const { user } = useContext(AppContext);
@@ -51,6 +52,8 @@ function UserRouter() {
         {/* Home route */}
         <Route path="/" element={<Layout />}>
           <Route path="" element={<Home />} />
+          <Route path="rooms/:id" element={<DetailPage></DetailPage>} /> {/* Dynamic route */}
+
         </Route>
         <Route path="/*" element={<Page404></Page404>}></Route>
 

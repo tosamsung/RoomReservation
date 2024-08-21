@@ -20,7 +20,6 @@ function Home() {
     });
   };
   useEffect(() => {
-
     setEndDateToTomorrow();
   }, []);
   // Gọi hàm này để cập nhật endDate thành ngày mai
@@ -28,7 +27,7 @@ function Home() {
   return (
     <>
       <div>
-      <section className=" bg-black ">
+        <section className=" bg-black ">
           <div
             className="h-100  banner row d-flex justify-content-center"
             style={{
@@ -75,7 +74,10 @@ function Home() {
                           )}`}
                           <i className="fa-regular fa-calendar ml-2"></i>
                         </button>
-                        <div className="shadow1 border border-warning" uk-dropdown="mode: click;pos: bottom-center;shift: false; flip: false">
+                        <div
+                          className="shadow1 border border-warning"
+                          uk-dropdown="mode: click;pos: bottom-center;shift: false; flip: false"
+                        >
                           <DateRangePicker
                             ranges={[date]}
                             onChange={(event) => {
